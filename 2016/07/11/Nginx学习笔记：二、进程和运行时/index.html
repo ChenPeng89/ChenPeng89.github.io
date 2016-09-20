@@ -1,0 +1,586 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nginx," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="进程nginx包含一个master进程和一个或多个worker进程。master进程的主要职责是读取和使用配置文件，同时管理worker进程。worker进程用来处理用户请求。Nginx依赖OS的机制来有效的分发请求给worker进程。worker进程的数量定义位于nginx.conf配置文件上，它可以是固定的数目也可以自适应cpu的核心数。定义worker进程的数母，主要参考几个方面，cpu的核">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx学习笔记：二、进程和运行时">
+<meta property="og:url" content="http://chenpeng89.github.io/2016/07/11/Nginx学习笔记：二、进程和运行时/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta property="og:description" content="进程nginx包含一个master进程和一个或多个worker进程。master进程的主要职责是读取和使用配置文件，同时管理worker进程。worker进程用来处理用户请求。Nginx依赖OS的机制来有效的分发请求给worker进程。worker进程的数量定义位于nginx.conf配置文件上，它可以是固定的数目也可以自适应cpu的核心数。定义worker进程的数母，主要参考几个方面，cpu的核">
+<meta property="og:updated_time" content="2016-09-20T03:12:17.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx学习笔记：二、进程和运行时">
+<meta name="twitter:description" content="进程nginx包含一个master进程和一个或多个worker进程。master进程的主要职责是读取和使用配置文件，同时管理worker进程。worker进程用来处理用户请求。Nginx依赖OS的机制来有效的分发请求给worker进程。worker进程的数量定义位于nginx.conf配置文件上，它可以是固定的数目也可以自适应cpu的核心数。定义worker进程的数母，主要参考几个方面，cpu的核">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> Nginx学习笔记：二、进程和运行时 | ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Nginx学习笔记：二、进程和运行时
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T11:10:31+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>nginx包含一个master进程和一个或多个worker进程。<br>master进程的主要职责是读取和使用配置文件，同时管理worker进程。<br>worker进程用来处理用户请求。Nginx依赖OS的机制来有效的分发请求给worker进程。worker进程的数量定义位于nginx.conf配置文件上，它可以是固定的数目也可以自适应cpu的核心数。<br>定义worker进程的数母，主要参考几个方面，cpu的核心数、存储数据的硬盘数以及负载模式。当不清楚使用哪种策略时，设定为自适应cpu核心数(“auto”)是一个好的方法。</p>
+<h2 id="操作Nginx"><a href="#操作Nginx" class="headerlink" title="操作Nginx"></a>操作Nginx</h2><h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>重载配置，你可以停止并重启nginx或者发送一个信号给master进程。使用-s发送信号给运行中的nginx。<br><code>nginx -s signal</code><br>signal的值可以为<br>quit<br>reload<br>reopen<br>stop</p>
+<p>可以直接用kill命令来直接放松信号到master进程。master进程的ID默认情况下存在 /usr/local/nginx/logs 或者 /var/run 的nginx.pid 文件中。可以在nginx.conf中设置。<br>有两种方式来通过这些信号去控制 Nginx，第一是通过 kill – XXX <pid> 来控制 Nginx，其中 XXX 就是上表中列出的信号名。如果系统中只有一个 Nginx 进程，那也可以通过 killall 命令来完成，例如运行 killall – s HUP nginxPID 来让 Nginx 重新加载配置。<br>master进程有如下信号：<br>TERM, INT     快速关闭程序，中止当前正在处理的请求<br>QUIT     处理完当前请求后，关闭程序<br>HUP     重新加载配置，并开启新的工作进程，关闭就的进程，此操作不会中断请求<br>USR1     重新打开日志文件，用于切换日志，例如每天生成一个新的日志文件<br>USR2     平滑升级可执行程序<br>WINCH     从容关闭工作进程 </pid></p>
+<p>单独的worker进程也可以通过信号量来控制，虽然并不是必须的。<br>TERM, INT    快速关闭进程<br>QUIT    处理完当前请求后，关闭进程<br>USR1    重新打开日志文件，用于切换日志，例如每天生成一个新的日志文件<br>WINCH    调试异常终止（需要启用debug_points ）</p>
+<h3 id="更改配置"><a href="#更改配置" class="headerlink" title="更改配置"></a>更改配置</h3><p>为了nginx能够重读配置文件，HUP信号将发送给master进程，master进程首先检查信号的有效性，然后使用新的配置，打开日志文件和心得监听socket。如果这步失败了，那么将回滚并使用旧的配置。如果成功了，会开启新的worker进程，并发送信息给旧的worker进程让它们优雅停机。旧的进程关闭监听socket并继续服务旧的客户端，当所有客户端请求被服务后，旧的worker进程会停机。</p>
+<h3 id="分割日志文件"><a href="#分割日志文件" class="headerlink" title="分割日志文件"></a>分割日志文件</h3><p>为了分割日志文件，首先，它们需要被重命名。在那之后，需要向master进程发送USR1信号。master进程会重新打开所有当前打开的日志文件，并将它们分配给当前worker进程正在运行的无权限的用户作为所有者。在成功重新打开日志文件后，master进程会关闭所有打开的文件并发送消息给worker进程来重新打开文件。worker进程也需要立刻打开新文件并关闭旧文件。其结果是，旧文件可以立即适用于后处理，例如压缩。</p>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>为了升级服务，需要使用新的可执行文件替换旧的。在USR2信号发送到master进程后，master进程首先会将pid文件名加上一个.oldbin后缀。/usr/local/nginx/logs/nginx.pid.oldbin。然后启动一个新的可执行文件来启动新的worker进程。</p>
+<p>之后，所有的worker进程（新的和旧的）都继续接收请求，如果WINCH信号发送到了，master进程，那么将会通知worker进程去优雅停机。</p>
+<p>经历一段时间后，只有新的worker进程可以处理请求。</p>
+<p>需要注意的是，旧的master进程不会关闭监听socket，并且如果需要，它还可以重新启动。如果由于一些原因，新的可执行文件不能使用了，那么会出现以下两种情况中的一种：</p>
+<ul>
+<li>发送HUP信号到旧的master进程，旧的master进程不重新读配置文件，但会启动一个新的worker进程。在那之后，发送QUIT到新的master进程，所有新的进程将优雅停止。</li>
+<li>发送 TERM 信号到新的master进程。然后新的master进程会发送信息到它的worker进程，告诉他们立即停止（如果有新的进程因为某些原因未停止，那么会发送KILL信号来强制停止）。当新的master进程停止后，旧的master进程自动会启动新的worker进程。</li>
+</ul>
+<p>如果新的master进程退出了，那么旧的，master进程会抛弃带有.oldbin的文件。</p>
+<p>如果更新成功，那么旧的master进程会被发送QUIT信号，然后只有新的进程存活。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag">#Nginx</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/11/Nginx学习笔记：一、入门/" rel="next" title="Nginx学习笔记: 一、入门">
+                <i class="fa fa-chevron-left"></i> Nginx学习笔记: 一、入门
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/11/Nginx学习笔记：三、基本功能/" rel="prev" title="Nginx学习笔记：三、基本功能">
+                Nginx学习笔记：三、基本功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程"><span class="nav-number">1.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作Nginx"><span class="nav-number">2.</span> <span class="nav-text">操作Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#信号"><span class="nav-number">2.1.</span> <span class="nav-text">信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改配置"><span class="nav-number">2.2.</span> <span class="nav-text">更改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分割日志文件"><span class="nav-number">2.3.</span> <span class="nav-text">分割日志文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#升级"><span class="nav-number">2.4.</span> <span class="nav-text">升级</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

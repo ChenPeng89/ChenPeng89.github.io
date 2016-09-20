@@ -1,0 +1,1963 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="ChenPeng's Blog">
+<meta property="og:url" content="http://chenpeng89.github.io/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ChenPeng's Blog">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/21/Nginx学习笔记：六、访问限制/" itemprop="url">
+                  Nginx学习笔记：六、访问限制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-21T13:57:22+08:00" content="2016-07-21">
+              2016-07-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="限制访问HTTP代理资源"><a href="#限制访问HTTP代理资源" class="headerlink" title="限制访问HTTP代理资源"></a>限制访问HTTP代理资源</h2><h3 id="控制访问"><a href="#控制访问" class="headerlink" title="控制访问"></a>控制访问</h3><p>可以通过客户端IP地址或使用基于HTTP的身份认证。<br>使用IP地址控制访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    deny  192.168.1.2;</div><div class="line">    allow 192.168.1.1/24;</div><div class="line">    allow 127.0.0.1;</div><div class="line">    deny  all;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>开启身份验证，可以使用 auth_basic指令。然后用户必须加入他们的有效用户名和密码来获取网站访问权。用户名和密码必须在auth_basic_user_file指定的文件中列举出来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    ...</div><div class="line">    auth_basic &quot;closed website&quot;;</div><div class="line">    auth_basic_user_file conf/htpasswd;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以设置某些URL不需要身份认证。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    ...</div><div class="line">    auth_basic &quot;closed website&quot;;</div><div class="line">    auth_basic_user_file conf/htpasswd;</div><div class="line"></div><div class="line">    location /public/ &#123;</div><div class="line">        auth_basic off;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以使用satisfy指令来控制访问，如果需要某一个条件，则使用any ， 如果都需要满足，则使用all。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    satisfy any;</div><div class="line"></div><div class="line">    allow 192.168.1.0/24;</div><div class="line">    deny  all;</div><div class="line"></div><div class="line">    auth_basic           &quot;closed site&quot;;</div><div class="line">    auth_basic_user_file conf/htpasswd;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="限制访问"><a href="#限制访问" class="headerlink" title="限制访问"></a>限制访问</h3><ul>
+<li>限制访问的连接数<br>首先，使用 limit_conn_zone 指令定义key和共享的内存<br><code>limit_conn_zone $binary_remote_address zone=addr:10m;</code><br>第二步，使用limit_conn 指令指定使用的http 、 server 或者location。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /download/ &#123;</div><div class="line">    limit_conn addr 1;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里可以基于IP限制连接数，因为使用了$binary_remote_address 变量当做key。连接数也可以通过 server 名称来限制，通过使用$server_name变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    limit_conn_zone $server_name zone=servers:10m;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        limit_conn servers 1000;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>限制访问率<br>限制访问率，首先使用 limit_req_zone 指令设置key和共享内存区域来供计数器使用。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>rate参数可以设置为每秒请求(r/s)或者每分钟请求 (r/m)。比如30r/m。<br>当设置了共享内存，使用limit_req指令在server 或 location中来限制速率。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /search/ &#123;</div><div class="line">    limit_req zone=one burst=5;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里，nginx不会再每秒处理多于一个请求在指定的location中。如果速率超过了请求限制，那么会将请求放入队列中延迟处理。burst参数设置了每秒处理请求的最大值，当超过了这个最大值，会返回503.<br>如果不想在设置了burst后有延迟处理，添加nodelay参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">limit_req zone=one burst=5 nodelay;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>限制带宽<br>限制每个链接的带宽，可以使用limit_rate指令。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /download/ &#123;</div><div class="line">    limit_rate 50k;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>通过这个设置，客户端最多能够下载50k内容通过一个单独的链接。然而，客户端能够开几个链接。所以如果想要更好的控制链接带宽，可以配合限制连接数使用。例如，一个IP一个连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location /download/ &#123;</div><div class="line">    limit_conn addr 1;</div><div class="line">    limit_rate 50k;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以允许客户端在下载一定量的数据后再进行限速：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">limit_rate_after 500k;</div><div class="line">limit_rate 20k;</div></pre></td></tr></table></figure></p>
+<p>下面是一个完整的例子，限制了连接数和带宽<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    limit_conn_zone $binary_remote_address zone=addr:10m</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        root /www/data;</div><div class="line">        limit_conn addr 5;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location /download/ &#123;</div><div class="line">            limit_conn addr 1;</div><div class="line">            limit_rate 1m;</div><div class="line">            limit_rate 50k;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="限制访问TCP代理资源"><a href="#限制访问TCP代理资源" class="headerlink" title="限制访问TCP代理资源"></a>限制访问TCP代理资源</h2><h3 id="通过IP地址限制访问"><a href="#通过IP地址限制访问" class="headerlink" title="通过IP地址限制访问"></a>通过IP地址限制访问</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    ...</div><div class="line">    server &#123;</div><div class="line">        listen 12345;</div><div class="line">        deny   192.168.1.2;</div><div class="line">        allow  192.168.1.1/24;</div><div class="line">        allow  2001:0db8::/32;</div><div class="line">        deny   all;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="限制TCP连接数"><a href="#限制TCP连接数" class="headerlink" title="限制TCP连接数"></a>限制TCP连接数</h3><p>可以有效的防止DOS攻击。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    ...</div><div class="line">    limit_conn_zone $binary_remote_addr zone=ip_addr:10m;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>大致和HTTP的配置方式差不多。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    ...</div><div class="line">    limit_conn_zone $binary_remote_addr zone=ip_addr:10m;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        ...</div><div class="line">        limit_conn ip_addr 1;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="限制带宽"><a href="#限制带宽" class="headerlink" title="限制带宽"></a>限制带宽</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    ...</div><div class="line">    proxy_download_rate 100k;</div><div class="line">    proxy_upload_rate   50k;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面是一个完整的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    ...</div><div class="line">    limit_conn_zone $binary_remote_addr zone=ip_addr:10m;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        ...</div><div class="line">        limit_conn ip_addr 1;</div><div class="line">        proxy_download_rate 100k;</div><div class="line">        proxy_upload_rate   50k;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/18/Nginx学习笔记：五、负载均衡/" itemprop="url">
+                  Nginx学习笔记：五、负载均衡
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-18T11:31:02+08:00" content="2016-07-18">
+              2016-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HTTP-负载均衡"><a href="#HTTP-负载均衡" class="headerlink" title="HTTP 负载均衡"></a>HTTP 负载均衡</h2><h3 id="负载一组服务器"><a href="#负载一组服务器" class="headerlink" title="负载一组服务器"></a>负载一组服务器</h3><p>在nginx中使用一组服务器之前，需要先定义一组服务器，在http块中使用upstream指令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    upstream backend &#123;</div><div class="line">        server backend1.example.com weight=5;</div><div class="line">        server backend2.example.com;</div><div class="line">        server 192.0.0.1 backup;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>想要将请求发送到一组后端服务器，还需要指定这组服务器的名称，使用 proxy_pass ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    location / &#123;</div><div class="line">        proxy_pass http://backend;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="选择一个负载均衡的方法"><a href="#选择一个负载均衡的方法" class="headerlink" title="选择一个负载均衡的方法"></a>选择一个负载均衡的方法</h3><ol>
+<li><p>轮询<br>根据服务器的权重将请求均匀的分布到所有服务器上。这个是默认的策略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">   server backend1.example.com;</div><div class="line">   server backend2.example.com;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>连接数最小<br>将请求发送到目前连接数最小的服务器上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    least_conn;</div><div class="line"></div><div class="line">    server backend1.example.com;</div><div class="line">    server backend2.example.com;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ip_hash<br>由客户端IP决定发送到哪个服务器上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    ip_hash;</div><div class="line"></div><div class="line">    server backend1.example.com;</div><div class="line">    server backend2.example.com;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果哪个服务器需要暂时停止服务，可以使用down指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    server backend1.example.com;</div><div class="line">    server backend2.example.com;</div><div class="line">    server backend3.example.com down;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>一致性hash<br>通过用户定义的key来决定请求分发到哪台服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    hash $request_uri consistent;</div><div class="line"></div><div class="line">    server backend1.example.com;</div><div class="line">    server backend2.example.com;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>最低延迟和最小连接数<br>选取最低延迟和最小连接数的服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    least_time header;</div><div class="line"></div><div class="line">    server backend1.example.com;</div><div class="line">    server backend2.example.com;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>header : 从服务器接收到第一个字节所用的时间。<br>last_byte ： 从服务器接收全部响应所用的时间。</p>
+<h3 id="服务器权重"><a href="#服务器权重" class="headerlink" title="服务器权重"></a>服务器权重</h3><p>默认情况下，nginx根据服务器的权重来进行轮训的分发。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    server backend1.example.com weight=5;</div><div class="line">    server backend2.example.com;</div><div class="line">    server 192.0.0.1 backup;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第三个服务器设为 backup，只有当前两个服务器不可用时，它才能接收请求。</p>
+<h3 id="服务器慢启动"><a href="#服务器慢启动" class="headerlink" title="服务器慢启动"></a>服务器慢启动</h3><p>服务器的慢启动能够保护从刚刚连接超时或者其他的原因不可用的状态恢复的服务器被连接淹没。<br>nginx慢启动可以逐步恢复服务器，一开始将服务器的权重设为0，然后逐步成为设置的权重。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    server backend1.example.com slow_start=30s;</div><div class="line">    server backend2.example.com;</div><div class="line">    server 192.0.0.1 backup;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="session持久化"><a href="#session持久化" class="headerlink" title="session持久化"></a>session持久化</h3><p>session持久化意味着Nginx标识用户session并将请求发送到与之前相同的服务器上。<br>session支持三种session持久化方法：</p>
+<ol>
+<li>sticky cookie<br>使用这个方法，nginx会为第一个响应的upstream组添加一个session的cookie，并标识响应请求的服务器。当下次请求时，它会携带一个cookie的值，然后nginx将请求路由到相同的服务器上：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    server backend1.example.com;</div><div class="line">    server backend2.example.com;</div><div class="line"></div><div class="line">    sticky cookie srv_id expires=1h domain=.example.com path=/;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>例子中，srv_id参数设置了cookie的名称。可选的expire参数设置了浏览器保持cookie的时间。可选的参数domian定义了一个设置cookie的domain。可选参数path定义了cookie设置的访问路径。这是最简单的session持久化方法。</p>
+<ol>
+<li><p>sticky route<br>nginx为第一次接受请求的客户端设置了一个route。所有后续请求将与server指令中识别服务器的route参数进行比较。<br>路由信息取自cookie或者URI。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    server backend1.example.com route=a;</div><div class="line">    server backend2.example.com route=b;</div><div class="line"></div><div class="line">    sticky route $route_cookie $route_uri;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>cookie learn<br>首先，nginx通过检查请求和响应来发现session标识。然后，nginx“学习”哪个upstream 服务器组和哪个session标识相关联。举荐的，这些标识被传进HTTPcookie。如果请求包含的session已经被“学习”，nginx将会直接将请求发送到关联的服务器上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">   server backend1.example.com;</div><div class="line">   server backend2.example.com;</div><div class="line"></div><div class="line">   sticky learn </div><div class="line">       create=$upstream_cookie_examplecookie</div><div class="line">       lookup=$cookie_examplecookie</div><div class="line">       zone=client_sessions:1m</div><div class="line">       timeout=1h;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>例子中，upstream的服务器在响应中通过设置cookie “EXAMPLECOOKIE”来创建了一个session。<br>必填的 create 参数指定了怎么创建一个新的session。在例子中，新的session是由upstream服务器发送的cookie “EXAMPLECOOKIE”创建的。<br>必填的参数 lookup 指定了怎么搜索已经存在的session。在例子中，从客户端发送的cookie “EXAMPLECOOKIE” 中查询已经存在的session。<br>必填的参数 zone 指定了一个保存所有session信息的共享内存。<br>这个策略不需要客户端保存任何cookie，所有信息保存在服务器端的共享内存中。</p>
+<h3 id="限制连接数"><a href="#限制连接数" class="headerlink" title="限制连接数"></a>限制连接数</h3><p>如果MAX_CONNS已达到限制，该请求可以被放置到队列为提供该队列指令指定其进一步处理。该指令集，可以在队列中同时请求的最大数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;</div><div class="line">    server backend1.example.com  max_conns=3;</div><div class="line">    server backend2.example.com;</div><div class="line"></div><div class="line">    queue 100 timeout=70;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果有其它worker进程打开了空闲时keepalive，max_conn限制将会被忽略。结果是，连接到服务器的总数将会超过max_conns。</p>
+<h3 id="被动的健康监测"><a href="#被动的健康监测" class="headerlink" title="被动的健康监测"></a>被动的健康监测</h3><p>当nginx认为一个服务器不可用时，它会暂时停止发送请求到这台服务器知道服务器被认为可用。<br>max_fails和fail_timeout —— 这俩是关联的，如果某台服务器在fail_timeout时间内出现了max_fails次连接失败，那么nginx就会认为那个服务器已经挂掉，从而在 fail_timeout时间内不再去查询它，fail_timeout的默认值是10s，max_fails的默认值是1（这意味着一发生错误就认为服务器挂掉），如果把max_fails设为0则表示把这个检查取消。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream backend &#123;                </div><div class="line">    server backend1.example.com;</div><div class="line">    server backend2.example.com max_fails=3 fail_timeout=30s;</div><div class="line">    server backend3.example.com max_fails=2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="主动的健康监测"><a href="#主动的健康监测" class="headerlink" title="主动的健康监测"></a>主动的健康监测</h3><p>预先发送一个指定的请求到每个服务器，并检测响应信息是否符合检测中的可用条件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    upstream backend &#123;</div><div class="line">        zone backend 64k;</div><div class="line"></div><div class="line">        server backend1.example.com;</div><div class="line">        server backend2.example.com;</div><div class="line">        server backend3.example.com;</div><div class="line">        server backend4.example.com;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        location / &#123;</div><div class="line">            proxy_pass http://backend;</div><div class="line">            health_check;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>zone 指令定义了被worker进程共享的并用来存储服务器组配置的内存区域。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    proxy_pass http://backend;</div><div class="line">    health_check interval=10 fails=3 passes=2;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>健康监测的时间间隔是10s，在失败3次后会认为是不可用的，以后需要两次通过监测才能认为是可用的。<br>也可以指定URI进行监测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    proxy_pass http://backend;</div><div class="line">    health_check uri=/some/path;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>还可以设置macth块来指定健康监测的响应结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line"></div><div class="line">    match server_ok &#123;</div><div class="line">        status 200-399;</div><div class="line">        body !~ &quot;maintenance mode&quot;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        ...</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">            proxy_pass http://backend;</div><div class="line">            health_check match=server_ok;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以定义返回头中的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">match welcome &#123;</div><div class="line">    status 200;</div><div class="line">    header Content-Type = text/html;</div><div class="line">    body ~ &quot;Welcome to nginx!&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>用!可以定义非的条件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">match not_redirect &#123;</div><div class="line">    status ! 301-303 307;</div><div class="line">    header ! Refresh;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="使用DNS配置HTTP负载均衡"><a href="#使用DNS配置HTTP负载均衡" class="headerlink" title="使用DNS配置HTTP负载均衡"></a>使用DNS配置HTTP负载均衡</h3><p>服务器组的配置可以在运行时使用DNS修改。<br>nginx可以监控IP地址对应的域名服务器的变化，并自动将变化应用于nginx，且不用重启。这可以通过在http块中使用resolver指令，和server指令后的 resolver参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    resolver 10.0.0.1 valid=300s ipv6=off;</div><div class="line">    resolver_timeout 10s;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        location / &#123;</div><div class="line">            proxy_pass http://backend;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    upstream backend &#123;</div><div class="line">        zone backend 32k;</div><div class="line">        least_conn;</div><div class="line">        ...</div><div class="line">        server backend1.example.com resolve;</div><div class="line">        server backend2.example.com resolve;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在这个示例中,服务器的resolve参数指令将定期通过IP地址重新解析 backend1.example.com和backend2.example.com服务器。默认情况下,NGINX基于TTL重新解析DNS记录,但TTL值可以覆盖resolve指令的valid参数,在我们的示例中是5分钟。<br>如果一个域名对应多个IP地址，那么IP地址会被存到upstream配置中并被负载均衡。在例子中，服务器会使用least_conn来负载均衡。如果一个活多个IP地址被修改、添加或删除，那么这些服务器也会被重新负载。</p>
+<h3 id="动态配置"><a href="#动态配置" class="headerlink" title="动态配置"></a>动态配置</h3><p>nginx的服务器组可以通过HTTP接口来动态配置。配置指令可以用来查看所有服务器或者服务器组，修改服务器参数或者添加删除服务器。</p>
+<ul>
+<li><p>设置动态配置</p>
+<ol>
+<li><p>将zone指令放入upstream块中。zone 指令配置了一个区域来共享内存，并设置zone 的名称和大小。服务器组的配置被存放到这个zone中，所有的worker进程都使用同样的配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">  		upstream appservers &#123;</div><div class="line">      		zone appservers 64k;</div><div class="line">      		server appserv1.example.com      weight=5;</div><div class="line">      		server appserv2.example.com:8080 fail_timeout=5s;</div><div class="line">      		server reserve1.example.com:8080 backup;</div><div class="line">      		server reserve2.example.com:8080 backup;</div><div class="line">  		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置 upstream_conf指令到location块中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">  		location /upstream_conf &#123;</div><div class="line">      		upstream_conf;</div><div class="line">      		...</div><div class="line">  		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为其设置访问白名单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">   	location /upstream_conf &#123;</div><div class="line">   	    upstream_conf;</div><div class="line">   	    allow 127.0.0.1;</div><div class="line">   	    deny  all;</div><div class="line">   	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>一个完整的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">   	...</div><div class="line">   	# Configuration of the server group</div><div class="line">   	upstream appservers &#123;</div><div class="line">       	zone appservers 64k;</div><div class="line"></div><div class="line">       	server appserv1.example.com      weight=5;</div><div class="line">       	server appserv2.example.com:8080 fail_timeout=5s;</div><div class="line"></div><div class="line">       	server reserve1.example.com:8080 backup;</div><div class="line">       	server reserve2.example.com:8080 backup;</div><div class="line">   	&#125;</div><div class="line"></div><div class="line">   	server &#123;</div><div class="line">       	# Location that proxies requests to the group</div><div class="line">       	location / &#123;</div><div class="line">           	proxy_pass http://appservers;</div><div class="line">           	health_check;</div><div class="line">       	&#125;</div><div class="line"></div><div class="line">       	# Location for configuration requests</div><div class="line">        location /upstream_conf &#123;</div><div class="line">   	        upstream_conf;</div><div class="line">   	        allow 127.0.0.1;</div><div class="line">   	        deny  all;</div><div class="line">   	    &#125;</div><div class="line">   	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>动态配置持久化<br>上面的动态配置会随着nginx配置文件的reload而失效，为了让它继续能有效果，需要将upstream服务器从upstream块移动到一个指定的文件中，能够保持upstream服务器的状态。文件的路径要在 state指令中设置。在Linux中，比较推荐的路径是/var/lib/nginx/state/。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    upstream appservers &#123;</div><div class="line">        zone appservers 64k;</div><div class="line">        state /var/lib/nginx/state/appservers.conf;</div><div class="line"></div><div class="line">        # All these servers should be moved to the file using the upstream_conf API:</div><div class="line">        # server appserv1.example.com      weight=5;</div><div class="line">        # server appserv2.example.com:8080 fail_timeout=5s;</div><div class="line">        # server reserve1.example.com:8080 backup;</div><div class="line">        # server reserve2.example.com:8080 backup;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>需要注意的是，文件只能被 upstream_conf API来修改，应该避免直接修改文件。</p>
+<ul>
+<li>动态配置Upstream服务器<br>使用HTTP请求来将配置命令传递给nginx。请求需要有一个合适的URI来获取到location中的upstream_conf指令。请求需要包含upstream参数来确定修改的服务器组。<br>查看所有backup的服务器<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/upstream_conf?upstream=appservers&amp;backup=</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>添加一个新的服务器到组里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/upstream_conf?add=&amp;upstream=appservers&amp;server=appserv3.example.com:8080&amp;weight=2&amp;max_fails=3</div></pre></td></tr></table></figure></p>
+<p>删除一个服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/upstream_conf?remove=&amp;upstream=appservers&amp;id=2</div></pre></td></tr></table></figure></p>
+<p>修改一个服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/upstream_conf?upstream=appservers&amp;id=2&amp;down=</div></pre></td></tr></table></figure></p>
+<h2 id="TCP-UDP负载均衡"><a href="#TCP-UDP负载均衡" class="headerlink" title="TCP/UDP负载均衡"></a>TCP/UDP负载均衡</h2><h3 id="配置反向代理"><a href="#配置反向代理" class="headerlink" title="配置反向代理"></a>配置反向代理</h3><p>首先，需要额皮质一个反向代理来使nginx通过TCP连接或者UDP报文将客户端数据发送到upstream组或者一个代理服务器。</p>
+<ol>
+<li><p>在顶级目录创建一个stream块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在stream块中定义一个或多个server块</p>
+</li>
+<li><p>在server块中定义listen指令来监听ip和端口。对于UDP，还需要包含udp参数。TCP在stream块中是默认的，所以listen没有tcp参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    server &#123;</div><div class="line">        listen 12345;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    server &#123;</div><div class="line">        listen 53 udp;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过proxy_pass指令来定义将要跳转的代理服务器或者upstream组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    server &#123;</div><div class="line">        listen     12345;</div><div class="line"></div><div class="line">        #TCP traffic will be proxied to the &quot;stream_backend&quot; upstream group</div><div class="line">        proxy_pass stream_backend;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen     12346;</div><div class="line"></div><div class="line">        #TCP traffic will be proxied a proxied server</div><div class="line">        proxy_pass backend.example.com:12346;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen     53 udp;</div><div class="line"></div><div class="line">        #UDP traffic will be proxied to the &quot;dns_servers&quot; upstream group</div><div class="line">        proxy_pass dns_servers;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果你的代理服务器有多个网络接口，你可以配置nginx选一个源ip地址来连接到upstream服务器。这对于后端服务器仅接受指定IP地址访问是有用的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    ...</div><div class="line">    server &#123;</div><div class="line">        listen     127.0.0.1:12345;</div><div class="line">        proxy_pass backend.example.com:12345;</div><div class="line">        proxy_bind 127.0.0.1:12345;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>可以调整两个缓冲区的大小，这两个缓冲区用于nginx缓存客户端和upstream的连接中的数据。如果数据比较小，buffer会自动缩小来节省存储资源。如果有大量的数据,可以通过减少socket的读/写操作次数来增加buffer。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    ...</div><div class="line">    server &#123;</div><div class="line">        listen            127.0.0.1:12345;</div><div class="line">        proxy_pass        backend.example.com:12345;</div><div class="line">        proxy_buffer_size 16k;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="配置TCP-UDP负载均衡"><a href="#配置TCP-UDP负载均衡" class="headerlink" title="配置TCP/UDP负载均衡"></a>配置TCP/UDP负载均衡</h3><p>创建一组服务器或upstream组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    upstream stream_backend &#123;</div><div class="line">        ...    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    upstream dns_servers &#123;</div><div class="line">        ...    </div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>剩下和HTTP差不多，如有疑问：<a href="https://www.nginx.com/resources/admin-guide/tcp-load-balancing/" target="_blank" rel="external">https://www.nginx.com/resources/admin-guide/tcp-load-balancing/</a></p>
+<h2 id="设置代理协议"><a href="#设置代理协议" class="headerlink" title="设置代理协议"></a>设置代理协议</h2><p>代理协议允许nginx接受客户端连接信息并通过HAproy等发送给代理服务器。</p>
+<p>通过代理协议发送的信息包括客户端IP地址、代理服务器IP和它们的端口号。知道原始的IP地址有助于网站的语言设置、访问黑名单或一些简单的log和静态资源。</p>
+<p>通过代理协议，nginx可以获取到原始的ip地址通过SSL, HTTP/2, SPDY, WebSocket, 和 TCP。</p>
+<h3 id="使用SSL-HTTP-2-SPDY-和-WebSocket-代理协议"><a href="#使用SSL-HTTP-2-SPDY-和-WebSocket-代理协议" class="headerlink" title="使用SSL, HTTP/2, SPDY, 和 WebSocket 代理协议"></a>使用SSL, HTTP/2, SPDY, 和 WebSocket 代理协议</h3><ol>
+<li><p>配置nginx接受代理协议报文头。在listen中添加proxy_protocol参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen 80   proxy_protocol;</div><div class="line">    listen 443  ssl proxy_protocol;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在set_real_ip_from 指令中，指定ip地址或者TCP代理的CIDR地址范围或者负载均衡器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    ...</div><div class="line">    set_real_ip_from 192.168.1.0/24;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在real_ip_header指令中，添加proxy_protocol参数来保持客户端IP地址和端口号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    ...</div><div class="line">    real_ip_header proxy_protocol;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过proxy_set_header directive 和 $proxy_protocol_addr变量从nginx传递IP地址到upstream服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">proxy_set_header X-Real-IP       $proxy_protocol_addr;</div><div class="line">proxy_set_header X-Forwarded-For $proxy_protocol_addr;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在http层添加 $proxy_protocol_addr 变量到  log_format指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    log_format combined &apos;$proxy_protocol_addr - $remote_user [$time_local] &apos;</div><div class="line">                        &apos;&quot;$request&quot; $status $body_bytes_sent &apos;</div><div class="line">                        &apos;&quot;$http_referer&quot; &quot;$http_user_agent&quot;&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="在TCP流上使用代理协议"><a href="#在TCP流上使用代理协议" class="headerlink" title="在TCP流上使用代理协议"></a>在TCP流上使用代理协议</h3><p>nginx能够就在TCP流上传递代理协议数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    server &#123;</div><div class="line">        listen 12345;</div><div class="line">        proxy_pass example.com:12345;</div><div class="line">        proxy_protocol on;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="完整的样例"><a href="#完整的样例" class="headerlink" title="完整的样例"></a>完整的样例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    log_format combined &apos;$proxy_protocol_addr - $remote_user [$time_local] &apos;</div><div class="line">                        &apos;&quot;$request&quot; $status $body_bytes_sent &apos;</div><div class="line">                        &apos;&quot;$http_referer&quot; &quot;$http_user_agent&quot;&apos;;</div><div class="line">    ...</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        server_name localhost;</div><div class="line"></div><div class="line">        listen 80   proxy_protocol;</div><div class="line">        listen 443  ssl proxy_protocol;</div><div class="line"></div><div class="line">        ssl_certificate      /etc/nginx/ssl/public.example.com.pem;</div><div class="line">        ssl_certificate_key  /etc/nginx/ssl/public.example.com.key;</div><div class="line"></div><div class="line">        set_real_ip_from 192.168.1.0/24;</div><div class="line">        real_ip_header   proxy_protocol;</div><div class="line"></div><div class="line">        location /app/ &#123;</div><div class="line">            proxy_pass       http://backend1;</div><div class="line">            proxy_set_header Host            $host;</div><div class="line">            proxy_set_header X-Real-IP       $proxy_protocol_addr;</div><div class="line">            proxy_set_header X-Forwarded-For $proxy_protocol_addr;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125; </div><div class="line"></div><div class="line">stream &#123;</div><div class="line">...</div><div class="line">    server &#123;</div><div class="line">        listen         12345;</div><div class="line">        proxy_pass     example.com:12345;</div><div class="line">        proxy_protocol on;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/18/Nginx学习笔记：四、配置SSL/" itemprop="url">
+                  Nginx学习笔记：四、配置SSL
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-18T09:30:57+08:00" content="2016-07-18">
+              2016-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="通过HTTPS传递Web内容"><a href="#通过HTTPS传递Web内容" class="headerlink" title="通过HTTPS传递Web内容"></a>通过HTTPS传递Web内容</h2><h3 id="配置一个HTTPS服务"><a href="#配置一个HTTPS服务" class="headerlink" title="配置一个HTTPS服务"></a>配置一个HTTPS服务</h3><p>建立一个HTTPS的nginx服务器，在nginx.conf中指定服务器的ssl参数与listen指令，然后设置服务器证书和私钥文件的位置:</p>
+<p>x509证书一般会用到三类文，key，csr，crt。</p>
+<p>Key 是私用密钥openssl格，通常是rsa算法。</p>
+<p>Csr 是证书请求文件，用于申请证书。在制作csr文件的时，必须使用自己的私钥来签署申，还可以设定一个密钥。</p>
+<p>crt是CA认证后的证书文，（windows下面的，其实是crt），签署人用自己的key给你签署的凭证。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen              443 ssl;</div><div class="line">    server_name         www.example.com;</div><div class="line">    ssl_certificate     www.example.com.crt;</div><div class="line">    ssl_certificate_key www.example.com.key;</div><div class="line">    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">    ssl_ciphers         HIGH:!aNULL:!MD5;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>服务器证书是一个公共实体。它被发送到每一个连接到服务器的客户端。私钥是一个安全的实体，并应被存储在与限制访问的文件。然而，Nginx的的master进程必须能够读取该文件。私钥也可以和公钥存储在同一个文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssl_certificate xxx.cert;</div><div class="line">ssl_certificate_key xxx.cert;</div></pre></td></tr></table></figure></p>
+<p>在这种情况下，文件的访问权限也需要被限制。虽然公钥和私钥在一个文件中，但是只有公钥会被发送到客户端。</p>
+<p>ssl_protocols 和 ssl_ciphers 指令可以用来限制连接的版本和SSL/TLS的加密方式。</p>
+<h3 id="https服务优化"><a href="#https服务优化" class="headerlink" title="https服务优化"></a>https服务优化</h3><p>SSL会给CPU带来额外的开销。最耗CPU的是SSL的握手过程。下面有两个方法能够减少每个客户端操作的数量：</p>
+<ul>
+<li>使keepalive连接通过一个连接发送多个请求</li>
+<li>重用SSL会话参数来避免并行和随后的SSL握手连接</li>
+</ul>
+<p>session存储在SSL的 session缓存中，并被worker进程共享，这个可以用ssl_session_cache 配置。1M的cache可以包含大约4000个session。默认情况下，cache的超时时间是5分钟。超时时间可以用 ssl_session_timeout 来设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">worker_processes auto;</div><div class="line"></div><div class="line">http &#123;</div><div class="line">    ssl_session_cache   shared:SSL:10m;</div><div class="line">    ssl_session_timeout 10m;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen              443 ssl;</div><div class="line">        server_name         www.example.com;</div><div class="line">        keepalive_timeout   70;</div><div class="line"></div><div class="line">        ssl_certificate     www.example.com.crt;</div><div class="line">        ssl_certificate_key www.example.com.key;</div><div class="line">        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">        ssl_ciphers         HIGH:!aNULL:!MD5;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="SSL证书链"><a href="#SSL证书链" class="headerlink" title="SSL证书链"></a>SSL证书链</h3><p>一些浏览器会报出证书不是由权威机构颁发的，而其他的浏览器则不会有这个问题。这是由于发行机构的证书不是由权威机构的中级证书签发的。这种情况下，发行机构应该提供一个证书链来和服务器证书绑定。在绑定文件中，公钥证书应该在证书链之前：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cat www.example.com.crt bundle.crt &gt; www.example.com.chained.crt</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen              443 ssl;</div><div class="line">    server_name         www.example.com;</div><div class="line">    ssl_certificate     www.example.com.chained.crt;</div><div class="line">    ssl_certificate_key www.example.com.key;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="基于名称的HTTPS服务"><a href="#基于名称的HTTPS服务" class="headerlink" title="基于名称的HTTPS服务"></a>基于名称的HTTPS服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen          443 ssl;</div><div class="line">    server_name     www.example.com;</div><div class="line">    ssl_certificate www.example.com.crt;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen          443 ssl;</div><div class="line">    server_name     www.example.org;</div><div class="line">    ssl_certificate www.example.org.crt;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>基于IP：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen          192.168.1.1:443 ssl;</div><div class="line">    server_name     www.example.com;</div><div class="line">    ssl_certificate www.example.com.crt;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen          192.168.1.2:443 ssl;</div><div class="line">    server_name     www.example.org;</div><div class="line">    ssl_certificate www.example.org.crt;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="使用HTTPS建立TCP连接"><a href="#使用HTTPS建立TCP连接" class="headerlink" title="使用HTTPS建立TCP连接"></a>使用HTTPS建立TCP连接</h2><p>nginx负责https的认证等操作，并把数据返回给后端的服务器处理，后端服务器是http服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    upstream stream_backend &#123;</div><div class="line">         server backend1.example.com:12345;</div><div class="line">         server backend2.example.com:12345;</div><div class="line">         server backend3.example.com:12345;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    server &#123;</div><div class="line">        listen                12345 ssl;</div><div class="line">        proxy_pass            stream_backend;</div><div class="line"> </div><div class="line">        ssl_certificate       /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key   /etc/ssl/certs/server.key;</div><div class="line">        ssl_protocols         SSLv3 TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">        ssl_ciphers           HIGH:!aNULL:!MD5;</div><div class="line">        ssl_session_cache     shared:SSL:20m;</div><div class="line">        ssl_session_timeout   4h;</div><div class="line">        ssl_handshake_timeout 30s;</div><div class="line">		ssl_session_tickets on;</div><div class="line">    …</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>session Ticket 是另一种session缓存。session信息存储在客户端，减少了服务端存储session的压力。当客户端恢复与服务端的交互后，它会提供session并且可以不用再进行握手之类的操作。</p>
+<h2 id="为nginx和后端服务器的HTTP连接加密"><a href="#为nginx和后端服务器的HTTP连接加密" class="headerlink" title="为nginx和后端服务器的HTTP连接加密"></a>为nginx和后端服务器的HTTP连接加密</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    upstream backend.example.com &#123;</div><div class="line">        server backend1.example.com:443;</div><div class="line">        server backend2.example.com:443;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      80;</div><div class="line">        server_name www.example.com;</div><div class="line">        ...</div><div class="line"></div><div class="line">        location /upstream &#123;</div><div class="line">            proxy_pass                    https://backend.example.com;</div><div class="line">            proxy_ssl_certificate         /etc/nginx/client.pem;</div><div class="line">            proxy_ssl_certificate_key     /etc/nginx/client.key</div><div class="line">            proxy_ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">            proxy_ssl_ciphers             HIGH:!aNULL:!MD5;</div><div class="line">            proxy_ssl_trusted_certificate /etc/nginx/trusted_ca_cert.crt;</div><div class="line"></div><div class="line">            proxy_ssl_verify        on;</div><div class="line">            proxy_ssl_verify_depth  2;</div><div class="line">            proxy_ssl_session_reuse on;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend1.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend2.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="为nginx和后端服务器的TCP连接加密"><a href="#为nginx和后端服务器的TCP连接加密" class="headerlink" title="为nginx和后端服务器的TCP连接加密"></a>为nginx和后端服务器的TCP连接加密</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    upstream backend.example.com &#123;</div><div class="line">        server backend1.example.com:443;</div><div class="line">        server backend2.example.com:443;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      80;</div><div class="line">        server_name www.example.com;</div><div class="line">        ...</div><div class="line"></div><div class="line">        location /upstream &#123;</div><div class="line">            proxy_pass                    https://backend.example.com;</div><div class="line">            proxy_ssl_certificate         /etc/nginx/client.pem;</div><div class="line">            proxy_ssl_certificate_key     /etc/nginx/client.key</div><div class="line">            proxy_ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">            proxy_ssl_ciphers             HIGH:!aNULL:!MD5;</div><div class="line">            proxy_ssl_trusted_certificate /etc/nginx/trusted_ca_cert.crt;</div><div class="line"></div><div class="line">            proxy_ssl_verify        on;</div><div class="line">            proxy_ssl_verify_depth  2;</div><div class="line">            proxy_ssl_session_reuse on;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend1.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend2.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/11/Nginx学习笔记：三、基本功能/" itemprop="url">
+                  Nginx学习笔记：三、基本功能
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T15:59:00+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Web服务"><a href="#Web服务" class="headerlink" title="Web服务"></a>Web服务</h2><h3 id="设置虚拟服务器"><a href="#设置虚拟服务器" class="headerlink" title="设置虚拟服务器"></a>设置虚拟服务器</h3><p>nginx配置文件中至少需要一个定义了虚拟服务器的server块。当nginx处理请求时，它会首先选择虚拟服务器来处理请求。<br>虚拟服务器定义在http上下文的server块中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    server &#123;</div><div class="line">        # Server configuration</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以在http上下文中定义多个server块。<br>server块通常包含一个listen指令来监听指定的ip的端口。支持ipv4/ipv6，ipv6的地址需要用（）包裹起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen 127.0.0.1:8080;</div><div class="line">    # The rest of server configuration</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果省略端口号，则使用标准端口号。如果省略ip，那么服务器将监听所有地址。如果省略listen指令，那么标准的端口号是80/tcp，默认的端口号是8000/tcp这取决于root的权限。</p>
+<p>server_name 参数用来指定接受访问的host头中的相应参数。它的值可以是一个通配符。如果没有匹配的，那么将路由到默认的服务器上来处理。</p>
+<h3 id="配置location"><a href="#配置location" class="headerlink" title="配置location"></a>配置location</h3><p>nginx可以将请求路由到不同的代理或者服务器上，基于请求的uri。这些都是依靠定义在server块中的localtion块来决定的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location /some/path/ &#123;</div><div class="line">    root html;</div><div class="line">    index  index.html  index.htm;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>有两种类型的参数：前缀字符串和正则表达式。对于一个请求URI，他必须满足匹配前缀字符串。</p>
+<p>正则表达式前面增加 ~ 表示区分大小写，~* 表示不区分大小写。下面的例子匹配所有带有.html或者.htm的URI。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location ~ \.html? &#123;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>为了找到最匹配URI的location，nginx会首先搜索前缀字符串，然后再搜索正则表达式。</strong></p>
+<p>nginx的处理逻辑为：</p>
+<ol>
+<li>尝试匹配所有前缀字符串。</li>
+<li>= 修饰符定义了一个URI和前缀字符串的精确匹配。如果发现精确匹配,搜索停止。</li>
+<li>如果有^~修饰符，则最先考虑最长前缀字符串匹配,正则表达式不检查。</li>
+<li>存储最长前缀匹配字符串。</li>
+<li>尝试匹配正则表达式。</li>
+<li>从第一个匹配的正则表达式跳出递归，并使用相应的location。</li>
+<li>如果没有匹配的正则表达式，使用存储的最长匹配的前缀表达式（第4步）的location。</li>
+</ol>
+<p>location块中包含如何处理的逻辑，要么转到一个静态文件，要么将请求转给一个代理服务器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    location /images/ &#123;</div><div class="line">        root /data;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        proxy_pass http://www.example.com;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="使用变量"><a href="#使用变量" class="headerlink" title="使用变量"></a>使用变量</h3><p>nginx允许在配置文件中使用自定义的变量。<br><code>set $variable value</code><br><code>map string $variable { ... }</code><br><code>geo [$address] $variable { ... }</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line"> geo $arg_boy $ttlsa_com &#123;</div><div class="line">        default 0;</div><div class="line">        127.0.0.1/24 24;</div><div class="line">        127.0.0.1/32 32;</div><div class="line">        8.8.8.8 2;</div><div class="line">&#125;</div><div class="line"> server &#123;</div><div class="line">        listen       8080;</div><div class="line">        server_name  test.ttlsa.com;</div><div class="line"> </div><div class="line">        location /hello &#123;</div><div class="line"> default_type text/plain;</div><div class="line"> echo $ttlsa_com;</div><div class="line"> echo $arg_boy;</div><div class="line"> &#125;</div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line"># curl 127.0.0.1:8080/hello?boy=127.0.0.1</div><div class="line">32</div><div class="line">127.0.0.1</div><div class="line"># curl 127.0.0.1:8080/hello?boy=127.0.0.12</div><div class="line">24</div><div class="line">127.0.0.12</div></pre></td></tr></table></figure>
+<h3 id="返回指定状态码"><a href="#返回指定状态码" class="headerlink" title="返回指定状态码"></a>返回指定状态码</h3><p>一些网站URI需要立即返回指定的错误代码或重定向代码，例如，如果一个页面被暂时或永久的移除，那么，最简单的方法是直接返回相应的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /wrong/url &#123;</div><div class="line">    return 404;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>return 的用法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">return code [text];</div><div class="line">return code URL;</div><div class="line">return URL;</div></pre></td></tr></table></figure></p>
+<p>return 指令可以存在于location和server块中。</p>
+<h3 id="重写URI请求"><a href="#重写URI请求" class="headerlink" title="重写URI请求"></a>重写URI请求</h3><p>一个请求的URI可以在处理请求过程中被重写多次，它包括一个可选的和两个必须的参数。第一个必须的参数是请求URI必须满足的正则表达式。第二个参数是用来替换请求URI的URI。可选的参数是一个标志位，它能停止进一步的重写处理或者发送重定向（301或302）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /users/ &#123;</div><div class="line">    rewrite ^/users/(.*)$ /show?user=$1 break;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>rewrite指令可以存在于server和location块中。在server块中，如果server的上下文被选中，那么server块中的rewrite只会执行一次。</p>
+<p>rewrite指令用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rewrite regex replacement [flag];</div></pre></td></tr></table></figure></p>
+<p>flag 有以下可选值：<br>last: 重新请求搜索是否还有匹配的locaton。<br>break: 不再搜索是否还有匹配的location。<br>redirect：返回一个暂时的重定向代码 ， 302，使用一个不以”<a href="http://&quot;或&quot;https://&quot;开头的代替的字符串。" target="_blank" rel="external">http://&quot;或&quot;https://&quot;开头的代替的字符串。</a><br>permanent： 返回一个永久的重定向代码，301.</p>
+<h3 id="重写HTTP返回"><a href="#重写HTTP返回" class="headerlink" title="重写HTTP返回"></a>重写HTTP返回</h3><p>有时候你需要重写或者修改HTTP返回中的内容，把一个字符串替换成其它的。那么，你需要使用sub_filter指令来定义重写。这个指令支持变量和链操作来使复杂的操作变得简单。<br>sub_filter的替换匹配是不区分大小写的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       80;</div><div class="line">    server_name  www.github.com;</div><div class="line"> </div><div class="line">    root /data/site/www.github.com;    </div><div class="line"> </div><div class="line">    location / &#123;</div><div class="line">        sub_filter  github &apos;GIT&apos;;</div><div class="line">        sub_filter_types text/html;</div><div class="line">        sub_filter_once on;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的例子将返回数据中的github替换为GIT，然后由于sub_filter_once on ， 所以只替换了一次。结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># curl www.github.com/2013/10/20131001_sub1.html           </div><div class="line">welcome to GIT!</div><div class="line">github TEAM!</div></pre></td></tr></table></figure></p>
+<p>sub_filter 可以存在于 http, server, location 块。</p>
+<h3 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h3><p>使用error_page 指令，可以为特定的错误码自定义错误页面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error_page 404 /404.html;</div></pre></td></tr></table></figure></p>
+<p>下面的例子中，将404转换为301，并重定向到http:/example.com/new/path.html。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /old/path.html &#123;</div><div class="line">    error_page 404 =301 http:/example.com/new/path.html;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="静态文件服务"><a href="#静态文件服务" class="headerlink" title="静态文件服务"></a>静态文件服务</h2><h3 id="Root目录和索引文件"><a href="#Root目录和索引文件" class="headerlink" title="Root目录和索引文件"></a>Root目录和索引文件</h3><p>root指令制定了将要去搜索文件的根目录。为了获得文件路径，nginx为请求的URI添加了指定的root路径。root指令可以在http、server和location块中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    root /www/data;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    location /images/ &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    location ~ \.(mp3|mp4) &#123;</div><div class="line">        root /www/media;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的例子中，如果URI以/images/开始，那么，搜索的路径为/www/data/images/目录。如果URI以.mp3或者.mp4结尾，那么搜索的路径为/www/media/。</p>
+<p>如果请求是以/结尾，那么，nginx将其认为是请求目录结构并查找目录里面的索引文件。index命令定义了索引文件名（默认名称为index.html）。接着上面的例子，如果请求是 /images/some/path/ ， nginx将传送文件/www/data/images/some/path/index.html，如果存在的话。如果不存在，nginx返回404。为了让NGINX返回一个自动生成的目录清单,加入autoindex指令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /images/ &#123;</div><div class="line">    autoindex on;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>你可以列举不只一个文件名在index指令下。nginx以指定的顺序搜索文件并返回第一个。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    index index.$geo.html index.htm index.html;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的$geo变量是一个自定义的geo。它的值取决于客户端的ip地址。</p>
+<p>autoindex_exact_size on | off 表示是否显示大小。<br>autoindex_format html | xml | json | jsonp 输出格式<br>autoindex_localtime on | off  显示本地时间或UTC</p>
+<h3 id="其它的命令"><a href="#其它的命令" class="headerlink" title="其它的命令"></a>其它的命令</h3><p>try_files 用来检查指定的文件或者目录是否存在，并设置一个重定向或者返回一个指定的状态码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    root /www/data;</div><div class="line"></div><div class="line">    location /images/ &#123;</div><div class="line">        try_files $uri /images/default.gif;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后一个参数可以是状态码或者位置。在下面的例子中，如果try_files的参数中的文件或目录不存在，则返回404。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    try_files $uri $uri/ $uri.html =404;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在下面的例子中，如果原始的URI和URI后面加上/的目录均不存在，那么请求会被重定向到一个代理服务器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    try_files $uri $uri/ @backend;</div><div class="line">&#125;</div><div class="line"></div><div class="line">location @backend &#123;</div><div class="line">    proxy_pass http://backend.example.com;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="提高nginx内容服务速度"><a href="#提高nginx内容服务速度" class="headerlink" title="提高nginx内容服务速度"></a>提高nginx内容服务速度</h3><p>加载速度是重要的考虑因素。做一些小幅的优化配置可能会大幅提高效率甚至达到最佳性能。</p>
+<ul>
+<li><p>开启sendfile<br>默认情况下，nginx自己控制文件传输，并在发送前把它拷贝到buffer中。使用sendfile命令可以减少拷贝到buffer的步骤，并且直接将一个文件描述符拷贝到另一个。另外,防止一个快速连接完全占用worker进程,可以在sendfile()调用sendfile_max_chunk指令限制传输的数据量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location /mp3 &#123;</div><div class="line">    sendfile           on;</div><div class="line">    sendfile_max_chunk 1m;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>开启tcp_nopush<br>配合sendfile一起使用tcp_nopush。一般情况下，在tcp交互的过程中，当应用程序接收到数据包后马上传送出去，不等待，而tcp_cork选项是数据包不会马上传送出去，等到数据包最大时，一次性的传输出去，这样有助于解决网络堵塞，已经是默认了,tcp_nopush = on 会设置调用tcp_cork方法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location /mp3 &#123;</div><div class="line">    sendfile   on;</div><div class="line">    tcp_nopush on;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>开启tcp_nodelay<br>与tcp_nopush 是互斥的，有数据的话会立即将数据包发送出去，有可能会造成网络拥堵。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location /mp3  &#123;</div><div class="line">    tcp_nodelay       on;</div><div class="line">    keepalive_timeout 65;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>优化Backlog Queue<br>nginx处理连接请求也是一个非常重要的优化点。一般情况下，当一个连接建立后，它会被放入listen socket的listen队列。在普通负载下，这是一个小的甚至不存在的队列。但是高负载时，队列会显著增长，这可能导致连接断开或者高延迟。<br><strong>检查listen queue</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -lan</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>结果如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Current listen queue sizes (qlen/incqlen/maxqlen)</div><div class="line">Listen         Local Address         </div><div class="line">0/0/128        *.12345            </div><div class="line">10/0/128        *.80       </div><div class="line">0/0/128        *.8080</div></pre></td></tr></table></figure></p>
+<p>说明有10个在80端口的连接未被处理。<br><strong>设置OS</strong><br>设置 net.core.somaxconn 来增大OS的负载能力。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vi   /etc/sysctl.conf</div><div class="line">net.core.somaxconn = 4096</div></pre></td></tr></table></figure></p>
+<p><strong>设置nginx</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen 80 backlog 4096;</div><div class="line">    # The rest of server configuration</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><h3 id="发送请求到代理服务器"><a href="#发送请求到代理服务器" class="headerlink" title="发送请求到代理服务器"></a>发送请求到代理服务器</h3><p>当使用nginx代理时，会发送请求到代理服务器，获取相应，然后返回给客户端。它可以代理HTTP请求也可以代理非HTTP请求。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /some/path/ &#123;</div><div class="line">    proxy_pass http://www.example.com/link/;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="发送请求头到代理服务器"><a href="#发送请求头到代理服务器" class="headerlink" title="发送请求头到代理服务器"></a>发送请求头到代理服务器</h3><p>默认情况下，nginx会重新定义请求头中的两个域，Host和Connection，Host被设置为$proxy_host变量，Connection被设置为 close。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location /some/path/ &#123;</div><div class="line">    proxy_set_header Host $host;</div><div class="line">    proxy_set_header X-Real-IP $remote_addr;</div><div class="line">    proxy_pass http://localhost:8000;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>防止某个域传递到代理服务器，可以将其设置为空：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location /some/path/ &#123;</div><div class="line">    proxy_set_header Accept-Encoding &quot;&quot;;</div><div class="line">    proxy_pass http://localhost:8000;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="设置Buffer"><a href="#设置Buffer" class="headerlink" title="设置Buffer"></a>设置Buffer</h3><p>一般情况下，nginx缓冲代理服务器的相应，直到收到整个相应信息才发送给客户端。缓冲机制能够优化慢客户端，因为如果对于慢客户端nginx同步响应，那么会浪费代理服务器时间。<br><strong>proxy_buffering</strong>，该指令设置缓冲区的大小和数量,从被代理的后端服务器取得的响应内容,会放置到这里. 默认情况下,一个缓冲区的大小等于内存页面大小,可能是4K也可能是8K,这取决于平台。proxy_buffers 8  4k/8k。<br><strong>proxy_buffer_size</strong>，该指令设置缓冲区大小,从代理后端服务器取得的第一部分的响应内容,会放到这里.小的响应header通常位于这部分响应内容里边.默认来说,该缓冲区大小等于指令 proxy_buffers所设置的;但是,你可以把它设置得更小。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">location /some/path/ &#123;</div><div class="line">    proxy_buffers 16 4k;</div><div class="line">    proxy_buffer_size 2k;</div><div class="line">    proxy_pass http://localhost:8000;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果关闭buffer：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location /some/path/ &#123;</div><div class="line">    proxy_buffering off;</div><div class="line">    proxy_pass http://localhost:8000;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="绑定出口IP"><a href="#绑定出口IP" class="headerlink" title="绑定出口IP"></a>绑定出口IP</h3><p>如果你的代理服务器有多个网络接口，有时需要选择其中一个进行绑定。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">location /app1/ &#123;</div><div class="line">    proxy_bind 127.0.0.1;</div><div class="line">    proxy_pass http://example.com/app1/;</div><div class="line">&#125;</div><div class="line"></div><div class="line">location /app2/ &#123;</div><div class="line">    proxy_bind 127.0.0.2;</div><div class="line">    proxy_pass http://example.com/app2/;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以使用变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location /app3/ &#123;</div><div class="line">    proxy_bind $server_addr;</div><div class="line">    proxy_pass http://example.com/app3/;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="压缩和解压缩"><a href="#压缩和解压缩" class="headerlink" title="压缩和解压缩"></a>压缩和解压缩</h2><p>亚索形影数据对于减小传输数据是非常重要的。然而，在运行时进行压缩还有可能对系统有负面影响。nginx在发送相应数据前进行压缩，但是不会对已经压缩过的数据进行二次压缩（例如，对于代理服务器的）。</p>
+<h3 id="开启压缩"><a href="#开启压缩" class="headerlink" title="开启压缩"></a>开启压缩</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip on;</div></pre></td></tr></table></figure>
+<p>通常情况下，nginx仅对MIME类型为text/html的相应进行压缩。为了添加压缩的类型，可以使用gzip_types命令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip_types text/plain application/xml;</div></pre></td></tr></table></figure></p>
+<p>指定压缩响应的最小长度，使用gzip_min_length指令。默认是20bytes。（这里设置为1000）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip_min_length 1000;</div></pre></td></tr></table></figure></p>
+<p>一般情况下，nginx不会压缩代理服务器的请求响应。该请求来自代理服务器的事实是由Via头字段的请求中的存在来确定。使用gzip_proxied指令来配置这些响应的压缩。这个指令有很多参数，来确定哪种代理请求nginx需要压缩。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gzip_proxied no-cache no-store private expired auth;</div></pre></td></tr></table></figure></p>
+<p>一个完整的例子是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    gzip on;</div><div class="line">    gzip_types      text/plain application/xml;</div><div class="line">    gzip_proxied    no-cache no-store private expired auth;</div><div class="line">    gzip_min_length 1000;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="开启解压缩"><a href="#开启解压缩" class="headerlink" title="开启解压缩"></a>开启解压缩</h3><p>一些客户端不支持gzip编码算法。同时，它又想要存储压缩数据或者压缩相应数据并存入缓存。为了成功发送到客户端，nginx支持在发送到最终客户端时解压缩数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">location /storage/ &#123;</div><div class="line">    gunzip on;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="发送压缩文件"><a href="#发送压缩文件" class="headerlink" title="发送压缩文件"></a>发送压缩文件</h3><p>使用gzip_static 命令可以发送一个压缩版本的文件到客户端，若要使用它需要在编译的时候把gzip_static模块编译进去：<br><code>./configure --with-http_gzip_static_module</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    gzip_static on;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当请求 /path/to/file，nginx会查找并发送/path/to/file.gz。如果文件不存在或者客户端不支持gzip，nginx会发送未压缩版本。<br>注意，gzip_static指令不支持实时压缩。它只是使用压缩工具预先压缩文件。要压缩在运行时的内容（不仅是静态内容），使用gzip的指令。</p>
+<h2 id="页面内容缓存"><a href="#页面内容缓存" class="headerlink" title="页面内容缓存"></a>页面内容缓存</h2><p>nginx支持缓存，当开启缓存后，nginx缓存从代理服务器返回的数据，并将其缓存到硬盘上，当有请求过来时，先去缓存查找响应。</p>
+<h3 id="开启响应缓存"><a href="#开启响应缓存" class="headerlink" title="开启响应缓存"></a>开启响应缓存</h3><p>将 proxy_cache_path 放到http块中来开启缓存。第一个参数是存放缓存文件的路径。keys_zone定义了用于存储缓存条目元数据的共享存储空间名称和大小。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    proxy_cache_path /data/nginx/cache keys_zone=one:10m;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将proxy_cache放入想进行缓存的协议类型、server块或者location块中。并指定proxy_cache_path中的key_zone。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    proxy_cache_path /data/nginx/cache keys_zone=one:10m;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        proxy_cache one;</div><div class="line">        location / &#123;</div><div class="line">            proxy_pass http://localhost:8000;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>值得注意的是，key_zone定义的大小并不限制缓存相应数据的总量。缓存的响应数据本身存储为元数据的一个备份，存在指定的file上。为了限制缓存的数量，可以使用proxy_cache_path的max_size参数，缓存数量可以暂时超过max_size。</p>
+<h3 id="控制缓存"><a href="#控制缓存" class="headerlink" title="控制缓存"></a>控制缓存</h3><p>缓存管理器会定期检查缓存的状态。如果缓存大小超过proxy_cache_path中 max_size参数设定的限制,缓存管理器删除最近最少访问的数据。正如前面提到的,缓存数据的数量可以暂时超过限制缓存管理器激活的时间期间。<br>缓存加载器仅会在nginx启动后启动一次。它会将之前缓存的数据加载进来。加载一次缓存可能会消耗大量资源，影响nginx启动后几分钟内的性能。下面有proxy_cacahe_path的几个参数来避免这一情况：</p>
+<ul>
+<li>loader_threshold ： 加载时间上限，单位是毫秒，默认为200毫秒。</li>
+<li>loader_files： 一次迭代的最多条目数，默认是100。</li>
+<li>loader_sleeps ： 迭代的间隔，单位是毫秒，默认50。</li>
+</ul>
+<p><code>proxy_cache_path /data/nginx/cache keys_zone=one:10m loader_threshold=300 loader_files=200;</code></p>
+<h3 id="指定对哪个请求进行缓存"><a href="#指定对哪个请求进行缓存" class="headerlink" title="指定对哪个请求进行缓存"></a>指定对哪个请求进行缓存</h3><p>一般情况下，nginx缓存http的get和head方法响应的数据。nginx将请求字符串作为请求的key。如果缓存中存在和请求相同的key，nginx会直接用缓存来响应。可以在http，server，location的上下文中控制哪些进行缓存。</p>
+<p>为了改变请求的单词来计算key，可以使用proxy_cache_key:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxy_cache_key &quot;$host$request_uri$cookie_user&quot;;</div></pre></td></tr></table></figure></p>
+<p>定义在必须在请求指定的最低次数以后，响应才会被缓存起来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxy_cache_min_uses 5;</div></pre></td></tr></table></figure></p>
+<p>缓存除了GET和HEAD的其他请求，get和head也需要被列举出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxy_cache_methods GET HEAD POST;</div></pre></td></tr></table></figure></p>
+<h3 id="限制或绕过缓存"><a href="#限制或绕过缓存" class="headerlink" title="限制或绕过缓存"></a>限制或绕过缓存</h3><p>默认情况下，响应数据会一直在缓存中。它们只有在缓存超过最大值时，并且它们是最少命中的，才会被淘汰。nginx可以设置淘汰策略：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">proxy_cache_valid 200 302 10m;</div><div class="line">proxy_cache_valid 404      1m;</div></pre></td></tr></table></figure></p>
+<p>上面的例子中，返回200或者302都被认为是在10分钟以内有效的。返货404在1分钟以内也是有效的。也可以使用<code>any</code>来设置第一个参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxy_cache_valid any 5m;</div></pre></td></tr></table></figure></p>
+<p>可以定义proxy_cache_bypass指令来决定是否使用cache响应请求。每个参数定义了一个条件并且由变量组成。如果至少有一个参数为空并且不等于0，nginx不会从cache查找响应，会直接去后端服务器请求。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxy_cache_bypass $cookie_nocache $arg_nocache$arg_comment;</div></pre></td></tr></table></figure></p>
+<p><code>proxy_cache_bypass string ...;</code></p>
+<p>控制哪些请求不进行缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxy_no_cache $http_pragma $http_authorization;</div></pre></td></tr></table></figure></p>
+<h3 id="从缓存中清除内容"><a href="#从缓存中清除内容" class="headerlink" title="从缓存中清除内容"></a>从缓存中清除内容</h3><p>NGINX可以从缓存中删除过期的缓存文件。这是非常必要的,删除过期的缓存内容,防止同时提供新老版本的web页面。清除缓存时，nginx会收到一个特别的“清除”请求包含一个自定义HTTP头,或“清除”的HTTP方法。</p>
+<ul>
+<li>配置缓存清除<br>下面配置一个清除的HTTP方法并删除匹配的URL。<br>在http块中，新建一个变量，如下面的 $purge_method ， 它依赖于$request_method变量。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    map $request_method $purge_method &#123;</div><div class="line">        PURGE 1;</div><div class="line">        default 0;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在location块中已经定义了cache，在 proxy_cache_purge 指令中，指定了会被清除cache的条件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen      80;</div><div class="line">    server_name www.example.com;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        proxy_pass  https://localhost:8002;</div><div class="line">        proxy_cache mycache;</div><div class="line"></div><div class="line">        proxy_cache_purge $purge_method;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当 $request_method 为PURGE，则清除。否则不清除。</p>
+<ul>
+<li>发送清除指令<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -X PURGE -D – &quot;https://www.example.com/*&quot;</div><div class="line">HTTP/1.1 204 No Content</div><div class="line">Server: nginx/1.5.7</div><div class="line">Date: Sat, 01 Dec 2015 16:33:04 GMT</div><div class="line">Connection: keep-alive</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上例中，指定的URI中的缓存文件并不删除，它们还会继续存储在磁盘上，直到nginx来操作处理。</p>
+<ul>
+<li><p>限制访问清除指令<br>比较推荐的是通过设置IP白名单来限制访问。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">geo $purge_allowed &#123;</div><div class="line">   default         0;  # deny from other</div><div class="line">   10.0.0.1        1;  # allow from localhost</div><div class="line">   192.168.0.0/24  1;  # allow from 10.0.0.0/24</div><div class="line">&#125;</div><div class="line"></div><div class="line">map $request_method $purge_method &#123;</div><div class="line">   PURGE   $purge_allowed;</div><div class="line">   default 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>完全删除cache文件<br><code>proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=mycache:10m purger=on;</code><br>在 proxy_cache_path 加上 purger=on参数。</p>
+</li>
+<li>完整的例子<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=mycache:10m purger=on;</div><div class="line"></div><div class="line">    map $request_method $purge_method &#123;</div><div class="line">        PURGE 1;</div><div class="line">        default 0;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      80;</div><div class="line">        server_name www.example.com;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">            proxy_pass        https://localhost:8002;</div><div class="line">            proxy_cache       mycache;</div><div class="line">            proxy_cache_purge $purge_method;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    geo $purge_allowed &#123;</div><div class="line">       default         0;</div><div class="line">       10.0.0.1        1;</div><div class="line">       192.168.0.0/24  1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    map $request_method $purge_method &#123;</div><div class="line">       PURGE   $purge_allowed;</div><div class="line">       default 0;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Byte范围的缓存"><a href="#Byte范围的缓存" class="headerlink" title="Byte范围的缓存"></a>Byte范围的缓存</h3><p>有时候，将数据放入缓存中是一个很费时的操作，特别是大文件。当第一次请求开始下载一个大文件时，下一次请求必须等待整个文件下载并放入缓存后才能被服务。<br>nginx可以使用cache slice module 来处理。文件被分成较小的“片”。每个请求范围选择特定的片,如果这个范围没有被缓存,那么将会把它放到缓存中。然后其它所有请求这个片数据的请求都会被这个缓存响应。<br>开启范围级别的缓存：</p>
+<ol>
+<li>为nginx编译进slice模块。</li>
+<li><p>指定每个片的大小。片大小应足以使切片快速下载。设置太小可能会导致过度的内存使用和大量的文件描述符,过大的值可能会导致延迟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    slice  1m;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在cache key中加入$slice_range<br><code>proxy_cache_key $uri$is_args$args$slice_range;</code></p>
+</li>
+<li>开启响应的206代码<br><code>proxy_cache_valid 200 206 1h;</code></li>
+<li>在发往代理服务器的HTTP头的Range里面加入$slice_range。<br><code>proxy_set_header  Range $slice_range;</code></li>
+<li>综合样例<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    slice             1m;</div><div class="line">    proxy_cache       cache;</div><div class="line">    proxy_cache_key   $uri$is_args$args$slice_range;</div><div class="line">    proxy_set_header  Range $slice_range;</div><div class="line">    proxy_cache_valid 200 206 1h;</div><div class="line">    proxy_pass        http://localhost:8000;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/11/Nginx学习笔记：二、进程和运行时/" itemprop="url">
+                  Nginx学习笔记：二、进程和运行时
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T11:10:31+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>nginx包含一个master进程和一个或多个worker进程。<br>master进程的主要职责是读取和使用配置文件，同时管理worker进程。<br>worker进程用来处理用户请求。Nginx依赖OS的机制来有效的分发请求给worker进程。worker进程的数量定义位于nginx.conf配置文件上，它可以是固定的数目也可以自适应cpu的核心数。<br>定义worker进程的数母，主要参考几个方面，cpu的核心数、存储数据的硬盘数以及负载模式。当不清楚使用哪种策略时，设定为自适应cpu核心数(“auto”)是一个好的方法。</p>
+<h2 id="操作Nginx"><a href="#操作Nginx" class="headerlink" title="操作Nginx"></a>操作Nginx</h2><h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>重载配置，你可以停止并重启nginx或者发送一个信号给master进程。使用-s发送信号给运行中的nginx。<br><code>nginx -s signal</code><br>signal的值可以为<br>quit<br>reload<br>reopen<br>stop</p>
+<p>可以直接用kill命令来直接放松信号到master进程。master进程的ID默认情况下存在 /usr/local/nginx/logs 或者 /var/run 的nginx.pid 文件中。可以在nginx.conf中设置。<br>有两种方式来通过这些信号去控制 Nginx，第一是通过 kill – XXX <pid> 来控制 Nginx，其中 XXX 就是上表中列出的信号名。如果系统中只有一个 Nginx 进程，那也可以通过 killall 命令来完成，例如运行 killall – s HUP nginxPID 来让 Nginx 重新加载配置。<br>master进程有如下信号：<br>TERM, INT     快速关闭程序，中止当前正在处理的请求<br>QUIT     处理完当前请求后，关闭程序<br>HUP     重新加载配置，并开启新的工作进程，关闭就的进程，此操作不会中断请求<br>USR1     重新打开日志文件，用于切换日志，例如每天生成一个新的日志文件<br>USR2     平滑升级可执行程序<br>WINCH     从容关闭工作进程 </pid></p>
+<p>单独的worker进程也可以通过信号量来控制，虽然并不是必须的。<br>TERM, INT    快速关闭进程<br>QUIT    处理完当前请求后，关闭进程<br>USR1    重新打开日志文件，用于切换日志，例如每天生成一个新的日志文件<br>WINCH    调试异常终止（需要启用debug_points ）</p>
+<h3 id="更改配置"><a href="#更改配置" class="headerlink" title="更改配置"></a>更改配置</h3><p>为了nginx能够重读配置文件，HUP信号将发送给master进程，master进程首先检查信号的有效性，然后使用新的配置，打开日志文件和心得监听socket。如果这步失败了，那么将回滚并使用旧的配置。如果成功了，会开启新的worker进程，并发送信息给旧的worker进程让它们优雅停机。旧的进程关闭监听socket并继续服务旧的客户端，当所有客户端请求被服务后，旧的worker进程会停机。</p>
+<h3 id="分割日志文件"><a href="#分割日志文件" class="headerlink" title="分割日志文件"></a>分割日志文件</h3><p>为了分割日志文件，首先，它们需要被重命名。在那之后，需要向master进程发送USR1信号。master进程会重新打开所有当前打开的日志文件，并将它们分配给当前worker进程正在运行的无权限的用户作为所有者。在成功重新打开日志文件后，master进程会关闭所有打开的文件并发送消息给worker进程来重新打开文件。worker进程也需要立刻打开新文件并关闭旧文件。其结果是，旧文件可以立即适用于后处理，例如压缩。</p>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>为了升级服务，需要使用新的可执行文件替换旧的。在USR2信号发送到master进程后，master进程首先会将pid文件名加上一个.oldbin后缀。/usr/local/nginx/logs/nginx.pid.oldbin。然后启动一个新的可执行文件来启动新的worker进程。</p>
+<p>之后，所有的worker进程（新的和旧的）都继续接收请求，如果WINCH信号发送到了，master进程，那么将会通知worker进程去优雅停机。</p>
+<p>经历一段时间后，只有新的worker进程可以处理请求。</p>
+<p>需要注意的是，旧的master进程不会关闭监听socket，并且如果需要，它还可以重新启动。如果由于一些原因，新的可执行文件不能使用了，那么会出现以下两种情况中的一种：</p>
+<ul>
+<li>发送HUP信号到旧的master进程，旧的master进程不重新读配置文件，但会启动一个新的worker进程。在那之后，发送QUIT到新的master进程，所有新的进程将优雅停止。</li>
+<li>发送 TERM 信号到新的master进程。然后新的master进程会发送信息到它的worker进程，告诉他们立即停止（如果有新的进程因为某些原因未停止，那么会发送KILL信号来强制停止）。当新的master进程停止后，旧的master进程自动会启动新的worker进程。</li>
+</ul>
+<p>如果新的master进程退出了，那么旧的，master进程会抛弃带有.oldbin的文件。</p>
+<p>如果更新成功，那么旧的master进程会被发送QUIT信号，然后只有新的进程存活。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/11/Nginx学习笔记：一、入门/" itemprop="url">
+                  Nginx学习笔记: 一、入门
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T10:32:41+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装nginx需要先安装c++ 编译器、pcre 、zlib以及openssl。</p>
+<ol>
+<li>安装c++ 编译器<br><code>yum install -y gcc gcc-c++</code></li>
+<li><p>安装pcre</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz</div><div class="line">$ tar -zxf pcre-8.39.tar.gz</div><div class="line">$ cd pcre-8.39</div><div class="line">$ ./configure</div><div class="line">$ make</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装zlib</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ wget http://zlib.net/zlib-1.2.8.tar.gz</div><div class="line">$ tar -zxf zlib-1.2.8.tar.gz</div><div class="line">$ cd zlib-1.2.8</div><div class="line">$ ./configure</div><div class="line">$ make</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装openssl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ wget http://www.openssl.org/source/openssl-1.0.2f.tar.gz</div><div class="line">$ tar -zxf openssl-1.0.2f.tar.gz</div><div class="line">$ cd openssl-1.0.2f</div><div class="line">$ ./configure  --prefix=/usr/local/openssl</div><div class="line">$ make</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装nginx<br>先下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ wget http://nginx.org/download/nginx-1.11.2.tar.gz</div><div class="line">$ tar zxf nginx-1.11.2.tar.gz</div><div class="line">$ cd nginx-1.11.2</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>编译安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ./configure --with-pcre=../pcre-8.39 --with-zlib=../zlib-1.28 --with-openssl=../openssl</div><div class="line">$ make &amp; make install</div></pre></td></tr></table></figure></p>
+<ol>
+<li>启动nginx <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd /usr/local/nginx/sbin</div><div class="line">$ ./nginx</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>验证是否启动成功了<br><code>curl -I 127.0.0.1</code><br><img src="http://i.imgur.com/HbB3BQh.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/07/Redis持久化策略/" itemprop="url">
+                  Redis持久化策略
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-07T10:24:32+08:00" content="2016-07-07">
+              2016-07-07
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Redis提供了两种持久化策略，一种是快照方式（point-in-time snapshot），另一种是只追加文件（append-only file）方式。</p>
+<h2 id="快照方式"><a href="#快照方式" class="headerlink" title="快照方式"></a>快照方式</h2><p>快照方式会在某个时刻将所有数据都写入到硬盘中。用户可以根据Redis的配置命令<code>config get dir</code>和<code>config get dbfilename</code>来知道快照文件写入的路径和文件名。</p>
+<p>创建快照的方式有以下几种：</p>
+<ul>
+<li>客户端发送  <code>bgsave</code> 命令（windows不支持此命令），Redis会调用fork创建一个进程来进行备份操作，父进程继续接收执行命令。</li>
+<li>客户端发送  <code>save</code> 命令，Redis会进行备份操作，在备份完成之前，不相应其它命令请求。一般不使用此命令，只有在没有足够内存去执行<code>bgsave</code>情况下才使用此命令。</li>
+<li>在配置中设置了 <code>save</code> 选项，比如设置为 <code>save 60 10000</code> ， 当60s内有10000次写入则触发bgsave。</li>
+<li>当使用 <code>shutdown</code> 关闭Redis时，会先执行<code>save</code>命令，并阻塞所有客户端。</li>
+<li>当Redis连接另一Redis，并向对方发送<code>sync</code>开始一次复制命令，如果redis没有正在执行<code>bgsave</code> 或 没有刚刚执行完 <code>bgsave</code>，那么会执行一次<code>bgsave</code>。</li>
+</ul>
+<p>缺点：<br>如果在进行下一次备份的时候服务器crash了，那么将丢失上次备份到现在的所有记录。</p>
+<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><p>aof会将被执行的写命令写到aof文件的末尾，每次恢复的时候直接执行aof文件中的写命令就可以了。用户可以在<code>appendonly</code>配置中打开aof。<code>appendfsync</code>可以控制aof的频率。<code>always</code>是每次写命令都要同步到硬盘，这样会严重降低redis的速度。<code>everysec</code>每秒进行一次同步，显式将多个写命令同步到硬盘，一般使用这个选项。<code>no</code>由OS来确定何时同步。</p>
+<p>由于aof文件会越来越大，一是会占用过大的硬盘空间，二是数据恢复会需要很长时间。为了解决这个问题，redis提供了一个<code>bgrewriteaof</code>命令创建一个子进程来移除aof的冗余命令并重写aof文件。redis还提供了<code>auto-aof-rewrite-percentage</code>和<code>auto-aof-rewrite-min-size</code>来自动执行<code>bgrewriteaof</code>。当设置了 <code>auto-aof-rewrite-percentage 100</code>和<code>auto-aof-rewrite-min-size 64mb</code>时，并启动了aof，当aof文件大于64mb 并且aof文件比上一次重写大了至少1倍时，redis将会执行<code>bgrewriteaof</code>。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/29/Solr学习笔记：二、文档、变量和摘要的设计/" itemprop="url">
+                  Solr学习笔记：二、Document、Field和Schema的设计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-29T09:28:58+08:00" content="2016-06-29">
+              2016-06-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Solr的工作流程很简单。你先给它添加你想要知道的信息，然后问它要。你给它信息的过程叫 indexing 或者 updating。你问它要信息的过程叫 query。Solr可以在schema为实体的不同变量、类型建立索引。</p>
+<p>Solr的基本信息单元是document，它是一个描述某种事物的数据集合。document是由field组成的，它是更具体的信息。比如，鞋子的尺码、姓名都可以是field。field可以是多种类型，Solr允许用户定义field的类型：field type，定义准确的field type可以帮你准确的查找结果。</p>
+<p>field analysis告诉了Solr如何建立索引。比如你会遇见这样的问题，一个人的传记中，会有”the” , “a “ 等这样的词，通过field analysis你可以告诉Solr怎么进行分词。它是field type 中的重要组成部分。</p>
+<p>Solr将field type 等信息存在schema文件中。文件的名称和路径取决于你如何初始化Solr或者以后会怎样修改它。</p>
+<p><strong>managed-schema</strong> – 是在运行时可以通过Schema API来修改的Solr schema文件。如果你使用别的名称，你可以显式的指定它，但是内容的更新需要Solr自动来完成。</p>
+<p><strong>schema.xml</strong> – 它是传统的schema文件名，用户可以通过 ClassicIndexSchemaFactory 来手动编辑它。</p>
+<p>如果你使用Cloud模式，你不会在本地文件系统中找到这个文件，可以通过Schema API或者Solr Admin UI 中的Cloud Screens看到。</p>
+<p>不论你怎样定义文件名，问价你的结构是不会变的。如果你使用managed schema，那么原则上你只能通过Schema API来改变它，绝不能手动变更。如果你不使用 managed schema ， 那么你只能通过手动改变文件，Schema API不能操作任何改变。<br>如果你使用SolrCloud但是没有使用Schema API，那么你需要从ZooKeeper中使用upconfig或者downconfig命令来对schema.xml做一个本地备份和上传修改。</p>
+<h2 id="Field-type"><a href="#Field-type" class="headerlink" title="Field type"></a>Field type</h2><p>field type 包括下面四种信息类型：</p>
+<p><strong>field type 名称（必须）。</strong><br><strong>类型的实现类（必须）。</strong><br><strong>如果类型是 TextField ， 需要添加field analysis。</strong><br><strong>field type 属性 ， 依赖于实现类，一些属性是必须的。</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">fieldType</span> <span class="attr">name</span>=<span class="string">"text_general"</span> <span class="attr">class</span>=<span class="string">"solr.TextField"</span> <span class="attr">positionIncrementGap</span>=<span class="string">"100"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">analyzer</span> <span class="attr">type</span>=<span class="string">"index"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tokenizer</span> <span class="attr">class</span>=<span class="string">"solr.StandardTokenizerFactory"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.StopFilterFactory"</span> <span class="attr">ignoreCase</span>=<span class="string">"true"</span> <span class="attr">words</span>=<span class="string">"stopwords.txt"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!-- in this example, we will only use synonyms at query time</span></div><div class="line">    &lt;filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/&gt;</div><div class="line">    --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.LowerCaseFilterFactory"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">analyzer</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">analyzer</span> <span class="attr">type</span>=<span class="string">"query"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tokenizer</span> <span class="attr">class</span>=<span class="string">"solr.StandardTokenizerFactory"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.StopFilterFactory"</span> <span class="attr">ignoreCase</span>=<span class="string">"true"</span> <span class="attr">words</span>=<span class="string">"stopwords.txt"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.SynonymFilterFactory"</span> <span class="attr">synonyms</span>=<span class="string">"synonyms.txt"</span> <span class="attr">ignoreCase</span>=<span class="string">"true"</span> <span class="attr">expand</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.LowerCaseFilterFactory"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">analyzer</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">fieldType</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面的例子中，包含了field type名称 text-general，实现类 solr.TextField。实现类是用来保证field呗正确处理。在schema.xml中，solr字符串是org.apache.solr.schema 或 org.apache.solr.analysis的缩写。因此，solr.TextField 实际上是 org.apache.solr.schema.TextField。</p>
+<h3 id="field-type属性"><a href="#field-type属性" class="headerlink" title="field type属性"></a>field type属性</h3><h4 id="一般属性"><a href="#一般属性" class="headerlink" title="一般属性"></a>一般属性</h4><ul>
+<li>name – field type名称。用来定义field。强烈建议名称只包含字母数字或下划线字符,而不是从数字开头。</li>
+<li>class – 存储或索引数据的class的名称。如果你使用solr开头，那么类似solr.TextField会有效，如果使用第三方的类，那么需要写全类名和包名。</li>
+<li>positionIncrementGap – 对于多个值的field，指定多个值之间的距离，防止错误的匹配。integer。</li>
+<li>autoGeneratePhraseQueries – 用于 text field。如果设为true，Solr自动为相邻的短语生成词组查询。如果设为false，短语必须加上双引号才能被视为一个词组。true/false</li>
+<li>docValuesFormat – 为此类型的field定义一个DocValuesFormat ，这需要一个schema-aware解析器。例如solrconfig.xml中定义的SchemaCodecFactory。</li>
+<li>postingsFormat – 为此类型的field定义一个postingsFormat，这需要一个schema-aware解析器。例如solrconfig.xml中定义的SchemaCodecFactory 。</li>
+</ul>
+<p>注意： Lucene向下兼容时只支持默认的解析器。如果你选择在schema.xml中自定义postingsFormat 或 docValuesFormat，更新到以后的版本时，需要切换为默认的解析器，并且在更新前重新优化你的index，或者重建你的index。</p>
+<h3 id="field默认属性"><a href="#field默认属性" class="headerlink" title="field默认属性"></a>field默认属性</h3><p>这些属性既可以在field type中被指定，也可以在单独的field中被field type提供的值所覆盖。默认的值依赖于FieldType的class，进而可能依赖于<schema>中的version属性。</schema></p>
+<ul>
+<li>indexed – 如果设为true，field的值可以用来检索文档。  true/false ， 默认为true。</li>
+<li>stored – 如果设为true，field的实际值可以用来被查询。  true/false ， 默认为true。</li>
+<li>docValues – 如果设为true，field的值会被放入一个以列为主的DocValues结构中。true/false ， 默认为false。</li>
+<li>sortMissingFirst/sortMissingLast – 当查询的field没有找到时，控制返回数据的排序方式。（没有field的排在有的之前/没有field的排在有的之后 ， 而不管请求时的排序方式）true/false ， 默认为false。</li>
+<li>multiValued – 如果设为true，说明一个单独的文档可能包含这个field type 的多个值。true/false ， 默认为false。</li>
+<li>omitNorms – 如果设为true，则省略了与这个field相关的规范。默认情况下，对于不执行analysis的字段类型设为true。只有全文字段或者需要index-time boost 的字段才需要规范。true/false。</li>
+<li>omitTermFreqAndPositions – 如果设为true，则不用存储term的频率和position等信息。对于不需要这些信息的字段是一个性能的提升，减少磁盘空间。依赖于位置的字段查询将查找不到信息。这个属性对于所有非text的field默认为true。</li>
+<li>omitPositions – 和omitTermFreqAndPositions 相似，但是保留词汇的频率信息。true or false</li>
+<li>termVectors/termPositions/termOffsets/termPayloads – 这些选项指导Solr为每个文档维护全局向量，包括 position，offset ， 和负载信息。这些能用于加速高亮和其它辅助的功能，但是增加了词汇的index长度。他们对于一般使用Solr所必要的。true or false，默认false。</li>
+<li>required – 阻止添加不包含该字段的任何文档。true or false ，默认为false。</li>
+<li>useDocValuesAsStored – 如果docValues可用，并且本字段设为true，那么当匹配成功时，会将字段当做store field进行返回（即使它的store = false）。</li>
+</ul>
+<h3 id="field-type"><a href="#field-type" class="headerlink" title="field type"></a>field type</h3><ul>
+<li>BinaryField – 二进制数据。</li>
+<li>BoolField – bool ， 1，t，T都被认为true，其它都为false。</li>
+<li>CollationField – 支持Unicode类型的查询排序集合。</li>
+<li>CurrencyField – 支持货币和汇率。</li>
+<li>DateRangeField – 支持日期范围检索。</li>
+<li>ExternalFileField – 拉取磁盘上文件中的值。</li>
+<li>EnumField – 枚举类型。</li>
+<li>ICUCollationField – 支持Unicode类型的集合来进行排序和范围查询。</li>
+<li>LatLonType – 经纬度坐标对。维度在前。</li>
+<li>PointType – 一个N维空间的点。用于查询蓝图或者CAD上的资源。</li>
+<li>PreAnalyzedField – 提供了一种发送给Solr的序列化令牌流，可选的独立存储的field的值，并不通过任何额外的文本处理将信息存储和索引。</li>
+<li>RandomSortField – 不包含一个值。查询后将返回一个随机顺序的结果。使用动态field时使用这个功能。</li>
+<li>SpatialRecursivePrefixTreeFieldType – 接受 纬度,精度 这样的字符串或者其他WKT格式的类型。</li>
+<li>StrField – 字符串（UTF8或者Unicode编码），用于小的field并且这些字段不会被标记或者分析。他们有一个硬限制，就是小于32K。</li>
+<li>TextField – Text类型，一般用于多单词或者多标记。</li>
+<li>TrieDateField – 日期类型。代表一个毫秒精度的时间点。precisionStep=”0” 实现高效的日期排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
+<li>TrieDoubleField – Double类型。precisionStep=”0” 实现高效的数字排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
+<li>TrieField – 如果使用了这个类型，那么 type 属性必须被指定，有效的值为:integer, long, float, double, date 。使用这个field 和使用其它 Trie field 一样：实现高效的数字排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
+<li>TrieFloatField/TrieIntField/TrieLongField – float/int/long。precisionStep=”0” 实现高效的数字排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
+<li>UUIDField – 一般唯一标识符。传一个值为“NEW”的值然后Solr将会创建一个新的UUID。注意，在SolrCloud模式下使用UUID不是一个好的做法，因为每一个备份节点的每一个文档都会有一个唯一的UUID。当添加文档时使用UUIDUpdateProcessorFactory 来生成UUID是一个好的做法。</li>
+</ul>
+<h3 id="定义Field"><a href="#定义Field" class="headerlink" title="定义Field"></a>定义Field</h3><p>Field一般定义在schema.xml中。<br><code>&lt;field name=&quot;price&quot; type=&quot;float&quot; default=&quot;0.0&quot; indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;</code></p>
+<h3 id="拷贝Field"><a href="#拷贝Field" class="headerlink" title="拷贝Field"></a>拷贝Field</h3><p><code>&lt;copyField source=&quot;cat&quot; dest=&quot;text&quot; maxChars=&quot;30000&quot; /&gt;</code><br>source 是被拷贝的数据，des是拷贝到的field。定义在schema.xml中。<br>在上面的例子中，会将cat拷贝到text。field的拷贝实在analysis之前的，意味着你能够对相同的内容返回两个field（两个field使用不同的analysis链并存在不同的索引下）。<br>使用时需要设置field的 multivalued=”true”。</p>
+<p>也可以使用通配符：<br><code>&lt;copyField source=&quot;*_t&quot; dest=&quot;text&quot; maxChars=&quot;25000&quot; /&gt;</code></p>
+<h3 id="动态Field"><a href="#动态Field" class="headerlink" title="动态Field"></a>动态Field</h3><p><code>&lt;dynamicField name=&quot;*_i&quot; type=&quot;int&quot; indexed=&quot;true&quot;  stored=&quot;true&quot;/&gt;</code></p>
+<p>动态field可以更灵活的使用Solr。</p>
+<h3 id="其它Schema元素"><a href="#其它Schema元素" class="headerlink" title="其它Schema元素"></a>其它Schema元素</h3><ul>
+<li><p>uniqueKey – 用于表示一个唯一的文档，不是必须的。<br><code>&lt;uniqueKey&gt;id&lt;/uniqueKey&gt;</code></p>
+</li>
+<li><p>Similarity<br>Similarity 是一个Lucene类，用于在搜索时对文档的评分。<br>TODO…</p>
+</li>
+</ul>
+<h3 id="Schema-API"><a href="#Schema-API" class="headerlink" title="Schema API"></a>Schema API</h3><h4 id="API的入口点"><a href="#API的入口点" class="headerlink" title="API的入口点"></a>API的入口点</h4><ul>
+<li>/schema – 检索信息，或者增加、删除，替换field，动态field，复制field或者field type。</li>
+<li>/schema/fields – 检索指定field的信息或指定名称的field。</li>
+<li>/schema/dynamicfields – 检索所有符合规则的动态field信息。</li>
+<li>/schema/fieldtypes – 检索所有指定field type 的信息。</li>
+<li>/schema/copyfields – 检索所有copy field的信息。</li>
+<li>/schema/name – 检索schema名称。</li>
+<li>/schema/version – 检索schema版本。</li>
+<li>/schema/uniquekey – 检索定义的uniqueKey。</li>
+<li>/schema/similarity – 检索全局similarity 定义。</li>
+<li>/schema/solrqueryparser/defaultoperator – 检索默认操作。</li>
+</ul>
+<p><code>http://localhost:8983/solr/gettingstarted/schema</code></p>
+<h4 id="修改Schema"><a href="#修改Schema" class="headerlink" title="修改Schema"></a>修改Schema</h4><p><code>POST /collection/schema</code><br>为了添加、删除，修改field、动态field规则、copy field规则、新field type，你可以发送POST请求到/collection/schema/。</p>
+<ul>
+<li>add-field – 添加一个带参数的field。</li>
+<li>delete-field – 删除一个field。</li>
+<li>replace-field – 用一个不同配置的field替换现有的。</li>
+<li>add-dynamic-field – 添加一个带参数的动态规则。</li>
+<li>delete-dynamic-field – 删除一个动态field规则。</li>
+<li>replace-dynamic-field – 替换一个动态field规则。</li>
+<li>add-field-type – 添加一个field type。</li>
+<li>delete-field-type – 删除一个field type。</li>
+<li>replace-field-type – 替换一个field type。</li>
+<li>add-copy-field – 添加一个copy field规则。</li>
+<li>delete-copy-field – 删除一个copy field规则。</li>
+</ul>
+<p>这些命令可以在单独的POST请求或在同一个POST请求。命令按指定的顺序执行。<br>每个请求都会返回状态和处理请求所用的时间，但是不会包含整个schema。</p>
+<p>当使用API修改schema时，一个core重载会自动发生，以便使更改可立即用于其后索引的文档。之前的被索引的文档不会自动被处理，当使用被改变的schema时，它们必须重新索引。</p>
+<ul>
+<li><p>新增Field<br>add-field 命令向schema中添加一个新的field。如果存在同名的，那么抛出异常。当定义一个了一个手动编辑的schema.xml，所有的属性都可以通过API传递。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field":&#123;</div><div class="line">     "name":"sell-by",</div><div class="line">     "type":"tdate",</div><div class="line">     "stored":true &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除field<br>delete-field 命令将会删除一个field，如果field不存在或者field是被copy的field，那么会抛出异常。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-field" : &#123; "name":"sell-by" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>替换Field<br>replace-field 命令会替换一个field。你需要提供field的完整定义。这个命令不会部分改变field，是整个替换。如果field不存在则抛出异常。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "replace-field":&#123;</div><div class="line">     "name":"sell-by",</div><div class="line">     "type":"date",</div><div class="line">     "stored":false &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>添加动态Field规则</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-dynamic-field":&#123;</div><div class="line">     "name":"*_s",</div><div class="line">     "type":"string",</div><div class="line">     "stored":true &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除动态field规则<br>delete-dynamic-field 命令删除一个动态field规则。如果动态field规则不存在或者schema包含一个copy field作为源或者目标只和这个动态field匹配，那么会抛出一个异常。</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-dynamic-field":&#123; "name":"*_s" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+<ul>
+<li><p>替换动态field规则</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "replace-dynamic-field":&#123;</div><div class="line">     "name":"*_s",</div><div class="line">     "type":"text_general",</div><div class="line">     "stored":false &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>添加一个新的field type</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field-type" : &#123;</div><div class="line">     "name":"myNewTxtField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "positionIncrementGap":"100",</div><div class="line">     "analyzer" : &#123;</div><div class="line">        "charFilters":[&#123;</div><div class="line">           "class":"solr.PatternReplaceCharFilterFactory",</div><div class="line">           "replacement":"$1$1",</div><div class="line">           "pattern":"([a-zA-Z])\\\\1+" &#125;],</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.WhitespaceTokenizerFactory" &#125;,</div><div class="line">        "filters":[&#123;</div><div class="line">           "class":"solr.WordDelimiterFilterFactory",</div><div class="line">           "preserveOriginal":"0" &#125;]&#125;&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面的例子中，我么那只能定义一个单独的analyzer。如果我们想定义单独的分析器，我们需要用分开的 indexAnalyzer 和 queryAnalyzer 代替上面的analyzer。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field-type":&#123;</div><div class="line">     "name":"myNewTextField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "indexAnalyzer":&#123;</div><div class="line">        "tokenizer":&#123;</div><div class="line">           "class":"solr.PathHierarchyTokenizerFactory", </div><div class="line">           "delimiter":"/" &#125;&#125;,</div><div class="line">     "queryAnalyzer":&#123;</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.KeywordTokenizerFactory" &#125;&#125;&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+<ul>
+<li><p>删除一个Field type<br>使用delete-field-type 删除一个field type。如果这个field type 不存在或者它已经被引用，那么会抛出异常。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-field-type":&#123; "name":"myNewTxtField" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>替换field type </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "replace-field-type":&#123;</div><div class="line">     "name":"myNewTxtField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "positionIncrementGap":"100",</div><div class="line">     "analyzer":&#123;</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.StandardTokenizerFactory" &#125;&#125;&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>新增一个新的copy field 规则<br>参数：<br><strong>source</strong> – 源field。<br><strong>dest</strong> – 将一个field或一组field拷贝到的目的field。<br><strong>maxChars</strong> – 拷贝的字符数量的上限。</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-copy-field":&#123;</div><div class="line">     "source":"shelf",</div><div class="line">     "dest":[ "location", "catchall" ]&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+<ul>
+<li><p>删除一个copy field 规则</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-copy-field":&#123; "source":"shelf", "dest":"location" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+<li><p>单个POST中加入多命令<br>支持在单个的post中加入多命令，API支持事务。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field-type":&#123;</div><div class="line">     "name":"myNewTxtField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "positionIncrementGap":"100",</div><div class="line">     "analyzer":&#123;</div><div class="line">        "charFilters":[&#123;</div><div class="line">           "class":"solr.PatternReplaceCharFilterFactory",</div><div class="line">           "replacement":"$1$1",</div><div class="line">           "pattern":"([a-zA-Z])\\\\1+" &#125;],</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.WhitespaceTokenizerFactory" &#125;,</div><div class="line">        "filters":[&#123;</div><div class="line">           "class":"solr.WordDelimiterFilterFactory",</div><div class="line">           "preserveOriginal":"0" &#125;]&#125;&#125;,</div><div class="line">   "add-field" : &#123;</div><div class="line">      "name":"sell-by",</div><div class="line">      "type":"myNewTxtField",</div><div class="line">      "stored":true &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>重复的命令，可以修改成下面这样：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field":&#123;</div><div class="line">     "name":"shelf",</div><div class="line">     "type":"myNewTxtField",</div><div class="line">     "stored":true &#125;,</div><div class="line">  "add-field":&#123;</div><div class="line">     "name":"location",</div><div class="line">     "type":"myNewTxtField",</div><div class="line">     "stored":true &#125;,</div><div class="line">  "add-copy-field":&#123;</div><div class="line">     "source":"shelf",</div><div class="line">      "dest":[ "location", "catchall" ]&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure></p>
+<p>可以修改成：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field":[</div><div class="line">     &#123; "name":"shelf",</div><div class="line">       "type":"myNewTxtField",</div><div class="line">       "stored":true &#125;,</div><div class="line">     &#123; "name":"location",</div><div class="line">       "type":"myNewTxtField",</div><div class="line">       "stored":true &#125;]</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure></p>
+<ul>
+<li>修改所有副本的schema<br>在SolrCloud模式下，对schema的修改将会传播到集合中的所有节点。你可以通过在request中传递updateTimeoutSecs参数来设置所有节点确认的超时时间。这可以在规定的时间内确认所有节点都更新完毕，使你的系统更加健壮。如果确认信息没在指定时间到达，那么请求会失败并且报出异常，异常包括失败节点的错误信息。大部分情况下，唯一的做法是等待一段时间后重新请求，如果问题仍然存在，那么可以根据服务日志来查找解决问题。如果你不使用updateTimeoutSecs参数，接收节点的默认是在更新ZooKeeper后立即返回，这样，你就不能确保所有的节点都更新成功。</li>
+</ul>
+<h4 id="检索Schema信息"><a href="#检索Schema信息" class="headerlink" title="检索Schema信息"></a>检索Schema信息</h4><ul>
+<li>检索全部Schema<br><code>GET /collection/schema</code><br>输入：<br>路径参数：<br>collection – 集合或core名称。<br>查询参数：<br>wt : 默认是json格式，可选的有 json、xml、schema.xml。</li>
+</ul>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema?wt=json</code><br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">5</span>&#125;,</div><div class="line">  <span class="attr">"schema"</span>:&#123;</div><div class="line">    <span class="attr">"name"</span>:<span class="string">"example"</span>,</div><div class="line">    <span class="attr">"version"</span>:<span class="number">1.5</span>,</div><div class="line">    <span class="attr">"uniqueKey"</span>:<span class="string">"id"</span>,</div><div class="line">    <span class="attr">"fieldTypes"</span>:[&#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"alphaOnlySort"</span>,</div><div class="line">        <span class="attr">"class"</span>:<span class="string">"solr.TextField"</span>,</div><div class="line">        <span class="attr">"sortMissingLast"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"omitNorms"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"analyzer"</span>:&#123;</div><div class="line">          <span class="attr">"tokenizer"</span>:&#123;</div><div class="line">            <span class="attr">"class"</span>:<span class="string">"solr.KeywordTokenizerFactory"</span>&#125;,</div><div class="line">          <span class="attr">"filters"</span>:[&#123;</div><div class="line">              <span class="attr">"class"</span>:<span class="string">"solr.LowerCaseFilterFactory"</span>&#125;,</div><div class="line">            &#123;</div><div class="line">              <span class="attr">"class"</span>:<span class="string">"solr.TrimFilterFactory"</span>&#125;,</div><div class="line">            &#123;</div><div class="line">              <span class="attr">"class"</span>:<span class="string">"solr.PatternReplaceFilterFactory"</span>,</div><div class="line">              <span class="attr">"replace"</span>:<span class="string">"all"</span>,</div><div class="line">              <span class="attr">"replacement"</span>:<span class="string">""</span>,</div><div class="line">              <span class="attr">"pattern"</span>:<span class="string">"([^a-z])"</span>&#125;]&#125;&#125;,</div><div class="line">...</div><div class="line">    <span class="string">"fields"</span>:[&#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"_version_"</span>,</div><div class="line">        <span class="attr">"type"</span>:<span class="string">"long"</span>,</div><div class="line">        <span class="attr">"indexed"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"stored"</span>:<span class="literal">true</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"author"</span>,</div><div class="line">        <span class="attr">"type"</span>:<span class="string">"text_general"</span>,</div><div class="line">        <span class="attr">"indexed"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"stored"</span>:<span class="literal">true</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"cat"</span>,</div><div class="line">        <span class="attr">"type"</span>:<span class="string">"string"</span>,</div><div class="line">        <span class="attr">"multiValued"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"indexed"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"stored"</span>:<span class="literal">true</span>&#125;,</div><div class="line">...</div><div class="line">    <span class="string">"copyFields"</span>:[&#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"author"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"text"</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"cat"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"text"</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"content"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"text"</span>&#125;,</div><div class="line">...</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"author"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"author_s"</span>&#125;]&#125;&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>列出field<br><code>GET /collection/schema/fields</code></li>
+</ul>
+<p><code>GET /collection/schema/fields/fieldname</code></p>
+<p>路径参数：<br>collection – 集合或core名称。<br>fieldname – 指定的field名称。</p>
+<p>查询参数：<br><strong>fl</strong> – 逗号、空格分隔的要求返回的field。如果不指定，所有field都会被返回。<br><strong>includeDynamic</strong> – 默认是false。如果设为true，并且fl参数被指定或者fieldname路径参数被使用，匹配的动态field将被包含在response中并且被dynamicBase属性标识。如果不指定fl和fieldname，那么includeDynamic将被忽略。如果设为false，符合的动态field将不会被返回。<br><strong>showDefaults</strong> – 默认是false。如果设为true，那么所有缺省字段的属性将会被返回。如果设为false，那么只有明确设定的字段属性会被返回。</p>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/fields?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"fields"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"_version_"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"long"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"author"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"text_general"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"cat"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"string"</span></div><div class="line">        &#125;,</div><div class="line">...</div><div class="line">    ],</div><div class="line">    <span class="attr">"responseHeader"</span>: &#123;</div><div class="line">        <span class="attr">"QTime"</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">"status"</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>查询动态field<br><code>GET /collection/schema/dynamicfields</code><br><code>GET /collection/schema/dynamicfields/name</code></li>
+</ul>
+<p>查询参数</p>
+<p><strong>showDefaults</strong> – 默认为false，如果设为true，那么所有缺省属性都会被返回，如果false，那么只会返回显式赋值的属性。</p>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/dynamicfields?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"dynamicFields"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"*_coordinate"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"tdouble"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"ignored_*"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"ignored"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"random_*"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"random"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"attr_*"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"text_general"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"*_txt"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"text_general"</span></div><div class="line">        &#125;</div><div class="line">...</div><div class="line">    ],</div><div class="line">    <span class="attr">"responseHeader"</span>: &#123;</div><div class="line">        <span class="attr">"QTime"</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">"status"</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>列出Copy field<br><code>GET /collection/schema/copyfields</code></li>
+</ul>
+<p>参数：<br>source.fl – 用逗号或空格来隔离出要返回的源字段，不设的话，会返回全部字段。<br>dest.fl – 用逗号或空格来隔离出要返回的目标字段，不设的话，会返回全部字段。</p>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/copyfields?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"copyFields"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"author"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"cat"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"content"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"content_type"</span></div><div class="line">        &#125;,</div><div class="line">...</div><div class="line">    ],</div><div class="line">    <span class="attr">"responseHeader"</span>: &#123;</div><div class="line">        <span class="attr">"QTime"</span>: <span class="number">3</span>,</div><div class="line">        <span class="attr">"status"</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>显示Schema名字<br><code>GET /collection/schema/name</code></li>
+</ul>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/name?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">1</span>&#125;,</div><div class="line">  <span class="attr">"name"</span>:<span class="string">"example"</span>&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>显示schema版本<br><code>GET /collection/schema/version</code></li>
+</ul>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/version?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">2</span>&#125;,</div><div class="line">  <span class="attr">"version"</span>:<span class="number">1.5</span>&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>列出UniqueKey<br><code>GET /collection/schema/uniquekey</code></li>
+</ul>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/uniquekey?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">2</span>&#125;,</div><div class="line">  <span class="attr">"uniqueKey"</span>:<span class="string">"id"</span>&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>显示全局Similarity<br><code>GET /collection/schema/similarity</code></li>
+</ul>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/similarity?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">1</span>&#125;,</div><div class="line">  <span class="attr">"similarity"</span>:&#123;</div><div class="line">    <span class="attr">"class"</span>:<span class="string">"org.apache.solr.search.similarities.DefaultSimilarityFactory"</span>&#125;&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>查询默认查询操作器<br><code>GET /collection/schema/solrqueryparser/defaultoperator</code></li>
+</ul>
+<p><code>curl http://localhost:8983/solr/gettingstarted/schema/solrqueryparser/defaultoperator?wt=json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">2</span>&#125;,</div><div class="line">  <span class="attr">"defaultOperator"</span>:<span class="string">"OR"</span>&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/24/Solr学习笔记：三、使用Solr管理员界面/" itemprop="url">
+                  Solr学习笔记：三、使用Solr管理员界面
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-24T10:14:30+08:00" content="2016-06-24">
+              2016-06-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本节主要介绍的是Solr的管理员界面（Admin UI）使用方法。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Solr提供了一个Web界面，让Solr管理员和程序员更直观的看到Solr的配置，运行查询和分析来微调Solr配置，访问在线文档等等。<br><img src="http://i.imgur.com/E1IjbG0.png" alt=""></p>
+<h2 id="帮助信息"><a href="#帮助信息" class="headerlink" title="帮助信息"></a>帮助信息</h2><p>在页面最下面就可以找到帮助信息栏。</p>
+<p><img src="http://i.imgur.com/jVS9Seh.png" alt=""></p>
+<p>它包括如下链接：</p>
+<ul>
+<li>Documentation ： 定向到Apache Solr的文档地址。<a href="https://lucene.apache.org/solr/。" target="_blank" rel="external">https://lucene.apache.org/solr/。</a></li>
+<li>Issue Tracker ： 定向到Apache Solr项目的JIRA上。<a href="https://issues.apache.org/jira/browse/SOLR。" target="_blank" rel="external">https://issues.apache.org/jira/browse/SOLR。</a></li>
+<li>IRC Channel ： 定向到描述怎么加入Solr IRC聊天室的Apache Wiki上面。<a href="https://wiki.apache.org/solr/IRCChannels。" target="_blank" rel="external">https://wiki.apache.org/solr/IRCChannels。</a></li>
+<li>Community forum ： 定位到描述加入Solr用户协会的email地址列表的Wiki上。</li>
+<li>Solr Query Syntax : 定位到Solr的 “查询语法和解析” 文档章节。</li>
+</ul>
+<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>Logging界面显示了最近的Solr节点日志。<br><img src="http://i.imgur.com/nzYtDIm.png" alt=""></p>
+<p>在Logging下面有一个Level链接，点击后可以看到classpath 和classname的路径。黄色高亮的行说明class是可以打log的。点击高亮的行，会出现让你选择日志等级的菜单。粗体字符表示这个class不会被root日志等级的修改所影响。</p>
+<p><img src="http://i.imgur.com/2pr27kv.png" alt="">    </p>
+<h2 id="Cloud-界面"><a href="#Cloud-界面" class="headerlink" title="Cloud 界面"></a>Cloud 界面</h2><p>Cloud界面显示了不同样式的Cloud的结构图。包含”Tree”, “Graph”, “Graph (Radial)” 和 “Dump”。</p>
+<p><img src="http://i.imgur.com/rzjXfBU.png" alt=""></p>
+<p>上面的Graph显示了包含两个分片和两个备份的“gettingstarted”集群，还包含了一个分片的films集群。</p>
+<p><img src="http://i.imgur.com/qRTXptp.png" alt=""></p>
+<p>Graph (Radial) 以另一种不同的试图展示了上面的集群结构。</p>
+<p><img src="http://i.imgur.com/7JRF8YO.png" alt=""></p>
+<p>Tree 展示的是ZooKeeper上的数据结构目录，包含了 live_nodes 和 overseer 的状态，还有集群特定的信息，比如 state.json ， 当前分片的leader，配置文件等。</p>
+<p>最后的 Dump 选项，可以返回包含所有节点的JSON文档。可以用来导出Solr保存在ZooKeeper上的所有快照数据同时也能够debug SolrCloud 。</p>
+<h2 id="Collections-Core-Admin"><a href="#Collections-Core-Admin" class="headerlink" title="Collections / Core Admin"></a>Collections / Core Admin</h2><p><img src="http://i.imgur.com/WbvOpPF.png" alt=""><br>Collections 界面提供了基本的操作Collections的功能。<br>如果使用的是single模式，则显示的是Core Admin。<br>主页面显示了一个在你集群中的集合列表。点击集合的姓名会显示一些基本的元数据，包括 集合的定义，当前分片和备份，增加和删除单个备份。</p>
+<h2 id="Java-Properties"><a href="#Java-Properties" class="headerlink" title="Java Properties"></a>Java Properties</h2><p><img src="http://i.imgur.com/RkRpv35.png" alt=""><br>Java Properties 界面可以看到Solr JVM的所有参数，比如 classpath ， 文件编码，JVM内存，操作系统等。</p>
+<h2 id="Thread-Dump"><a href="#Thread-Dump" class="headerlink" title="Thread Dump"></a>Thread Dump</h2><p><img src="http://i.imgur.com/dFV9Gll.png" alt=""><br>Thread Dump 界面能让你检查当前活动的线程。每个线程都被列出来并可以查看堆栈状态。左边的图标显示了堆栈状态，例如，每个绿色的对勾图标显示线程在”RUNNABLE”状态。在线程名称右侧，展开向下的箭头可以看到线程的堆栈。</p>
+<p>线程状态</p>
+<ul>
+<li>NEW – 线程还没开始运行。</li>
+<li>RUNNABLE – 线程在JVM中运行。</li>
+<li>BLOCKED – 线程等待锁而阻塞。</li>
+<li>WAITING – 线程无限期等待另一个线程的一个特定操作。</li>
+<li>TIMED_WAITING – 线程在制定的时间等待另一个线程的一个特定操作。</li>
+<li>TERMINATED – 线程结束。</li>
+</ul>
+<h2 id="针对集合的工具"><a href="#针对集合的工具" class="headerlink" title="针对集合的工具"></a>针对集合的工具</h2><p>在左边的菜单中，有一个下拉框，可以选择Core或者Collection，当使用Cloud模式时，可以选择Collection，选择后，会有一个二级菜单出现在下拉框下方。<br><img src="http://i.imgur.com/JTFKXlA.png" alt=""></p>
+<p>主要包含以下几个功能：</p>
+<ul>
+<li>Analysis<br>通过Analysis页面可以根据字段检查数据的处理，字段类型和动态字段配置。可以分析内容将在索引期间或在查询处理期间如何进行处理，并分别或同时查看结果。理想情况下，你会希望内容会被持续处理，那么这个页面可以让你验证字段类型或者字段分析链中的设置。<br><img src="http://i.imgur.com/jiAaW0A.png" alt=""></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/21/DataInputStream中read和readFully方法的区别【转】/" itemprop="url">
+                  DataInputStream中read和readFully方法的区别【转】
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-21T13:38:45+08:00" content="2016-06-21">
+              2016-06-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><p>其实read(byte[] b)方法和readFully(byte []b)都是利用InputStream中read（）方法，每次读取的也是一个字节，只是读取字节数组的方式不同，查询jdk中源代码发现。</p>
+</li>
+<li><p>read(byte[] b)方法实质是读取流上的字节直到流上没有字节为止，如果当声明的字节数组长度大于流上的数据长度时就提前返回，而readFully(byte[] b)方法是读取流上指定长度的字节数组，也就是说如果声明了长度为len的字节数组，readFully(byte[] b)方法只有读取len长度个字节的时候才返回，否则阻塞等待，如果超时，则会抛出异常 EOFException。</p>
+</li>
+<li>那么当发送了长度为len的字节，那么为什么用read方法用户收不全呢，揪其原因我们发现消息在网络中传输是没那么理想的，我们发的那部分字节数组在传送过程中可能在接受信息方的缓存当中或者在传输线路，极端情况下可能在发送方的缓存当中，这样就不在流上，所以read方法提前返回了，这样就造成了各种错误。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

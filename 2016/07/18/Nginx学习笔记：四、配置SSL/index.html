@@ -1,0 +1,601 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nginx," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="通过HTTPS传递Web内容配置一个HTTPS服务建立一个HTTPS的nginx服务器，在nginx.conf中指定服务器的ssl参数与listen指令，然后设置服务器证书和私钥文件的位置:
+x509证书一般会用到三类文，key，csr，crt。
+Key 是私用密钥openssl格，通常是rsa算法。
+Csr 是证书请求文件，用于申请证书。在制作csr文件的时，必须使用自己的私钥来签署申，还可以设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx学习笔记：四、配置SSL">
+<meta property="og:url" content="http://chenpeng89.github.io/2016/07/18/Nginx学习笔记：四、配置SSL/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta property="og:description" content="通过HTTPS传递Web内容配置一个HTTPS服务建立一个HTTPS的nginx服务器，在nginx.conf中指定服务器的ssl参数与listen指令，然后设置服务器证书和私钥文件的位置:
+x509证书一般会用到三类文，key，csr，crt。
+Key 是私用密钥openssl格，通常是rsa算法。
+Csr 是证书请求文件，用于申请证书。在制作csr文件的时，必须使用自己的私钥来签署申，还可以设">
+<meta property="og:updated_time" content="2016-09-20T07:33:48.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx学习笔记：四、配置SSL">
+<meta name="twitter:description" content="通过HTTPS传递Web内容配置一个HTTPS服务建立一个HTTPS的nginx服务器，在nginx.conf中指定服务器的ssl参数与listen指令，然后设置服务器证书和私钥文件的位置:
+x509证书一般会用到三类文，key，csr，crt。
+Key 是私用密钥openssl格，通常是rsa算法。
+Csr 是证书请求文件，用于申请证书。在制作csr文件的时，必须使用自己的私钥来签署申，还可以设">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> Nginx学习笔记：四、配置SSL | ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Nginx学习笔记：四、配置SSL
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-18T09:30:57+08:00" content="2016-07-18">
+              2016-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="通过HTTPS传递Web内容"><a href="#通过HTTPS传递Web内容" class="headerlink" title="通过HTTPS传递Web内容"></a>通过HTTPS传递Web内容</h2><h3 id="配置一个HTTPS服务"><a href="#配置一个HTTPS服务" class="headerlink" title="配置一个HTTPS服务"></a>配置一个HTTPS服务</h3><p>建立一个HTTPS的nginx服务器，在nginx.conf中指定服务器的ssl参数与listen指令，然后设置服务器证书和私钥文件的位置:</p>
+<p>x509证书一般会用到三类文，key，csr，crt。</p>
+<p>Key 是私用密钥openssl格，通常是rsa算法。</p>
+<p>Csr 是证书请求文件，用于申请证书。在制作csr文件的时，必须使用自己的私钥来签署申，还可以设定一个密钥。</p>
+<p>crt是CA认证后的证书文，（windows下面的，其实是crt），签署人用自己的key给你签署的凭证。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen              443 ssl;</div><div class="line">    server_name         www.example.com;</div><div class="line">    ssl_certificate     www.example.com.crt;</div><div class="line">    ssl_certificate_key www.example.com.key;</div><div class="line">    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">    ssl_ciphers         HIGH:!aNULL:!MD5;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>服务器证书是一个公共实体。它被发送到每一个连接到服务器的客户端。私钥是一个安全的实体，并应被存储在与限制访问的文件。然而，Nginx的的master进程必须能够读取该文件。私钥也可以和公钥存储在同一个文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssl_certificate xxx.cert;</div><div class="line">ssl_certificate_key xxx.cert;</div></pre></td></tr></table></figure></p>
+<p>在这种情况下，文件的访问权限也需要被限制。虽然公钥和私钥在一个文件中，但是只有公钥会被发送到客户端。</p>
+<p>ssl_protocols 和 ssl_ciphers 指令可以用来限制连接的版本和SSL/TLS的加密方式。</p>
+<h3 id="https服务优化"><a href="#https服务优化" class="headerlink" title="https服务优化"></a>https服务优化</h3><p>SSL会给CPU带来额外的开销。最耗CPU的是SSL的握手过程。下面有两个方法能够减少每个客户端操作的数量：</p>
+<ul>
+<li>使keepalive连接通过一个连接发送多个请求</li>
+<li>重用SSL会话参数来避免并行和随后的SSL握手连接</li>
+</ul>
+<p>session存储在SSL的 session缓存中，并被worker进程共享，这个可以用ssl_session_cache 配置。1M的cache可以包含大约4000个session。默认情况下，cache的超时时间是5分钟。超时时间可以用 ssl_session_timeout 来设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">worker_processes auto;</div><div class="line"></div><div class="line">http &#123;</div><div class="line">    ssl_session_cache   shared:SSL:10m;</div><div class="line">    ssl_session_timeout 10m;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen              443 ssl;</div><div class="line">        server_name         www.example.com;</div><div class="line">        keepalive_timeout   70;</div><div class="line"></div><div class="line">        ssl_certificate     www.example.com.crt;</div><div class="line">        ssl_certificate_key www.example.com.key;</div><div class="line">        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">        ssl_ciphers         HIGH:!aNULL:!MD5;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="SSL证书链"><a href="#SSL证书链" class="headerlink" title="SSL证书链"></a>SSL证书链</h3><p>一些浏览器会报出证书不是由权威机构颁发的，而其他的浏览器则不会有这个问题。这是由于发行机构的证书不是由权威机构的中级证书签发的。这种情况下，发行机构应该提供一个证书链来和服务器证书绑定。在绑定文件中，公钥证书应该在证书链之前：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cat www.example.com.crt bundle.crt &gt; www.example.com.chained.crt</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen              443 ssl;</div><div class="line">    server_name         www.example.com;</div><div class="line">    ssl_certificate     www.example.com.chained.crt;</div><div class="line">    ssl_certificate_key www.example.com.key;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="基于名称的HTTPS服务"><a href="#基于名称的HTTPS服务" class="headerlink" title="基于名称的HTTPS服务"></a>基于名称的HTTPS服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen          443 ssl;</div><div class="line">    server_name     www.example.com;</div><div class="line">    ssl_certificate www.example.com.crt;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen          443 ssl;</div><div class="line">    server_name     www.example.org;</div><div class="line">    ssl_certificate www.example.org.crt;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>基于IP：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen          192.168.1.1:443 ssl;</div><div class="line">    server_name     www.example.com;</div><div class="line">    ssl_certificate www.example.com.crt;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">server &#123;</div><div class="line">    listen          192.168.1.2:443 ssl;</div><div class="line">    server_name     www.example.org;</div><div class="line">    ssl_certificate www.example.org.crt;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="使用HTTPS建立TCP连接"><a href="#使用HTTPS建立TCP连接" class="headerlink" title="使用HTTPS建立TCP连接"></a>使用HTTPS建立TCP连接</h2><p>nginx负责https的认证等操作，并把数据返回给后端的服务器处理，后端服务器是http服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">stream &#123;</div><div class="line">    upstream stream_backend &#123;</div><div class="line">         server backend1.example.com:12345;</div><div class="line">         server backend2.example.com:12345;</div><div class="line">         server backend3.example.com:12345;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    server &#123;</div><div class="line">        listen                12345 ssl;</div><div class="line">        proxy_pass            stream_backend;</div><div class="line"> </div><div class="line">        ssl_certificate       /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key   /etc/ssl/certs/server.key;</div><div class="line">        ssl_protocols         SSLv3 TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">        ssl_ciphers           HIGH:!aNULL:!MD5;</div><div class="line">        ssl_session_cache     shared:SSL:20m;</div><div class="line">        ssl_session_timeout   4h;</div><div class="line">        ssl_handshake_timeout 30s;</div><div class="line">		ssl_session_tickets on;</div><div class="line">    …</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>session Ticket 是另一种session缓存。session信息存储在客户端，减少了服务端存储session的压力。当客户端恢复与服务端的交互后，它会提供session并且可以不用再进行握手之类的操作。</p>
+<h2 id="为nginx和后端服务器的HTTP连接加密"><a href="#为nginx和后端服务器的HTTP连接加密" class="headerlink" title="为nginx和后端服务器的HTTP连接加密"></a>为nginx和后端服务器的HTTP连接加密</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    upstream backend.example.com &#123;</div><div class="line">        server backend1.example.com:443;</div><div class="line">        server backend2.example.com:443;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      80;</div><div class="line">        server_name www.example.com;</div><div class="line">        ...</div><div class="line"></div><div class="line">        location /upstream &#123;</div><div class="line">            proxy_pass                    https://backend.example.com;</div><div class="line">            proxy_ssl_certificate         /etc/nginx/client.pem;</div><div class="line">            proxy_ssl_certificate_key     /etc/nginx/client.key</div><div class="line">            proxy_ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">            proxy_ssl_ciphers             HIGH:!aNULL:!MD5;</div><div class="line">            proxy_ssl_trusted_certificate /etc/nginx/trusted_ca_cert.crt;</div><div class="line"></div><div class="line">            proxy_ssl_verify        on;</div><div class="line">            proxy_ssl_verify_depth  2;</div><div class="line">            proxy_ssl_session_reuse on;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend1.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend2.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="为nginx和后端服务器的TCP连接加密"><a href="#为nginx和后端服务器的TCP连接加密" class="headerlink" title="为nginx和后端服务器的TCP连接加密"></a>为nginx和后端服务器的TCP连接加密</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    ...</div><div class="line">    upstream backend.example.com &#123;</div><div class="line">        server backend1.example.com:443;</div><div class="line">        server backend2.example.com:443;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      80;</div><div class="line">        server_name www.example.com;</div><div class="line">        ...</div><div class="line"></div><div class="line">        location /upstream &#123;</div><div class="line">            proxy_pass                    https://backend.example.com;</div><div class="line">            proxy_ssl_certificate         /etc/nginx/client.pem;</div><div class="line">            proxy_ssl_certificate_key     /etc/nginx/client.key</div><div class="line">            proxy_ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;</div><div class="line">            proxy_ssl_ciphers             HIGH:!aNULL:!MD5;</div><div class="line">            proxy_ssl_trusted_certificate /etc/nginx/trusted_ca_cert.crt;</div><div class="line"></div><div class="line">            proxy_ssl_verify        on;</div><div class="line">            proxy_ssl_verify_depth  2;</div><div class="line">            proxy_ssl_session_reuse on;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend1.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen      443 ssl;</div><div class="line">        server_name backend2.example.com;</div><div class="line"></div><div class="line">        ssl_certificate        /etc/ssl/certs/server.crt;</div><div class="line">        ssl_certificate_key    /etc/ssl/certs/server.key;</div><div class="line">        ssl_client_certificate /etc/ssl/certs/ca.crt;</div><div class="line">        ssl_verify_client      off;</div><div class="line"></div><div class="line">        location /yourapp &#123;</div><div class="line">            proxy_pass http://url_to_app.com;</div><div class="line">        ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag">#Nginx</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/11/Nginx学习笔记：三、基本功能/" rel="next" title="Nginx学习笔记：三、基本功能">
+                <i class="fa fa-chevron-left"></i> Nginx学习笔记：三、基本功能
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/18/Nginx学习笔记：五、负载均衡/" rel="prev" title="Nginx学习笔记：五、负载均衡">
+                Nginx学习笔记：五、负载均衡 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过HTTPS传递Web内容"><span class="nav-number">1.</span> <span class="nav-text">通过HTTPS传递Web内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置一个HTTPS服务"><span class="nav-number">1.1.</span> <span class="nav-text">配置一个HTTPS服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https服务优化"><span class="nav-number">1.2.</span> <span class="nav-text">https服务优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSL证书链"><span class="nav-number">1.3.</span> <span class="nav-text">SSL证书链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于名称的HTTPS服务"><span class="nav-number">1.4.</span> <span class="nav-text">基于名称的HTTPS服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用HTTPS建立TCP连接"><span class="nav-number">2.</span> <span class="nav-text">使用HTTPS建立TCP连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为nginx和后端服务器的HTTP连接加密"><span class="nav-number">3.</span> <span class="nav-text">为nginx和后端服务器的HTTP连接加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为nginx和后端服务器的TCP连接加密"><span class="nav-number">4.</span> <span class="nav-text">为nginx和后端服务器的TCP连接加密</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

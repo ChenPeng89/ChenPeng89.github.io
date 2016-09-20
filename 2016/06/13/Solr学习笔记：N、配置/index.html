@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Solr," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="目录结构Solr服务在运行时需要访问它的home目录，home目录包含了Solr的重要配置和索引信息。123456789101112131415/solr-6.0.1/server/solr&amp;lt;solr-home-directory&amp;gt;/   solr.xml   core_name1/      core.properties      conf/         solrconfig.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solr学习笔记：N、配置">
+<meta property="og:url" content="http://chenpeng89.github.io/2016/06/13/Solr学习笔记：N、配置/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta property="og:description" content="目录结构Solr服务在运行时需要访问它的home目录，home目录包含了Solr的重要配置和索引信息。123456789101112131415/solr-6.0.1/server/solr&amp;lt;solr-home-directory&amp;gt;/   solr.xml   core_name1/      core.properties      conf/         solrconfig.">
+<meta property="og:updated_time" content="2016-09-20T03:12:17.561Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Solr学习笔记：N、配置">
+<meta name="twitter:description" content="目录结构Solr服务在运行时需要访问它的home目录，home目录包含了Solr的重要配置和索引信息。123456789101112131415/solr-6.0.1/server/solr&amp;lt;solr-home-directory&amp;gt;/   solr.xml   core_name1/      core.properties      conf/         solrconfig.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> Solr学习笔记：N、配置 | ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Solr学习笔记：N、配置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-13T17:37:25+08:00" content="2016-06-13">
+              2016-06-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p>Solr服务在运行时需要访问它的home目录，home目录包含了Solr的重要配置和索引信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">/solr-6.0.1/server/solr</div><div class="line">&lt;solr-home-directory&gt;/</div><div class="line">   solr.xml</div><div class="line">   core_name1/</div><div class="line">      core.properties</div><div class="line">      conf/</div><div class="line">         solrconfig.xml</div><div class="line">         managed-schema</div><div class="line">      data/</div><div class="line">   core_name2/</div><div class="line">      core.properties</div><div class="line">      conf/</div><div class="line">         solrconfig.xml</div><div class="line">         managed-schema</div><div class="line">      data/</div></pre></td></tr></table></figure></p>
+<p>##solr.xml<br>其中，solr.xml包含了Solr服务的配置。<br>你可以在home目录或者zookeeper上找到solr.xml文件，默认情况下，它是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;solr&gt;</div><div class="line"> </div><div class="line">  &lt;solrcloud&gt;</div><div class="line">    &lt;str name=&quot;host&quot;&gt;$&#123;host:&#125;&lt;/str&gt;</div><div class="line">    &lt;int name=&quot;hostPort&quot;&gt;$&#123;jetty.port:8983&#125;&lt;/int&gt;</div><div class="line">    &lt;str name=&quot;hostContext&quot;&gt;$&#123;hostContext:solr&#125;&lt;/str&gt;</div><div class="line">    &lt;int name=&quot;zkClientTimeout&quot;&gt;$&#123;zkClientTimeout:15000&#125;&lt;/int&gt;</div><div class="line">    &lt;bool name=&quot;genericCoreNodeNames&quot;&gt;$&#123;genericCoreNodeNames:true&#125;&lt;/bool&gt;</div><div class="line">  &lt;/solrcloud&gt;</div><div class="line"> </div><div class="line">  &lt;shardHandlerFactory name=&quot;shardHandlerFactory&quot;</div><div class="line">    class=&quot;HttpShardHandlerFactory&quot;&gt;</div><div class="line">    &lt;int name=&quot;socketTimeout&quot;&gt;$&#123;socketTimeout:0&#125;&lt;/int&gt;</div><div class="line">    &lt;int name=&quot;connTimeout&quot;&gt;$&#123;connTimeout:0&#125;&lt;/int&gt;</div><div class="line">  &lt;/shardHandlerFactory&gt;</div><div class="line"> </div><div class="line">&lt;/solr&gt;</div></pre></td></tr></table></figure></p>
+<p>从上面的配置可以看到，默认情况下，solr配置了<solrcloud>，但是这并不意味着solr已经运行在cloud模式下，除非在启动时指定 -DzkHost 或者 -DzkRun ， 否则它会被忽略。</solrcloud></p>
+<p>下面介绍详细参数：</p>
+<ul>
+<li><code>&lt;solr&gt;</code>标签<br><code>&lt;solr&gt;</code>是文件的根标签，下面列出它的子节点</li>
+</ul>
+<ol>
+<li><code>adminHandler</code> – 定义了处理用户请求的Hnadler。如果不设置，则使用默认的CoreAdminHandler，如果要自定义handler，则需要继承CoreAdminHandler。例如：<code>&lt;str name=&quot;adminHandler&quot;&gt;com.myorg.MyAdminHandler&lt;/str&gt;</code>。</li>
+<li><code>collectionsHandler</code> – 同上，用于自定义CollectionsHandler 的实现。</li>
+<li><code>infoHandler</code> – 同上，用于自定义infoHandler的实现。</li>
+<li><code>coreLoadThreads</code> – 指定用来并行加载core的线程数。</li>
+<li><code>coreRootDirectory</code> – 指定core的根目录，默认为SOLR_HOME。</li>
+<li><code>managementPath</code> – 当前没有作用。</li>
+<li><code>sharedLib</code> – 指定一个被所有core共享的lib的目录。这个目录下的所有jar都将被添加到Solr插件搜索的路径中。这个路径是和Solr的顶层容器Solr Home相关的。用户自定义的handler也可以放在此目录下。</li>
+<li><code>shareSchema</code> – 如果这个参数设为 true，那么多个指向同一个Schema资源文件的core将引用同样的 IndexSchema对象。共享IndexSchema对象将使加载core变得更快。如果你要使用这个功能，请确保没有 特定的针对某个core的属性 用在你的Schema文件中。</li>
+<li><code>transientCacheSize</code> – 定义有多少个transient = true 的core能在将最近最少使用的core换成新的core之前加载。</li>
+<li><code>configSetBaseDir</code> – 定义core的configsets存放的目录路径。默认是SOLR_HOME/configsets。</li>
+</ol>
+<ul>
+<li><code>&lt;solrcloud&gt;</code>标签<br>这个标签定义了和SolrCloud相关的几个参数。除非在启动时使用了 -DzkRun 或者 -DzkHost ， 否则这一部分将被忽略。</li>
+</ul>
+<ol>
+<li><code>distribUpdateConnTimeout</code> – 用于设置集群内部更新时潜在的“connTimeout”。</li>
+<li><code>distribUpdateSoTimeout</code> – 用于设置集群内部更新时潜在的“socketTimeout”。</li>
+<li><code>host</code> – Solr用来访问core的hostname。</li>
+<li><code>hostContext</code> – Solr web服务中Servlet的上下文路径。</li>
+<li><code>hostPort</code> – Solr用于访问core的端口号。在默认的solr.xml中，一般设为${jetty.port:8983}，它将使用在Jetty中定义的Solr端口，否则会使用8983。</li>
+<li><code>leaderVoteWait</code> – 当SolrCloud启动时，假设在没有宕机的情况下，每个Solr节点等待所有已知分片的备份时间。</li>
+<li><code>leaderConflictResolveWait</code> – 当试图为一个分片选举一个leader时，这个属性设置了一个备份等待处理冲突的最长时间。临时的状态信息冲突可能发生在轮流的重启动过程中，尤其是当运行监视主机的节点重启的时候。典型地，默认值180000（millis）足够实现冲突的解决。当你的SolrCloud中有成百上千个小的collection的时候，你可能需要增加这个值。</li>
+<li><code>zkClientTimeout</code> – 连接ZooKeeper服务的超时时间。</li>
+<li><code>zkHost</code> – 用来管理Solr集群状态的ZooKeeper的URL。</li>
+<li><code>genericCoreNodeNames</code> – 如果设置为true，节点的名称就不取决于节点的地址，而是一个由Core标识的通用的名字。当不同的机器接管这一服务时，这样的名字会更容易被理解。</li>
+<li><code>zkCredentialsProvider &amp;  zkACLProvider</code> – 当使用 ZooKeeper Access Control 时可选的参数。</li>
+</ol>
+<ul>
+<li><code>&lt;logging&gt;</code>标签</li>
+</ul>
+<ol>
+<li><code>class</code> – 用于实现日志的类。对应的JAR必须能被solr有效使用，可以考虑在solrconfig.xml中使用<lib>指出。</lib></li>
+<li><code>enabled</code> – true/false，是否允许使用日志。</li>
+</ol>
+<ul>
+<li><code>&lt;logging&gt;&lt;watcher&gt;</code>标签</li>
+</ul>
+<ol>
+<li><code>size</code> – 缓存日志的数量。</li>
+<li><code>threshold</code> – 日志等级，高于该等级的日志才能被记录。</li>
+</ol>
+<ul>
+<li><p><code>&lt;shardHandlerFactory&gt;</code>标签<br>指定分片handler。<br><code>&lt;shardHandlerFactory name=&quot;ShardHandlerFactory&quot; class=&quot;qualified.class.name&quot;&gt;</code>。<br>由于是自定义的实现方式，因此，它的子元素是和具体实现相关的。</p>
+</li>
+<li><p>在solr.xml中设置jvm参数<br>Solr支持在solr.xml中替换JVM运行参数，它允许在运行时指定多重配置。具体语法是： ${propertyname[:option default value]}。它允许定义默认的状态，这个状态可以在solr启动时被覆盖。如果没有指定一个默认值，那么这个属性必须在运行时指定，否则在解析solr.xml文件时会产生错误。<br>设置JVM参数一般在启动JVM时使用 -D 标识。这个可以在solr.xml中作为变量使用。<br>例如：在下面展示的solr.xml中，使用“java -DsocketTimeout=1000 -jar start.jar”启动solr会使用1000ms覆盖HttpShardHandlerFactory socket的超时属性，取代原本默认的值“0”——但是，connTimeout选项仍会使用默认呢的值“0”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;solr&gt;</div><div class="line">  &lt;shardHandlerFactory name=&quot;shardHandlerFactory&quot;</div><div class="line">                       class=&quot;HttpShardHandlerFactory&quot;&gt;</div><div class="line">    &lt;int name=&quot;socketTimeout&quot;&gt;$&#123;socketTimeout:0&#125;&lt;/int&gt;</div><div class="line">    &lt;int name=&quot;connTimeout&quot;&gt;$&#123;connTimeout:0&#125;&lt;/int&gt;</div><div class="line">  &lt;/shardHandlerFactory&gt;</div><div class="line">&lt;/solr&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="core-properties"><a href="#core-properties" class="headerlink" title="core.properties"></a>core.properties</h2><p>core.properties文件是一个简单的Java属性文件，其中每一行是一个key=value对，比如：name=core1。注意这里不支持引用。</p>
+<ul>
+<li>core.properties文件位置<br>core的配置文件core.properties一般位于solr.home的子目录下。Solr没有限制core.properties在目录树的深度，也没限制可定义的core数。core可以定义在目录树任何地方，除了已经存在的core目录下。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./cores/core1/core.properties</div><div class="line">./cores/core1/coremore/core5/core.properties</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这个例子中，只有core1是有效的。</p>
+<p>下面的例子是合法的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">./cores/somecores/core1/core.properties</div><div class="line">./cores/somecores/core2/core.properties</div><div class="line">./cores/othercores/core3/core.properties</div><div class="line">./cores/extracores/deepertree/core4/core.properties</div></pre></td></tr></table></figure></p>
+<p>Solr可以分成多个core，每一个core有自己的配置和索引。core可以服务于一个单个应用或者许多个不同的应用，但是他们都被一个统一的管理员界面来管理。Solr支持热部署，即在运行时增加、删除甚至替换core都不用停止或者重启Solr。<br>core.properties文件可以是空的。假设core.properties位于./cores/core目录下，但是是空的，那么，core的名称将为core1，那么core1实例路径为../cores.core1 ， data路径为 ../cores/core1/data。</p>
+<ul>
+<li>配置参数</li>
+</ul>
+<ol>
+<li><code>name</code> – SolrCore的名称，可以在CoreAdminHandler上运行命令时使用它查找SolrCore。</li>
+<li><code>config</code> – 当前core的配置文件名称，默认为 solrconfig.xml。</li>
+<li><code>schema</code> – 当前core的模式文件的名字，默认是schema.xml。</li>
+<li><code>dataDir</code> – 当前core的data目录路径，可以是绝对路径，也可以是相对于 instanceDir 的相对路径。</li>
+<li><code>configSet</code> – 定义configset的名称，可以用它来配置core。</li>
+<li><code>properties</code> – 当前core的properties文件名称，值可以是绝对路径也可以是相对于 instanceDir 的相对路径。</li>
+<li><code>transient</code> – 如果设为true，当Solr达到transientCacheSize上限时，可能会卸载当前core。默认值是false。最近最少被使用的core最先进行卸载。在SolrCloud模式下，不推荐设为true。</li>
+<li><code>loadOnStartup</code> – 如果设为true（默认值），当前core会在solr启动时被加载。在SolrCloud模式下，不推荐设为false。</li>
+<li><code>coreNodeName</code> – 仅应用在SolrCloud模式下，它是coreNode的唯一标识符。默认情况下，它是自动生成的，但是这个属性可以允许你手动分配一个新的core代替已经存在的，使用相同的coreNodeName指定一个新的机器，那么它会取代原有的SolrCore。一般用于更换有故障的机器。</li>
+<li><code>uLogDir</code> – 这个core（SolrCloud）的更新日志的绝对或相对路径。</li>
+<li><code>shard</code> – 指定这个core上的shard。</li>
+<li><code>collection</code> – 这个core所属的collection的名字。</li>
+<li><code>roles</code> – 一个未来将会用于SolrCloud的参数，或者用户用来标记在自己使用的节点的方法。</li>
+</ol>
+<h2 id="solrconfig-xml"><a href="#solrconfig-xml" class="headerlink" title="solrconfig.xml"></a>solrconfig.xml</h2><p>solrconfig.xml是Solr中参数最多的配置文件。当配置Solr时，你通常要使用solrconfig.xml来配置，不管是直接使用solrconfig.xml还是通过ConfigAPI创建Configuration Overlays来覆盖solrconfig.xml中的配置。</p>
+<p>在solrconfig.xml中，可以配置以下几个重要的属性：</p>
+<ol>
+<li>request handlers ， 用于在Solr中处理请求，例如：向索引中添加文档或者为请求返回查询结果。</li>
+<li>liseners ，用于监听特定查询事件。listener能用做为触发器，比如，使用cache来处理常见查询。</li>
+<li>Request Dispatcher，用于处理HTTP请求。</li>
+<li>Admin Web 界面。</li>
+<li>和复制备份相关的参数。</li>
+</ol>
+<p>solrconfig.xml文件位于每个collection的conf/目录下。Solr也提供了一些带有注释且包含多种实用配置的案例，可以在server/solr/configsets/ 找到。</p>
+<ul>
+<li><p>设置DataDir<br>指定data的目录，可以是绝对路径也可以是针对instance的相对路径。<br><code>&lt;dataDir&gt;/var/data/solr/&lt;/dataDir&gt;</code></p>
+</li>
+<li><p>设置索引的DirectoryFactory<br>默认情况下，solr.StandardDirectoryFactory是基于当前文件系统的，它会选择出当前JVM和平台最好的实现。你可以强制指定 solr.MMapDirectoryFactory, solr.NIOFSDirectoryFactory, 或者 solr.SimpleFSDirectoryFactory作为实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;directoryFactory name=&quot;DirectoryFactory&quot;</div><div class="line">                  class=&quot;$&#123;solr.directoryFactory:solr.StandardDirectoryFactory&#125;&quot;/&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>solr.RAMDirectoryFactory是基于内存的，因此是不能持久化的，而且不能复制。使用这个DirectoryFactory将索引储存在RAM中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;directoryFactory class=&quot;org.apache.solr.core.RAMDirectoryFactory&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>lib目录<br>solrconfig.xml可以用lib标签来加载插件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;lib dir=&quot;../../../contrib/extraction/lib&quot; regex=&quot;.*\.jar&quot; /&gt;</div><div class="line">&lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-cell-\d.*\.jar&quot; /&gt;</div><div class="line"> </div><div class="line">&lt;lib dir=&quot;../../../contrib/clustering/lib/&quot; regex=&quot;.*\.jar&quot; /&gt;</div><div class="line">&lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-clustering-\d.*\.jar&quot; /&gt;</div><div class="line"> </div><div class="line">&lt;lib dir=&quot;../../../contrib/langid/lib/&quot; regex=&quot;.*\.jar&quot; /&gt;</div><div class="line">&lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-langid-\d.*\.jar&quot; /&gt;</div><div class="line"> </div><div class="line">&lt;lib dir=&quot;../../../contrib/velocity/lib&quot; regex=&quot;.*\.jar&quot; /&gt;</div><div class="line">&lt;lib dir=&quot;../../../dist/&quot; regex=&quot;solr-velocity-\d.*\.jar&quot; /&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Schema Factory<br>Solr的Schema API允许远程客户端通过REST风格的接口访问和修改Schema信息。<br>Solr API的”read”功能能支持所有Schema类型，而使用程序修改Schema则需要依靠<code>&lt;schemaFactory&gt;</code>。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- An example of Solr&apos;s implicit default behavior if no</div><div class="line">     no schemaFactory is explicitly defined.</div><div class="line">--&gt;</div><div class="line"> &lt;schemaFactory class=&quot;ManagedIndexSchemaFactory&quot;&gt;</div><div class="line">   &lt;bool name=&quot;mutable&quot;&gt;true&lt;/bool&gt;</div><div class="line">   &lt;str name=&quot;managedSchemaResourceName&quot;&gt;managed-schema&lt;/str&gt;</div><div class="line"> &lt;/schemaFactory&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li><code>mutable</code> – 控制是否能改变Schema中的数据。当允许使用Schema API修改数据时，必须设为true。</li>
+<li><code>managedSchemaResourceName</code> – 是一个可选的参数，默认为“managed-schema” ， 用来设置schema文件的名称，不可以设置为“schema.xml”。</li>
+</ol>
+<p>以上的是默认设置，你可以使用Schema API修改schema，然后将mutable设为false，这样，就可以锁上schema并且保护修改。</p>
+<ul>
+<li>Classic schema.xml<br>为使用托管模式的另一种方法是显式配置ClassicIndexSchemaFactory。ClassicIndexSchemaFactory需要使用schema.xml的配置，并且在运行时不允许程序修改Schema。schema.xml必须手动修改并且仅当Solr集合加载时加载。<br><code>&lt;schemaFactory class=&quot;ClassicIndexSchemaFactory&quot;/&gt;</code></li>
+</ul>
+<p><strong>将schema.xml转换为Managed Schema</strong><br>如果你当前的Solr集合使用ClassicIndexSchemaFactory，</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Solr/" rel="tag">#Solr</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/13/Solr学习笔记：一、入门/" rel="next" title="Solr学习笔记：一、入门">
+                <i class="fa fa-chevron-left"></i> Solr学习笔记：一、入门
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/21/DataInputStream中read和readFully方法的区别【转】/" rel="prev" title="DataInputStream中read和readFully方法的区别【转】">
+                DataInputStream中read和readFully方法的区别【转】 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录结构"><span class="nav-number">1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#core-properties"><span class="nav-number">2.</span> <span class="nav-text">core.properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solrconfig-xml"><span class="nav-number">3.</span> <span class="nav-text">solrconfig.xml</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
