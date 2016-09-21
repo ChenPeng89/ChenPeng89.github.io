@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="简介Elasticsearch是一个分布式的开源的全文分析搜索引擎，它基于Lucene，提供一个接近实时的搜索。
+基本概念Near Realtine(NRT)Es是一个接近实时的搜索平台。这意味着，当你index一个文档到能搜索到它，需要花费一些很少的时间（通常是一秒）。
+Clustercluster是一个由一个或多个服务节点组成的集合，它包含了你所有的数据并提供了对所有节点的索引和搜索。一个cl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch学习笔记：一、入门">
+<meta property="og:url" content="http://chenpeng89.github.io/2016/09/21/Elasticsearch学习笔记：一、入门/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta property="og:description" content="简介Elasticsearch是一个分布式的开源的全文分析搜索引擎，它基于Lucene，提供一个接近实时的搜索。
+基本概念Near Realtine(NRT)Es是一个接近实时的搜索平台。这意味着，当你index一个文档到能搜索到它，需要花费一些很少的时间（通常是一秒）。
+Clustercluster是一个由一个或多个服务节点组成的集合，它包含了你所有的数据并提供了对所有节点的索引和搜索。一个cl">
+<meta property="og:updated_time" content="2016-09-21T10:11:38.811Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch学习笔记：一、入门">
+<meta name="twitter:description" content="简介Elasticsearch是一个分布式的开源的全文分析搜索引擎，它基于Lucene，提供一个接近实时的搜索。
+基本概念Near Realtine(NRT)Es是一个接近实时的搜索平台。这意味着，当你index一个文档到能搜索到它，需要花费一些很少的时间（通常是一秒）。
+Clustercluster是一个由一个或多个服务节点组成的集合，它包含了你所有的数据并提供了对所有节点的索引和搜索。一个cl">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> Elasticsearch学习笔记：一、入门 | ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elasticsearch学习笔记：一、入门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-21T11:59:46+08:00" content="2016-09-21">
+              2016-09-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Elasticsearch是一个分布式的开源的全文分析搜索引擎，它基于Lucene，提供一个接近实时的搜索。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="Near-Realtine-NRT"><a href="#Near-Realtine-NRT" class="headerlink" title="Near Realtine(NRT)"></a>Near Realtine(NRT)</h3><p>Es是一个接近实时的搜索平台。这意味着，当你index一个文档到能搜索到它，需要花费一些很少的时间（通常是一秒）。</p>
+<h3 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h3><p>cluster是一个由一个或多个服务节点组成的集合，它包含了你所有的数据并提供了对所有节点的索引和搜索。一个cluster会被一个名称唯一标识，默认名称是“elasticsearch”。这个名字非常重要，因为节点会通过集群的名字来确定加入的集群。</p>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><p>一个节点是你cluster中一个独立的服务，存储数据，组成cluster的index，提供搜索的能力。在一个cluster中，它的节点会被节点名称唯一标识，默认是一个随机的Marvel人物的名称。节点名称对于管理节点是非常重要的。<br>一个节点可以cluster名称来决定参加哪个cluster。默认情况下，在你网络中又多个节点，并且它们可以互相连通，那么它们会自动组成并加入一个名字为”elasticsearch”的cluster。<br>在一个cluster中，如果只有一个节点，那么它会自动形成一个名叫“elasticsearch”的单节点cluster。</p>
+<h3 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h3><p>index是有相同特征的文档的集合。例如，你可以有一个用户数据的index，或者产品目录的index。一个index被一个名称表示，名称必须是小写字母，这个名称可以用来对文档执行索引、创建，搜索，更新和删除等操作。</p>
+<h3 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h3><p>在index中，你可以定义一个或多个type。type是一个逻辑类别还是index的一部分，这些都取决于你的定义。一般来说，一个type是具有相同field的文档。例如，我们假设你运行一个blog平台，并且存储所有的数据在一个单独的index中。在这个index中，你可能会定义一个type为user数据，另一个type为blog数据，还有其它type为评论数据等等。</p>
+<h3 id="Document"><a href="#Document" class="headerlink" title="Document"></a>Document</h3><p>document是被索引的基本数据单位。例如，你可能有一个文档是针对单个用户，另一个文档是某个商品等。document用JSON来存储。<br>在index/type类型中，你可以存储很多document。</p>
+<h3 id="Shards-amp-Replicas"><a href="#Shards-amp-Replicas" class="headerlink" title="Shards &amp; Replicas"></a>Shards &amp; Replicas</h3><p>一个index能够存储非常大量的数据，有时可能会超过单个节点硬件的限制。例如。一个index存储一超过1TB的数据，这对于单个节点有可能是负担不起的。为了解决这个问题，es可以讲index分片到不同的shards中。当你创建一个index，你可以定义你想要的shards数量。每一个shard对于自己来说都是一个拥有所有功能并且有独立的index，可以被放到任何node上。<br>分片有两个重要的优势：</p>
+<ul>
+<li>它允许你水平 分割/扩展 你的内容。</li>
+<li>它允许你并行处理不同分片上的数据来提高效率。 为了保证高可用性，可以为每个分片节点设置备份节点。</li>
+</ul>
+<p>对于如何进行分片以及进行聚合操作时文档是怎样merge的，es都自动管理了，并且对用户是透明的。</p>
+<p>在网络环境中，当某个服务失效了，failover机制是非常有效的高可用保障。es也提供了对于index分片的复制。<br>复制机制有两个重要特点：</p>
+<ul>
+<li>它提供了高可用性以防一个shard/node失效。值得注意的是，一个shard复制不要和它本身放在同一个节点。</li>
+<li>它通过对所有复制shard的并行搜索来提高你系统的吞吐量。</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>es运行环境需要jdk1.7及以上，下载jdk直接去oracle官网下。然后<a href="http://www.elastic.co/downloads" target="_blank" rel="external">下载es </a>。<br>解压后，启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ elasticsearch-2.4.0/bin/elasticsearch</div></pre></td></tr></table></figure></p>
+<p>之前提到过，我们可以覆盖cluster和node名称：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./elasticsearch --cluster.name my_cluster_name --node.name my_node_name</div></pre></td></tr></table></figure></p>
+<h2 id="探索集群和Index"><a href="#探索集群和Index" class="headerlink" title="探索集群和Index"></a>探索集群和Index</h2><p>现在我们已经让节点和集群运行起来了，下一步怎么和es进行沟通交流呢？幸运的是，es提供了一个非常好用的restAPI。通过api我们可以做这些事情：</p>
+<ul>
+<li>检查集群，节点和index的健康状况，状态和统计数据。</li>
+<li>管理集群、节点和index的数据和元数据。</li>
+<li>执行CRUD和一些针对index的搜索操作。</li>
+<li>执行高级的搜索操作，例如分页，排序，过滤，脚本，聚合以及其他。</li>
+</ul>
+<h3 id="集群的健康监测"><a href="#集群的健康监测" class="headerlink" title="集群的健康监测"></a>集群的健康监测</h3><p>接下来，我们对集群进行一个基本的简单的健康监测。前文提到了，因为es通过restAPI来进行操作，所以可以使用curl或者postman等。<br>检测cluster的健康状况，我们可以使用_cat API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl &apos;localhost:9200/_cat/health?v&apos;</div></pre></td></tr></table></figure></p>
+<p>返回的结果是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">epoch      timestamp cluster       status node.total node.data shards pri relo init unassign</div><div class="line">1394735289 14:28:09  elasticsearch green           1         1      0   0    0    0        0</div></pre></td></tr></table></figure></p>
+<p>其中status显示了当前的健康状况。<br>status的定义如下： </p>
+<ul>
+<li>green ： everything is ok。 </li>
+<li>yellow： 所有数据可用，但是一些备份节点的数据尚未被分配。 </li>
+<li>red ： 一些数据不可用。</li>
+</ul>
+<p>还可以查看节点的状况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl &apos;localhost:9200/_cat/nodes?v&apos;</div></pre></td></tr></table></figure></p>
+<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">host         ip        heap.percent ram.percent load node.role master name</div><div class="line">mwubuntu1    127.0.1.1            8           4 0.00 d         *      New Goblin</div></pre></td></tr></table></figure></p>
+<h3 id="查询所有的index"><a href="#查询所有的index" class="headerlink" title="查询所有的index"></a>查询所有的index</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl &apos;localhost:9200/_cat/indices?v&apos;</div></pre></td></tr></table></figure>
+<p>返回为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">health status index   pri rep docs.count docs.deleted store.size pri.store.size </div><div class="line">yellow open   secilog   5   1          1            0      4.2kb          4.2kb </div><div class="line">green  open   twitter   1   0          2            0      7.2kb          7.2kb</div></pre></td></tr></table></figure></p>
+<p>上面显示了，我有两个index，一个secilog，还有一个twitter，当然，这些都是我后来自己建的，新安装的es是没有的，它会返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">health index pri rep docs.count docs.deleted store.size pri.store.size</div></pre></td></tr></table></figure></p>
+<h3 id="创建一个Index"><a href="#创建一个Index" class="headerlink" title="创建一个Index"></a>创建一个Index</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;localhost:9200/customer?pretty&apos;</div></pre></td></tr></table></figure>
+<p>返回：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"acknowledged"</span>: <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>查看索引：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl &apos;localhost:9200/_cat/indices?v&apos;</div><div class="line">health index    pri rep docs.count docs.deleted store.size pri.store.size</div><div class="line">yellow customer   5   1          0            0       495b           495b</div></pre></td></tr></table></figure></p>
+<p>这里status是yellow，是因为默认情况下，es默认会为每一个shards创建一个replica，但是由于目前我们只是一个单节点的，所以replica没有地方进行分配，所以就是yellow了。</p>
+<h3 id="索引并查询一个文档"><a href="#索引并查询一个文档" class="headerlink" title="索引并查询一个文档"></a>索引并查询一个文档</h3><p>下面我们放一些数据到刚才定义的index中。还记得之前提到过的type么，我们必须为文档指定type。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;localhost:9200/customer/external/1?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;John Doe&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;_index&quot;: &quot;customer&quot;,</div><div class="line">  &quot;_type&quot;: &quot;external&quot;,</div><div class="line">  &quot;_id&quot;: &quot;1&quot;,</div><div class="line">  &quot;_version&quot;: 1,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 2,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;created&quot;: true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面显示创建成功了。不过，值得注意的是，如果上面的customer之前不存在，那么es会自动创建一个名为customer的index。</p>
+<p>然后我们就可以搜索到了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XGET &apos;localhost:9200/customer/external/1?pretty&apos;</div></pre></td></tr></table></figure></p>
+<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;_index&quot; : &quot;customer&quot;,</div><div class="line">  &quot;_type&quot; : &quot;external&quot;,</div><div class="line">  &quot;_id&quot; : &quot;1&quot;,</div><div class="line">  &quot;_version&quot; : 1,</div><div class="line">  &quot;found&quot; : true,</div><div class="line">  &quot;_source&quot; : &#123;</div><div class="line">    &quot;name&quot; : &quot;John Doe&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="删除一个Index"><a href="#删除一个Index" class="headerlink" title="删除一个Index"></a>删除一个Index</h3><p>现在我们可以删除刚刚创建的index：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XDELETE &apos;localhost:9200/customer?pretty&apos;</div></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;acknowledged&quot;: true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>根据上面的操作，不难看出，es针对index的操作一般遵循这个格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -X&lt;REST Verb&gt; &lt;Node&gt;:&lt;Port&gt;/&lt;Index&gt;/&lt;Type&gt;/&lt;ID&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h2><p>es提供对于数据的修改以及接近实时的搜索功能。在你index/update/delete数据后，到你可以搜索到这些改变，一般需要1秒钟的延迟。这对于其他平台比如SQL来说，是一个非常大的区别。</p>
+<h3 id="创建-替换索引文档"><a href="#创建-替换索引文档" class="headerlink" title="创建/替换索引文档"></a>创建/替换索引文档</h3><p>之前我们已经看到了如何对一个文档进行索引，让我们回顾一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;localhost:9200/customer/external/1?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;John Doe&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>接着，上面的操作会为customer创建一个文档，type是external，id是1.如果我们执行同样的操作但是使用不同的数据，es会覆盖之前已经存在的数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;localhost:9200/customer/external/1?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;Jane Doe&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>如果我们不指定ID，es会为自动生成一个id并用它来索引文档。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/external?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;Jane Doe&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;_index&quot;: &quot;customer&quot;,</div><div class="line">  &quot;_type&quot;: &quot;external&quot;,</div><div class="line">  &quot;_id&quot;: &quot;AVdLq7nyMju-ZsxkZnGp&quot;,</div><div class="line">  &quot;_version&quot;: 1,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 2,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;created&quot;: true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<font color="red"><strong>值得注意的是，在不指定ID时，我们应该使用的是POST请求。</strong></font>
+
+<h3 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h3><p>为了创建/替换索引文档，我们还可以更新文档的内容。但是，es并不进行就地的更新。当我们执行一个update，es会删除旧的文档然后在桶中索引一个新的文档。</p>
+<p>接下来更新之前的id=1的文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/external/1/_update?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;doc&quot;: &#123; &quot;name&quot;: &quot;Jane Doe&quot;, &quot;age&quot;: 20 &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>也可以使用script来进行更新：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/external/1/_update?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;script&quot; : &quot;ctx._source.age += 5&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>有时可能会返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;error&quot;: &#123;</div><div class="line">    &quot;root_cause&quot;: [</div><div class="line">      &#123;</div><div class="line">        &quot;type&quot;: &quot;remote_transport_exception&quot;,</div><div class="line">        &quot;reason&quot;: &quot;[Witchfire][127.0.0.1:9300][indices:data/write/update[s]]&quot;</div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">    &quot;type&quot;: &quot;illegal_argument_exception&quot;,</div><div class="line">    &quot;reason&quot;: &quot;failed to execute script&quot;,</div><div class="line">    &quot;caused_by&quot;: &#123;</div><div class="line">      &quot;type&quot;: &quot;script_exception&quot;,</div><div class="line">      &quot;reason&quot;: &quot;scripts of type [inline], operation [update] and lang [groovy] are disabled&quot;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  &quot;status&quot;: 400</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是由于es基于安全考虑，将脚本功能禁用了，可以在config/elasticsearch.yml文件添加以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">script.inline: on</div><div class="line">script.indexed: on</div><div class="line">script.file: on</div></pre></td></tr></table></figure></p>
+<p>配置后，重启Elasticsearch。</p>
+<p>再执行上面的操作，就可以了。</p>
+<h3 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XDELETE &apos;localhost:9200/customer/external/2?pretty&apos;</div></pre></td></tr></table></figure>
+<h3 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h3><p>es对于index/uodate/delete等操作也可以进行批量处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/external/_bulk?pretty&apos; -d &apos;</div><div class="line">&#123;&quot;index&quot;:&#123;&quot;_id&quot;:&quot;1&quot;&#125;&#125;</div><div class="line">&#123;&quot;name&quot;: &quot;John Doe&quot; &#125;</div><div class="line">&#123;&quot;index&quot;:&#123;&quot;_id&quot;:&quot;2&quot;&#125;&#125;</div><div class="line">&#123;&quot;name&quot;: &quot;Jane Doe&quot; &#125;</div><div class="line">&apos;</div></pre></td></tr></table></figure></p>
+<p>也可以：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/external/_bulk?pretty&apos; -d &apos;</div><div class="line">&#123;&quot;update&quot;:&#123;&quot;_id&quot;:&quot;1&quot;&#125;&#125;</div><div class="line">&#123;&quot;doc&quot;: &#123; &quot;name&quot;: &quot;John Doe becomes Jane Doe&quot; &#125; &#125;</div><div class="line">&#123;&quot;delete&quot;:&#123;&quot;_id&quot;:&quot;2&quot;&#125;&#125;</div><div class="line">&apos;</div></pre></td></tr></table></figure></p>
+<p>bulkAPI 会按顺序执行请求。如果某个请求失败了，不管是什么原因，它都会继续执行接下来的请求。当返回结果时，它会告诉你哪些成功哪些失败。</p>
+<h2 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h2><h3 id="Search-API"><a href="#Search-API" class="headerlink" title="Search API"></a>Search API</h3><p>下面我们来进行一些简单的查询操作。es提供了两种基本的查询方式：</p>
+<ul>
+<li>REST request URI</li>
+<li>REST request body</li>
+</ul>
+<p>顾名思义，request body就是在请求体中添加参数，而URI则是在 URI中写明参数。<br>下面，用URI方式进行查询请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl &apos;localhost:9200/customer/_search?q=*&amp;pretty&apos;</div></pre></td></tr></table></figure></p>
+<p>来分析一下查询请求，我们使用了_search 在customer index中，q=*说明了es要查询index中所有的文档。preety参数说明返回结果打印的时候打印一个规范的json格式。</p>
+<p>返回结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;took&quot;: 109,</div><div class="line">  &quot;timed_out&quot;: false,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 5,</div><div class="line">    &quot;successful&quot;: 5,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot;: &#123;</div><div class="line">    &quot;total&quot;: 3,</div><div class="line">    &quot;max_score&quot;: 1,</div><div class="line">    &quot;hits&quot;: [</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot;: &quot;customer&quot;,</div><div class="line">        &quot;_type&quot;: &quot;external&quot;,</div><div class="line">        &quot;_id&quot;: &quot;2&quot;,</div><div class="line">        &quot;_score&quot;: 1,</div><div class="line">        &quot;_source&quot;: &#123;</div><div class="line">          &quot;name&quot;: &quot;Jane Doe&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot;: &quot;customer&quot;,</div><div class="line">        &quot;_type&quot;: &quot;external&quot;,</div><div class="line">        &quot;_id&quot;: &quot;AVdLq7nyMju-ZsxkZnGp&quot;,</div><div class="line">        &quot;_score&quot;: 1,</div><div class="line">        &quot;_source&quot;: &#123;</div><div class="line">          &quot;name&quot;: &quot;Jane Doe&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot;: &quot;customer&quot;,</div><div class="line">        &quot;_type&quot;: &quot;external&quot;,</div><div class="line">        &quot;_id&quot;: &quot;1&quot;,</div><div class="line">        &quot;_score&quot;: 1,</div><div class="line">        &quot;_source&quot;: &#123;</div><div class="line">          &quot;name&quot;: &quot;John Doe becomes Jane Doe&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>针对返回结果，我们可以看到这些部分：</p>
+<ul>
+<li>took - es用于执行查询所用的时间，单位为毫秒。</li>
+<li>time_out - 告诉我们查询是否超时了。</li>
+<li>_shards - 告诉我们以供查询了多少shards，以及它们成功与否。</li>
+<li>hits - 查询的命中结果。</li>
+<li>hits.total - 符合我们查询规则的文档总数。</li>
+<li>hits.hits - 查询结果数组，默认为前10个文档。</li>
+<li>_score和max_score - 先忽略它们。</li>
+</ul>
+<p>使用request body查询方式来达到相同的效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/bank/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123; &quot;match_all&quot;: &#123;&#125; &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>非常重要的一点，一旦你的搜索结果返回了，那么，es不会保留任何的服务端资源或者在你结果集上的游标。这和其他的平台形成了鲜明的对比，比如SQL，你可能在一开始只是获取到你查询结果的子集，之后还需要向服务器使用某些服务端有状态的游标来抓取剩下的结果集。</p>
+<h3 id="执行查询"><a href="#执行查询" class="headerlink" title="执行查询"></a>执行查询</h3><p>首先，我们来看一下返回的文档字段。默认情况下，会返回文档的所有字段，我们可以指定返回的字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123; &quot;match_all&quot;: &#123;&#125; &#125;,</div><div class="line">  &quot;_source&quot;: [&quot;name&quot;]</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>接下来，我们看一下query部分，之前，我们都是使用的match_all，会返回所有的文档。下面我们加一些限制条件，查询name包含Jane 或者 Doe的文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d&apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123; &quot;match&quot;: &#123;&quot;name&quot; : &quot;Jane Doe&quot;&#125; &#125;,</div><div class="line">  &quot;_source&quot;: [&quot;name&quot;]</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>查询name同时包含“Jane Doe”短语的文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d&apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123; &quot;match_phrase&quot;: &#123;&quot;name&quot; : &quot;Jane Doe&quot;&#125; &#125;,</div><div class="line">  &quot;_source&quot;: [&quot;name&quot;]</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>下面是布尔类型的query，表示and：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123;</div><div class="line">    &quot;bool&quot;: &#123;</div><div class="line">      &quot;must&quot;: [</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Jane&quot; &#125; &#125;,</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Doe&quot; &#125; &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>表示OR：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123;</div><div class="line">    &quot;bool&quot;: &#123;</div><div class="line">      &quot;should&quot;: [</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Jane&quot; &#125; &#125;,</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Doe&quot; &#125; &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>表示都为false:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123;</div><div class="line">    &quot;bool&quot;: &#123;</div><div class="line">      &quot;must_not&quot;: [</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Jane&quot; &#125; &#125;,</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Doe&quot; &#125; &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>也可以自由组合：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123;</div><div class="line">    &quot;bool&quot;: &#123;</div><div class="line">      &quot;must&quot;: [</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Jane&quot; &#125; &#125;</div><div class="line">      ],</div><div class="line">	  &quot;must_not&quot;: [</div><div class="line">        &#123; &quot;match&quot;: &#123; &quot;name&quot;: &quot;Doe&quot; &#125; &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="使用过滤器"><a href="#使用过滤器" class="headerlink" title="使用过滤器"></a>使用过滤器</h3><p>之前提到的score是一个数字，它用来评价当前返回的文档和我们需要的文档的匹配程度。分数越高的匹配程度越好。<br>但是查询并不是总需要产生score，尤其是它们只是用来过滤文档的时候。es能够自动的优化查询并不计算这些无用的score。<br>上文中的bool query也支持filter语句。filter语句可以在不改变score的情况下使用查询语句来限定文档。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123;</div><div class="line">    &quot;bool&quot;: &#123;</div><div class="line">      &quot;must&quot;: &#123; &quot;match_all&quot;: &#123;&#125; &#125;,</div><div class="line">      &quot;filter&quot;: &#123;</div><div class="line">        &quot;range&quot;: &#123;</div><div class="line">          &quot;age&quot;: &#123;</div><div class="line">            &quot;gte&quot;: 20000,</div><div class="line">            &quot;lte&quot;: 30000</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>由此可知，有的时候我们不需要关注score，那么久可以用filter来进行查询过滤，因为filter不会去计算score，那么它的效率相应会更高一些。</p>
+<h3 id="执行聚合"><a href="#执行聚合" class="headerlink" title="执行聚合"></a>执行聚合</h3><p>聚合可以对数据进行分组并对分组进行数据统计。类似于SQL中的group by。在es中，可以一次性返回查询结果和局和结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/customer/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;size&quot;: 0,</div><div class="line">  &quot;aggs&quot;: &#123;</div><div class="line">    &quot;group_by_name&quot;: &#123;</div><div class="line">      &quot;terms&quot;: &#123;</div><div class="line">        &quot;field&quot;: &quot;name&quot;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>返回结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;took&quot;: 159,</div><div class="line">  &quot;timed_out&quot;: false,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 5,</div><div class="line">    &quot;successful&quot;: 5,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot;: &#123;</div><div class="line">    &quot;total&quot;: 3,</div><div class="line">    &quot;max_score&quot;: 0,</div><div class="line">    &quot;hits&quot;: []</div><div class="line">  &#125;,</div><div class="line">  &quot;aggregations&quot;: &#123;</div><div class="line">    &quot;group_by_state&quot;: &#123;</div><div class="line">      &quot;doc_count_error_upper_bound&quot;: 0,</div><div class="line">      &quot;sum_other_doc_count&quot;: 0,</div><div class="line">      &quot;buckets&quot;: [</div><div class="line">        &#123;</div><div class="line">          &quot;key&quot;: &quot;doe&quot;,</div><div class="line">          &quot;doc_count&quot;: 3</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          &quot;key&quot;: &quot;jane&quot;,</div><div class="line">          &quot;doc_count&quot;: 3</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          &quot;key&quot;: &quot;becomes&quot;,</div><div class="line">          &quot;doc_count&quot;: 1</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          &quot;key&quot;: &quot;john&quot;,</div><div class="line">          &quot;doc_count&quot;: 1</div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>比如按官网上的例子，统计不同银行账户下的平均余额：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/bank/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;size&quot;: 0,</div><div class="line">  &quot;aggs&quot;: &#123;</div><div class="line">    &quot;group_by_state&quot;: &#123;</div><div class="line">      &quot;terms&quot;: &#123;</div><div class="line">        &quot;field&quot;: &quot;state&quot;,</div><div class="line">        &quot;order&quot;: &#123;</div><div class="line">          &quot;average_balance&quot;: &quot;desc&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &quot;aggs&quot;: &#123;</div><div class="line">        &quot;average_balance&quot;: &#123;</div><div class="line">          &quot;avg&quot;: &#123;</div><div class="line">            &quot;field&quot;: &quot;balance&quot;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>或者对聚合进行嵌套，先按年龄范围分组，再统计不同性别的账户平均余额：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">curl -XPOST &apos;localhost:9200/bank/_search?pretty&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">  &quot;size&quot;: 0,</div><div class="line">  &quot;aggs&quot;: &#123;</div><div class="line">    &quot;group_by_age&quot;: &#123;</div><div class="line">      &quot;range&quot;: &#123;</div><div class="line">        &quot;field&quot;: &quot;age&quot;,</div><div class="line">        &quot;ranges&quot;: [</div><div class="line">          &#123;</div><div class="line">            &quot;from&quot;: 20,</div><div class="line">            &quot;to&quot;: 30</div><div class="line">          &#125;,</div><div class="line">          &#123;</div><div class="line">            &quot;from&quot;: 30,</div><div class="line">            &quot;to&quot;: 40</div><div class="line">          &#125;,</div><div class="line">          &#123;</div><div class="line">            &quot;from&quot;: 40,</div><div class="line">            &quot;to&quot;: 50</div><div class="line">          &#125;</div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line">      &quot;aggs&quot;: &#123;</div><div class="line">        &quot;group_by_gender&quot;: &#123;</div><div class="line">          &quot;terms&quot;: &#123;</div><div class="line">            &quot;field&quot;: &quot;gender&quot;</div><div class="line">          &#125;,</div><div class="line">          &quot;aggs&quot;: &#123;</div><div class="line">            &quot;average_balance&quot;: &#123;</div><div class="line">              &quot;avg&quot;: &#123;</div><div class="line">                &quot;field&quot;: &quot;balance&quot;</div><div class="line">              &#125;</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag">#Elasticsearch</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/21/Nginx学习笔记：六、访问限制/" rel="next" title="Nginx学习笔记：六、访问限制">
+                <i class="fa fa-chevron-left"></i> Nginx学习笔记：六、访问限制
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Near-Realtine-NRT"><span class="nav-number">2.1.</span> <span class="nav-text">Near Realtine(NRT)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster"><span class="nav-number">2.2.</span> <span class="nav-text">Cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Node"><span class="nav-number">2.3.</span> <span class="nav-text">Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Index"><span class="nav-number">2.4.</span> <span class="nav-text">Index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Type"><span class="nav-number">2.5.</span> <span class="nav-text">Type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Document"><span class="nav-number">2.6.</span> <span class="nav-text">Document</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shards-amp-Replicas"><span class="nav-number">2.7.</span> <span class="nav-text">Shards & Replicas</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#探索集群和Index"><span class="nav-number">4.</span> <span class="nav-text">探索集群和Index</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集群的健康监测"><span class="nav-number">4.1.</span> <span class="nav-text">集群的健康监测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询所有的index"><span class="nav-number">4.2.</span> <span class="nav-text">查询所有的index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个Index"><span class="nav-number">4.3.</span> <span class="nav-text">创建一个Index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引并查询一个文档"><span class="nav-number">4.4.</span> <span class="nav-text">索引并查询一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除一个Index"><span class="nav-number">4.5.</span> <span class="nav-text">删除一个Index</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改数据"><span class="nav-number">5.</span> <span class="nav-text">修改数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-替换索引文档"><span class="nav-number">5.1.</span> <span class="nav-text">创建/替换索引文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新文档"><span class="nav-number">5.2.</span> <span class="nav-text">更新文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文档"><span class="nav-number">5.3.</span> <span class="nav-text">删除文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#批量处理"><span class="nav-number">5.4.</span> <span class="nav-text">批量处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询数据"><span class="nav-number">6.</span> <span class="nav-text">查询数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Search-API"><span class="nav-number">6.1.</span> <span class="nav-text">Search API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行查询"><span class="nav-number">6.2.</span> <span class="nav-text">执行查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用过滤器"><span class="nav-number">6.3.</span> <span class="nav-text">使用过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行聚合"><span class="nav-number">6.4.</span> <span class="nav-text">执行聚合</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
