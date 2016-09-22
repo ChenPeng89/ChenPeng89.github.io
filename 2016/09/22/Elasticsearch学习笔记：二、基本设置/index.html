@@ -1,0 +1,608 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="安装JAVA版本es是由java开发的，运行也需要java环境。需要保证jdk至少是1.7及以上的。且仅支持Oracle’sJava和OpenJDK。在es的所有节点和客户端中，jdk的版本号应该是一致的。官方推荐安装jdk8 update20及以后或者jdk8 update 55及以后。之前的版本有bug因此会容易丢失数据。es也会自动判断，如果是不好的版本，它会拒绝启动。
+启动在下载最新的版本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch学习笔记：二、基本设置">
+<meta property="og:url" content="http://chenpeng89.github.io/2016/09/22/Elasticsearch学习笔记：二、基本设置/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta property="og:description" content="安装JAVA版本es是由java开发的，运行也需要java环境。需要保证jdk至少是1.7及以上的。且仅支持Oracle’sJava和OpenJDK。在es的所有节点和客户端中，jdk的版本号应该是一致的。官方推荐安装jdk8 update20及以后或者jdk8 update 55及以后。之前的版本有bug因此会容易丢失数据。es也会自动判断，如果是不好的版本，它会拒绝启动。
+启动在下载最新的版本">
+<meta property="og:updated_time" content="2016-09-22T04:12:19.090Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch学习笔记：二、基本设置">
+<meta name="twitter:description" content="安装JAVA版本es是由java开发的，运行也需要java环境。需要保证jdk至少是1.7及以上的。且仅支持Oracle’sJava和OpenJDK。在es的所有节点和客户端中，jdk的版本号应该是一致的。官方推荐安装jdk8 update20及以后或者jdk8 update 55及以后。之前的版本有bug因此会容易丢失数据。es也会自动判断，如果是不好的版本，它会拒绝启动。
+启动在下载最新的版本">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> Elasticsearch学习笔记：二、基本设置 | ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elasticsearch学习笔记：二、基本设置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-22T09:49:19+08:00" content="2016-09-22">
+              2016-09-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="JAVA版本"><a href="#JAVA版本" class="headerlink" title="JAVA版本"></a>JAVA版本</h3><p>es是由java开发的，运行也需要java环境。需要保证jdk至少是1.7及以上的。且仅支持Oracle’sJava和OpenJDK。在es的所有节点和客户端中，jdk的版本号应该是一致的。<br>官方推荐安装jdk8 update20及以后或者jdk8 update 55及以后。之前的版本有bug因此会容易丢失数据。es也会自动判断，如果是不好的版本，它会拒绝启动。</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>在<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="external">下载</a>最新的版本后，解压压缩包，然后就可以启动了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ bin/elasticsearch</div></pre></td></tr></table></figure></p>
+<h3 id="作为守护进程启动"><a href="#作为守护进程启动" class="headerlink" title="作为守护进程启动"></a>作为守护进程启动</h3><p>在*nix系统中，还可以作为守护进程启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ bin/elasticsearch -d</div></pre></td></tr></table></figure></p>
+<h3 id="指定PID"><a href="#指定PID" class="headerlink" title="指定PID"></a>指定PID</h3><p>为了维护方便，还可以指定es的pid:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ bin/elasticsearch -d -p pid </div><div class="line">$ kill `cat pid`</div></pre></td></tr></table></figure></p>
+<ul>
+<li>PID应该被写在名为pid的文件中。</li>
+<li>kill命令会发送一个term信号给pid文件中的PID。</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><p>通过脚本，es可以向JVM传递JAVA_OPT参数。其中，最重要的参数是-Xms和-Xmx，它们用来控制进程的内存大小。<br>大多数情况下，最好用ES_JAVA_OPTS环境变量来替代JAVA_OPTS，这样可以不影响其它jvm项目的运行。<br>ES_HEAP_SIZE环境变量用来设置分配给esjava进程的堆内存大小。它会吧最大值和最小值设为同一个值。当然，也可以自己指定最大值和最小值，使用ES_MIN_MEM(默认是256m) 和 ES_MAX_MEM(默认是1G)。<br>值得推荐的做法是将最大值和最小值设为相同的值，并且开启mlockall（之后会有介绍）。</p>
+<h3 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h3><h4 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h4><p>确保要增加服务器中打开文件描述符的数量。设置为32K或者64是比较推荐的做法。<br>可以使用Nodes API查看文件描述符的大小：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl localhost:9200/_nodes/stats/process?pretty</div></pre></td></tr></table></figure></p>
+<h4 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h4><p>es默认使用 hybrid mmapfs / niofs 目录来存储index。默认情况下，os的限制的mmap数量可能过小，有可能会引起内存溢出。在Linux中，可以通过指令增加这个限制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl -w vm.max_map_count=262144</div></pre></td></tr></table></figure></p>
+<p>或者为了让这个设置永久生效，可以在/etc/sysctl.conf设置vm.max_map_count 这个参数。</p>
+<h4 id="内存设置"><a href="#内存设置" class="headerlink" title="内存设置"></a>内存设置</h4><p>大多数os会使用尽可能大的内存来做文件缓存，并将不用的应用程序内存换出，这就有可能将es的进程换出去了。换出这个动作对于es是非常影响效率的，并引起节点的不稳定，因此，应该尽量避免换出。<br>有以下三个解决方案：</p>
+<ul>
+<li><p>禁止换出<br>最简单的方案就是完全禁止换出操作。<br>在Linux系统中，如果暂时禁止换出，可以使用 sudo swapoff -a 命令。如果想永久生效，可以在 /etc/fstab 文件中将带有 swap的行通通注释掉。<br>在Windows中，可以通过 System Properties → Advanced → Performance → Advanced → Virtual memory 禁止分页文件来实现。</p>
+</li>
+<li><p>设置 swappiness<br>第二个方案是将sysctl 中 vm.swappiness设为0。这个操作会降低内核换出操作的频率。除非系统处于不得不换出的状态，一般情况下都不会执行换出操作。<br>注意，在内核版本 3.5-rc1及以上，swappiness为0会导致OOM杀掉进程而不是换出。你需要将swappiness设为1来允许在紧急情况下的换出。</p>
+</li>
+<li><p>mlockall<br>第三个方案是，在Linux中使用mlockall或者在Windows中使用VirtualLock，来锁住RAM中的进程地址空间，防止es内存被换出去，这个可以在 config/elasticsearch.yml 文件中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bootstrap.memory_lock: true</div></pre></td></tr></table></figure>
+<p>在启动后，可以查看mlockall状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl http://localhost:9200/_nodes/process?pretty</div></pre></td></tr></table></figure>
+<p>如果你看到mlockall是false，它意味着mlockall失败了。在Linuxl/Unix中，一般是因为es没有权限锁内存。这个在启动es前可以通过<code>ulimit -l unlimited as root</code> 来授权。<br>另一个可能的原因是临时目录（一般是/tmp）被安装了noexec 选项，这可以通过指定一个新的临时文件目录来解决:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch -Djna.tmpdir=/path/to/new/dir</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Elasticsearch设置"><a href="#Elasticsearch设置" class="headerlink" title="Elasticsearch设置"></a>Elasticsearch设置</h3><p>es配置文件可以在 ES_HOME/config 文件夹中找到。它包括两个文件，elasticsearch.yml 用于es的不同模块的设置，logging.yml 用于配置es的日志。</p>
+<h4 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h4><p>在生产环境中，一般会设置两个路径来存储数据和日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">path:</div><div class="line">  logs: /var/log/elasticsearch</div><div class="line">  data: /var/data/elasticsearch</div></pre></td></tr></table></figure></p>
+<h4 id="集群名称"><a href="#集群名称" class="headerlink" title="集群名称"></a>集群名称</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cluster:</div><div class="line">  name: &lt;NAME OF YOUR CLUSTER&gt;</div></pre></td></tr></table></figure>
+<p>要保证你不会在不同的环境使用相同的集群名称，否则节点有可能加入到错误的集群中。你可以在生产环境用 logging-prod ，开发环境 logging-dev，分支环境使用 loggin-stage。</p>
+<h4 id="节点名称"><a href="#节点名称" class="headerlink" title="节点名称"></a>节点名称</h4><p>你可以为每个节点修改他们的节点名称以便于管理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">node:</div><div class="line">  name: &lt;NAME OF YOUR NODE&gt;</div></pre></td></tr></table></figure></p>
+<p>hostname一般存在于服务器的HOSTNAME环境变量中，如果你的机器对于集群运行一个单独的es节点，你可以设置节点名称为hostname<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">node:</div><div class="line">  name: $&#123;HOSTNAME&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="设置配置文件格式"><a href="#设置配置文件格式" class="headerlink" title="设置配置文件格式"></a>设置配置文件格式</h4><p>在es中，所有的设置都被包围在 anmespaced中。例如，上面这些设置都在node.name中。这意味着可以支持其他格式的配置文件，比如JSON。如果使用JSON，可以将elasticsearch.yml修改为elasticsearch.json。相应的，里面的设置格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;network&quot; : &#123;</div><div class="line">        &quot;host&quot; : &quot;10.0.0.4&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Index设置"><a href="#Index设置" class="headerlink" title="Index设置"></a>Index设置</h3><p>集群中的index可以维护自己的设置。例如，可以将创建index的刷新间隔时间设置为5s。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT http://localhost:9200/kimchy/ -d \</div><div class="line">&apos;</div><div class="line">index:</div><div class="line">    refresh_interval: 5s</div><div class="line">&apos;</div></pre></td></tr></table></figure></p>
+<p>Index级别的设置也可以在node级别中设置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">index :</div><div class="line">    refresh_interval: 5s</div></pre></td></tr></table></figure></p>
+<p>如果index和node都设置了，那么指定的index会覆盖node的设置。</p>
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><p>es内部使用了log4j。配置文件是config/logging.yml。也支持JSON和properties文件。</p>
+<h4 id="过期行为的日志"><a href="#过期行为的日志" class="headerlink" title="过期行为的日志"></a>过期行为的日志</h4><p>除了常规的日志，es还能记录过期行为的日志。这对于迁移是一个很大的优势。默认它是关闭的，在 config/logging.yml 开启：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">deprecation: DEBUG, deprecation_log_file</div></pre></td></tr></table></figure></p>
+<p>它会在日志目录下创建一个每天滚动的日志文件。定期检查这个文件，针对于当你想要升级到一个新的大版本。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag">#Elasticsearch</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/21/Elasticsearch学习笔记：一、入门/" rel="next" title="Elasticsearch学习笔记：一、入门">
+                <i class="fa fa-chevron-left"></i> Elasticsearch学习笔记：一、入门
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA版本"><span class="nav-number">1.1.</span> <span class="nav-text">JAVA版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">1.2.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作为守护进程启动"><span class="nav-number">1.3.</span> <span class="nav-text">作为守护进程启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定PID"><span class="nav-number">1.4.</span> <span class="nav-text">指定PID</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境变量"><span class="nav-number">2.1.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统设置"><span class="nav-number">2.2.</span> <span class="nav-text">系统设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件描述符"><span class="nav-number">2.2.1.</span> <span class="nav-text">文件描述符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟内存"><span class="nav-number">2.2.2.</span> <span class="nav-text">虚拟内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存设置"><span class="nav-number">2.2.3.</span> <span class="nav-text">内存设置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch设置"><span class="nav-number">2.3.</span> <span class="nav-text">Elasticsearch设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#路径"><span class="nav-number">2.3.1.</span> <span class="nav-text">路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群名称"><span class="nav-number">2.3.2.</span> <span class="nav-text">集群名称</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#节点名称"><span class="nav-number">2.3.3.</span> <span class="nav-text">节点名称</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置配置文件格式"><span class="nav-number">2.3.4.</span> <span class="nav-text">设置配置文件格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Index设置"><span class="nav-number">2.4.</span> <span class="nav-text">Index设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日志"><span class="nav-number">2.5.</span> <span class="nav-text">日志</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#过期行为的日志"><span class="nav-number">2.5.1.</span> <span class="nav-text">过期行为的日志</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

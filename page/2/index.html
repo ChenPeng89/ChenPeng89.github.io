@@ -232,6 +232,139 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/24/Solr学习笔记：三、使用Solr管理员界面/" itemprop="url">
+                  Solr学习笔记：三、使用Solr管理员界面
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-24T10:14:30+08:00" content="2016-06-24">
+              2016-06-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本节主要介绍的是Solr的管理员界面（Admin UI）使用方法。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Solr提供了一个Web界面，让Solr管理员和程序员更直观的看到Solr的配置，运行查询和分析来微调Solr配置，访问在线文档等等。<br><img src="http://i.imgur.com/E1IjbG0.png" alt=""></p>
+<h2 id="帮助信息"><a href="#帮助信息" class="headerlink" title="帮助信息"></a>帮助信息</h2><p>在页面最下面就可以找到帮助信息栏。</p>
+<p><img src="http://i.imgur.com/jVS9Seh.png" alt=""></p>
+<p>它包括如下链接：</p>
+<ul>
+<li>Documentation ： 定向到Apache Solr的文档地址。<a href="https://lucene.apache.org/solr/。" target="_blank" rel="external">https://lucene.apache.org/solr/。</a></li>
+<li>Issue Tracker ： 定向到Apache Solr项目的JIRA上。<a href="https://issues.apache.org/jira/browse/SOLR。" target="_blank" rel="external">https://issues.apache.org/jira/browse/SOLR。</a></li>
+<li>IRC Channel ： 定向到描述怎么加入Solr IRC聊天室的Apache Wiki上面。<a href="https://wiki.apache.org/solr/IRCChannels。" target="_blank" rel="external">https://wiki.apache.org/solr/IRCChannels。</a></li>
+<li>Community forum ： 定位到描述加入Solr用户协会的email地址列表的Wiki上。</li>
+<li>Solr Query Syntax : 定位到Solr的 “查询语法和解析” 文档章节。</li>
+</ul>
+<h2 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h2><p>Logging界面显示了最近的Solr节点日志。<br><img src="http://i.imgur.com/nzYtDIm.png" alt=""></p>
+<p>在Logging下面有一个Level链接，点击后可以看到classpath 和classname的路径。黄色高亮的行说明class是可以打log的。点击高亮的行，会出现让你选择日志等级的菜单。粗体字符表示这个class不会被root日志等级的修改所影响。</p>
+<p><img src="http://i.imgur.com/2pr27kv.png" alt="">    </p>
+<h2 id="Cloud-界面"><a href="#Cloud-界面" class="headerlink" title="Cloud 界面"></a>Cloud 界面</h2><p>Cloud界面显示了不同样式的Cloud的结构图。包含”Tree”, “Graph”, “Graph (Radial)” 和 “Dump”。</p>
+<p><img src="http://i.imgur.com/rzjXfBU.png" alt=""></p>
+<p>上面的Graph显示了包含两个分片和两个备份的“gettingstarted”集群，还包含了一个分片的films集群。</p>
+<p><img src="http://i.imgur.com/qRTXptp.png" alt=""></p>
+<p>Graph (Radial) 以另一种不同的试图展示了上面的集群结构。</p>
+<p><img src="http://i.imgur.com/7JRF8YO.png" alt=""></p>
+<p>Tree 展示的是ZooKeeper上的数据结构目录，包含了 live_nodes 和 overseer 的状态，还有集群特定的信息，比如 state.json ， 当前分片的leader，配置文件等。</p>
+<p>最后的 Dump 选项，可以返回包含所有节点的JSON文档。可以用来导出Solr保存在ZooKeeper上的所有快照数据同时也能够debug SolrCloud 。</p>
+<h2 id="Collections-Core-Admin"><a href="#Collections-Core-Admin" class="headerlink" title="Collections / Core Admin"></a>Collections / Core Admin</h2><p><img src="http://i.imgur.com/WbvOpPF.png" alt=""><br>Collections 界面提供了基本的操作Collections的功能。<br>如果使用的是single模式，则显示的是Core Admin。<br>主页面显示了一个在你集群中的集合列表。点击集合的姓名会显示一些基本的元数据，包括 集合的定义，当前分片和备份，增加和删除单个备份。</p>
+<h2 id="Java-Properties"><a href="#Java-Properties" class="headerlink" title="Java Properties"></a>Java Properties</h2><p><img src="http://i.imgur.com/RkRpv35.png" alt=""><br>Java Properties 界面可以看到Solr JVM的所有参数，比如 classpath ， 文件编码，JVM内存，操作系统等。</p>
+<h2 id="Thread-Dump"><a href="#Thread-Dump" class="headerlink" title="Thread Dump"></a>Thread Dump</h2><p><img src="http://i.imgur.com/dFV9Gll.png" alt=""><br>Thread Dump 界面能让你检查当前活动的线程。每个线程都被列出来并可以查看堆栈状态。左边的图标显示了堆栈状态，例如，每个绿色的对勾图标显示线程在”RUNNABLE”状态。在线程名称右侧，展开向下的箭头可以看到线程的堆栈。</p>
+<p>线程状态</p>
+<ul>
+<li>NEW – 线程还没开始运行。</li>
+<li>RUNNABLE – 线程在JVM中运行。</li>
+<li>BLOCKED – 线程等待锁而阻塞。</li>
+<li>WAITING – 线程无限期等待另一个线程的一个特定操作。</li>
+<li>TIMED_WAITING – 线程在制定的时间等待另一个线程的一个特定操作。</li>
+<li>TERMINATED – 线程结束。</li>
+</ul>
+<h2 id="针对集合的工具"><a href="#针对集合的工具" class="headerlink" title="针对集合的工具"></a>针对集合的工具</h2><p>在左边的菜单中，有一个下拉框，可以选择Core或者Collection，当使用Cloud模式时，可以选择Collection，选择后，会有一个二级菜单出现在下拉框下方。<br><img src="http://i.imgur.com/JTFKXlA.png" alt=""></p>
+<p>主要包含以下几个功能：</p>
+<ul>
+<li>Analysis<br>通过Analysis页面可以根据字段检查数据的处理，字段类型和动态字段配置。可以分析内容将在索引期间或在查询处理期间如何进行处理，并分别或同时查看结果。理想情况下，你会希望内容会被持续处理，那么这个页面可以让你验证字段类型或者字段分析链中的设置。<br><img src="http://i.imgur.com/jiAaW0A.png" alt=""></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/21/DataInputStream中read和readFully方法的区别【转】/" itemprop="url">
                   DataInputStream中read和readFully方法的区别【转】
                 </a>
@@ -1556,107 +1689,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/30/mybatis-generator自动生成dao，mapper，mode/" itemprop="url">
-                  mybatis-generator自动生成dao，mapper，mode
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-30T16:31:48+08:00" content="2016-05-30">
-              2016-05-30
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="添加插件依赖"><a href="#添加插件依赖" class="headerlink" title="添加插件依赖"></a>添加插件依赖</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;plugin&gt;</div><div class="line">    &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.3.2&lt;/version&gt;</div><div class="line">    &lt;configuration&gt;</div><div class="line">        &lt;verbose&gt;true&lt;/verbose&gt;</div><div class="line">        &lt;overwrite&gt;true&lt;/overwrite&gt;</div><div class="line">    &lt;/configuration&gt;</div><div class="line">&lt;/plugin&gt;</div></pre></td></tr></table></figure>
-<h2 id="添加配置文件"><a href="#添加配置文件" class="headerlink" title="添加配置文件"></a>添加配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;!DOCTYPE generatorConfiguration</div><div class="line">        PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</div><div class="line">        &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;</div><div class="line">&lt;generatorConfiguration&gt;</div><div class="line">    &lt;!-- 数据库驱动--&gt;</div><div class="line">    &lt;classPathEntry  location=&quot;C:\Users\a\.m2\repository\mysql\mysql-connector-java\5.1.8\mysql-connector-java-5.1.8.jar&quot;/&gt;</div><div class="line">    &lt;context id=&quot;DB2Tables&quot;  targetRuntime=&quot;MyBatis3&quot;&gt;</div><div class="line">        &lt;commentGenerator&gt;</div><div class="line">            &lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;</div><div class="line">            &lt;!-- 是否去除自动生成的注释 true：是 ： false:否--&gt;</div><div class="line">            &lt;property name=&quot;suppressAllComments&quot; value=&quot;false&quot;/&gt;</div><div class="line">        &lt;/commentGenerator&gt;</div><div class="line">        &lt;!--数据库链接URL，用户名、密码 --&gt;</div><div class="line">        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot; connectionURL=&quot;jdbc:mysql://localhost:3306/test&quot; userId=&quot;root&quot; password=&quot;root&quot;&gt;</div><div class="line">        &lt;/jdbcConnection&gt;</div><div class="line">        &lt;javaTypeResolver&gt;</div><div class="line">            &lt;property name=&quot;forceBigDecimals&quot; value=&quot;false&quot;/&gt;</div><div class="line">        &lt;/javaTypeResolver&gt;</div><div class="line">        &lt;!-- 生成模型的包名和位置--&gt;</div><div class="line">        &lt;javaModelGenerator targetPackage=&quot;com.springapp.model&quot; targetProject=&quot;src\main\java\com\springapp\model&quot;&gt;</div><div class="line">            &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;</div><div class="line">            &lt;property name=&quot;trimStrings&quot; value=&quot;true&quot;/&gt;</div><div class="line">        &lt;/javaModelGenerator&gt;</div><div class="line">        &lt;!-- 生成映射文件的包名和位置--&gt;</div><div class="line">        &lt;sqlMapGenerator targetPackage=&quot;com.springapp.dao&quot; targetProject=&quot;src\main\resources\mappers&quot;&gt;</div><div class="line">            &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;</div><div class="line">        &lt;/sqlMapGenerator&gt;</div><div class="line">        &lt;!-- 生成DAO的包名和位置--&gt;</div><div class="line">        &lt;javaClientGenerator type=&quot;XMLMAPPER&quot; targetPackage=&quot;com.springapp.dao&quot; targetProject=&quot;src\main\java\com\springapp\dao&quot;&gt;</div><div class="line">            &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;</div><div class="line">        &lt;/javaClientGenerator&gt;</div><div class="line">        &lt;!-- 要生成哪些表--&gt;</div><div class="line">        &lt;table tableName=&quot;users&quot; domainObjectName=&quot;UserDto&quot; enableCountByExample=&quot;false&quot; enableUpdateByExample=&quot;false&quot; enableDeleteByExample=&quot;false&quot; enableSelectByExample=&quot;false&quot; selectByExampleQueryId=&quot;false&quot;&gt;&lt;/table&gt;</div><div class="line">        &lt;!--&lt;table tableName=&quot;user&quot; domainObjectName=&quot;UserDto&quot; enableCountByExample=&quot;false&quot; enableUpdateByExample=&quot;false&quot; enableDeleteByExample=&quot;false&quot; enableSelectByExample=&quot;false&quot; selectByExampleQueryId=&quot;false&quot;&gt;&lt;/table&gt;--&gt;</div><div class="line">        &lt;!--&lt;table tableName=&quot;syslogs&quot; domainObjectName=&quot;SyslogsDto&quot; enableCountByExample=&quot;false&quot; enableUpdateByExample=&quot;false&quot; enableDeleteByExample=&quot;false&quot; enableSelectByExample=&quot;false&quot; selectByExampleQueryId=&quot;false&quot;&gt;&lt;/table&gt;--&gt;</div><div class="line">    &lt;/context&gt;</div><div class="line">&lt;/generatorConfiguration&gt;</div></pre></td></tr></table></figure>
-<h2 id="生成文件"><a href="#生成文件" class="headerlink" title="生成文件"></a>生成文件</h2><p><code>mvn mybatis-generator:generate</code><br>ok。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1697,7 +1734,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
