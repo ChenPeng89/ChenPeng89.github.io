@@ -232,6 +232,137 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/22/Elasticsearch学习笔记：三、Document-APIs/" itemprop="url">
+                  Elasticsearch学习笔记：三、Document APIs
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-22T14:02:30+08:00" content="2016-09-22">
+              2016-09-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Index-API"><a href="#Index-API" class="headerlink" title="Index API"></a>Index API</h2><p>index API 用来向指定的index添加或更新JSON文档，并使它可被搜索。下面的例子是在名为 twitter 的index中添加一个文档，type为tweet，id=1 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>返回结果为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;_index&quot;: &quot;twitter&quot;,</div><div class="line">  &quot;_type&quot;: &quot;tweet&quot;,</div><div class="line">  &quot;_id&quot;: &quot;1&quot;,</div><div class="line">  &quot;_version&quot;: 3,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;created&quot;: false</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中，_shards段中提供了以下信息：</p>
+<ul>
+<li>total - 多少个分片及其备份要被操作。</li>
+<li>successful - 说明分片及其备份成功了几个。</li>
+<li>failures - 一个包含了失败分片及失败原因的数组。</li>
+</ul>
+<h3 id="自动创建Index"><a href="#自动创建Index" class="headerlink" title="自动创建Index"></a>自动创建Index</h3><p>如果实现没创建index，那么在上面的操作中会自动创建相应的index，如果没创建type，也会为指定的type自动创建一个动态type映射。</p>
+<p>这个映射非常灵活，并且模式自由。新的字段和对象会自动的被添加到指定类型的映射定义中去。</p>
+<p>自动创建index可以被关闭，在节点配置文件中将 action.auto_create_index 设为 false 就可以了。自动创建type映射也可以关闭，将 index.mapper.dynamic 设为 false就可以了。</p>
+<p>自动创建index也可以设置黑白名单，例如，设置 action.auto_create_index 为 +aaa*,-bbb*,+ccc*,-* ， 名字为 aaa*的是可以创建的，为 bbb*的是被禁止的，以此类推。</p>
+<h3 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h3><p>每个被index的文档都会有一个版本号。version 字段会在查询时返回给客户端。如果指定了版本号，可使用它做一个乐观锁。可以使用版本号进行一个read-then-update的事务处理。在读的时候指定文档的版本号可以确保期间文档不会发生变化。如果是读而不是更新操作，可以设置为preference 来替代 _primary。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;localhost:9200/twitter/tweet/1?version=2&apos; -d &apos;&#123;</div><div class="line">    &quot;message&quot; : &quot;elasticsearch now has versioning support, double cool!&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>注意：版本操作是实时的，而且不被搜索操作的接近实时所影响。如果没设置版本号，接下来的操作将不会检查版本号。</p>
+<p>默认情况下，内部的版本号会从1开始，然后随着每次更新增加。版本号也可以由外部提供。如果要开启外部版本号，需要将version_type设置为external。当设置为版本号为外部版本号时，系统不会检查版本号是否相等，而是当传入的版本号是否大于当前版本号，如果大于，则更新，如果等于或小于，则更新失败。</p>
+<h4 id="版本号类型"><a href="#版本号类型" class="headerlink" title="版本号类型"></a>版本号类型</h4><p>除了上面所说的内部和外部版本号类型，es还提供了一些特殊的版本号类型：</p>
+<ul>
+<li>internal<br>只有在传入的版本号和系统中当前版本号相等时才更新索引。</li>
+<li>external 或 external_gt<br>只有在传入的版本号大于系统当前版本号 或者 要更新的文档不存在的时候，才会更新索引。传入的版本号将作为新的版本号，并且会存储新的文档。版本号必须为一个非负的long型。</li>
+<li>external_gte<br>和上面唯一不同的是，如果传入的版本号等于当前版本号也可以更新索引。</li>
+<li>force<br>无视版本号或者文档是否存在，都直接更新。且传入的版本号作为新的版本号，并会存储新的文档。一般用于改正错误数据。</li>
+</ul>
+<h3 id="操作类型"><a href="#操作类型" class="headerlink" title="操作类型"></a>操作类型</h3><p>index操作也允许传入 on_type 参数来强制进行 create 操作。当设置为create，如果文档已经存在，index操作将会失败：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1?op_type=create&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>如果失败，会返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;error&quot;: &#123;</div><div class="line">    &quot;root_cause&quot;: [</div><div class="line">      &#123;</div><div class="line">        &quot;type&quot;: &quot;document_already_exists_exception&quot;,</div><div class="line">        &quot;reason&quot;: &quot;[tweet][1]: document already exists&quot;,</div><div class="line">        &quot;index&quot;: &quot;twitter&quot;,</div><div class="line">        &quot;shard&quot;: &quot;0&quot;</div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">    &quot;type&quot;: &quot;document_already_exists_exception&quot;,</div><div class="line">    &quot;reason&quot;: &quot;[tweet][1]: document already exists&quot;,</div><div class="line">    &quot;index&quot;: &quot;twitter&quot;,</div><div class="line">    &quot;shard&quot;: &quot;0&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;status&quot;: 409</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>另一种指定 create 的方式是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1/_create&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="自动生成ID"><a href="#自动生成ID" class="headerlink" title="自动生成ID"></a>自动生成ID</h3><p>index的操作可以不指定id。id可以自动生成。op_type会自动设置为create。注意，此处用的是POST而不是PUT：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPOST &apos;http://localhost:9200/twitter/tweet/&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;_index&quot;: &quot;twitter&quot;,</div><div class="line">  &quot;_type&quot;: &quot;tweet&quot;,</div><div class="line">  &quot;_id&quot;: &quot;AVdQyYB5e-yIFmSuoS-f&quot;,</div><div class="line">  &quot;_version&quot;: 1,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;created&quot;: true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Routing"><a href="#Routing" class="headerlink" title="Routing"></a>Routing</h3><p>一般情况下，shard的位置是由id的hash来控制的。为了更精确地控制，可以直接在每次操作上指定用于计算hash的值。使用 routing参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPOST &apos;http://localhost:9200/twitter/tweet?routing=kimchy&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>例如上面，就是使用kimchy来计算分片hash，来决定这个文档存放在哪个shard中。</p>
+<p>当显示设置了_routing字段，并设置为required，如果index操作中没传递这个参数，将会操作失败。</p>
+<h3 id="Parent-amp-Children"><a href="#Parent-amp-Children" class="headerlink" title="Parent &amp; Children"></a>Parent &amp; Children</h3><p>可以在index操作时指定parent：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT localhost:9200/blogs/blog_tag/1122?parent=1111 -d &apos;&#123;</div><div class="line">    &quot;tag&quot; : &quot;something&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>当index一个child文档，routing的值会自动设置为何它parent的一致，除非显式指定child的routing。</p>
+<h3 id="写一致性"><a href="#写一致性" class="headerlink" title="写一致性"></a>写一致性</h3><p>默认情况下，对index的操作只有在超过半数的分片可用的情况下（quorum）才能成功返回。这个默认值可以通过 action.write_consistency参数来设置。如果想在每次操作时指定，可以使用请求参数 consistency 。参数有效值为one ， quorum和all。 index操作只有在复制组里面所有可用的分片都执行后才返回。</p>
+<h3 id="刷新"><a href="#刷新" class="headerlink" title="刷新"></a>刷新</h3><p>想要在index操作后立即就能够查询到结果，需要设置refresh参数为true。将此选项设置为true应该在经过仔细思考和验证后,从索引和搜索的角度来看，它不会影响性能。注意，使用getAPI是实时的，不需要刷新。</p>
+<h3 id="Noop-Updates"><a href="#Noop-Updates" class="headerlink" title="Noop Updates"></a>Noop Updates</h3><p>等待更新？。。。这个词不知道怎么翻译比较易懂。。。<br>当使用新的版本号进行index更新时，不管文档内容有没有变，都会创建一个新的文档。如果不能接受这样的操作，可以在使用_update api时将detect_noop设为true。这个选项不能用于index api因为index api不会获取旧的文档，因此，也就不会拿旧的和新的作比较。</p>
+<h3 id="Timeout"><a href="#Timeout" class="headerlink" title="Timeout"></a>Timeout</h3><p>当进行index操作时，被安排用于index操作的shard可能暂时不可用。一些因素导致这个情形，比如正在搬迁或者网络异常。默认的，index操作将会等待shard一分钟，如果还不可用就会返回失败。timeout 参数可以用来显式设置等待多久：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1?timeout=5m&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>上例中，设置等待5分钟。</p>
+<h2 id="Get-API"><a href="#Get-API" class="headerlink" title="Get API"></a>Get API</h2><p>//TODO</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/22/Elasticsearch学习笔记：二、基本设置/" itemprop="url">
                   Elasticsearch学习笔记：二、基本设置
                 </a>
@@ -1551,297 +1682,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/29/Solr学习笔记：二、文档、变量和摘要的设计/" itemprop="url">
-                  Solr学习笔记：二、Document、Field和Schema的设计
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-29T09:28:58+08:00" content="2016-06-29">
-              2016-06-29
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Solr的工作流程很简单。你先给它添加你想要知道的信息，然后问它要。你给它信息的过程叫 indexing 或者 updating。你问它要信息的过程叫 query。Solr可以在schema为实体的不同变量、类型建立索引。</p>
-<p>Solr的基本信息单元是document，它是一个描述某种事物的数据集合。document是由field组成的，它是更具体的信息。比如，鞋子的尺码、姓名都可以是field。field可以是多种类型，Solr允许用户定义field的类型：field type，定义准确的field type可以帮你准确的查找结果。</p>
-<p>field analysis告诉了Solr如何建立索引。比如你会遇见这样的问题，一个人的传记中，会有”the” , “a “ 等这样的词，通过field analysis你可以告诉Solr怎么进行分词。它是field type 中的重要组成部分。</p>
-<p>Solr将field type 等信息存在schema文件中。文件的名称和路径取决于你如何初始化Solr或者以后会怎样修改它。</p>
-<p><strong>managed-schema</strong> – 是在运行时可以通过Schema API来修改的Solr schema文件。如果你使用别的名称，你可以显式的指定它，但是内容的更新需要Solr自动来完成。</p>
-<p><strong>schema.xml</strong> – 它是传统的schema文件名，用户可以通过 ClassicIndexSchemaFactory 来手动编辑它。</p>
-<p>如果你使用Cloud模式，你不会在本地文件系统中找到这个文件，可以通过Schema API或者Solr Admin UI 中的Cloud Screens看到。</p>
-<p>不论你怎样定义文件名，问价你的结构是不会变的。如果你使用managed schema，那么原则上你只能通过Schema API来改变它，绝不能手动变更。如果你不使用 managed schema ， 那么你只能通过手动改变文件，Schema API不能操作任何改变。<br>如果你使用SolrCloud但是没有使用Schema API，那么你需要从ZooKeeper中使用upconfig或者downconfig命令来对schema.xml做一个本地备份和上传修改。</p>
-<h2 id="Field-type"><a href="#Field-type" class="headerlink" title="Field type"></a>Field type</h2><p>field type 包括下面四种信息类型：</p>
-<p><strong>field type 名称（必须）。</strong><br><strong>类型的实现类（必须）。</strong><br><strong>如果类型是 TextField ， 需要添加field analysis。</strong><br><strong>field type 属性 ， 依赖于实现类，一些属性是必须的。</strong></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">fieldType</span> <span class="attr">name</span>=<span class="string">"text_general"</span> <span class="attr">class</span>=<span class="string">"solr.TextField"</span> <span class="attr">positionIncrementGap</span>=<span class="string">"100"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">analyzer</span> <span class="attr">type</span>=<span class="string">"index"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tokenizer</span> <span class="attr">class</span>=<span class="string">"solr.StandardTokenizerFactory"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.StopFilterFactory"</span> <span class="attr">ignoreCase</span>=<span class="string">"true"</span> <span class="attr">words</span>=<span class="string">"stopwords.txt"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!-- in this example, we will only use synonyms at query time</span></div><div class="line">    &lt;filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/&gt;</div><div class="line">    --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.LowerCaseFilterFactory"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">analyzer</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">analyzer</span> <span class="attr">type</span>=<span class="string">"query"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tokenizer</span> <span class="attr">class</span>=<span class="string">"solr.StandardTokenizerFactory"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.StopFilterFactory"</span> <span class="attr">ignoreCase</span>=<span class="string">"true"</span> <span class="attr">words</span>=<span class="string">"stopwords.txt"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.SynonymFilterFactory"</span> <span class="attr">synonyms</span>=<span class="string">"synonyms.txt"</span> <span class="attr">ignoreCase</span>=<span class="string">"true"</span> <span class="attr">expand</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"solr.LowerCaseFilterFactory"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">analyzer</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">fieldType</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>上面的例子中，包含了field type名称 text-general，实现类 solr.TextField。实现类是用来保证field呗正确处理。在schema.xml中，solr字符串是org.apache.solr.schema 或 org.apache.solr.analysis的缩写。因此，solr.TextField 实际上是 org.apache.solr.schema.TextField。</p>
-<h3 id="field-type属性"><a href="#field-type属性" class="headerlink" title="field type属性"></a>field type属性</h3><h4 id="一般属性"><a href="#一般属性" class="headerlink" title="一般属性"></a>一般属性</h4><ul>
-<li>name – field type名称。用来定义field。强烈建议名称只包含字母数字或下划线字符,而不是从数字开头。</li>
-<li>class – 存储或索引数据的class的名称。如果你使用solr开头，那么类似solr.TextField会有效，如果使用第三方的类，那么需要写全类名和包名。</li>
-<li>positionIncrementGap – 对于多个值的field，指定多个值之间的距离，防止错误的匹配。integer。</li>
-<li>autoGeneratePhraseQueries – 用于 text field。如果设为true，Solr自动为相邻的短语生成词组查询。如果设为false，短语必须加上双引号才能被视为一个词组。true/false</li>
-<li>docValuesFormat – 为此类型的field定义一个DocValuesFormat ，这需要一个schema-aware解析器。例如solrconfig.xml中定义的SchemaCodecFactory。</li>
-<li>postingsFormat – 为此类型的field定义一个postingsFormat，这需要一个schema-aware解析器。例如solrconfig.xml中定义的SchemaCodecFactory 。</li>
-</ul>
-<p>注意： Lucene向下兼容时只支持默认的解析器。如果你选择在schema.xml中自定义postingsFormat 或 docValuesFormat，更新到以后的版本时，需要切换为默认的解析器，并且在更新前重新优化你的index，或者重建你的index。</p>
-<h3 id="field默认属性"><a href="#field默认属性" class="headerlink" title="field默认属性"></a>field默认属性</h3><p>这些属性既可以在field type中被指定，也可以在单独的field中被field type提供的值所覆盖。默认的值依赖于FieldType的class，进而可能依赖于<schema>中的version属性。</schema></p>
-<ul>
-<li>indexed – 如果设为true，field的值可以用来检索文档。  true/false ， 默认为true。</li>
-<li>stored – 如果设为true，field的实际值可以用来被查询。  true/false ， 默认为true。</li>
-<li>docValues – 如果设为true，field的值会被放入一个以列为主的DocValues结构中。true/false ， 默认为false。</li>
-<li>sortMissingFirst/sortMissingLast – 当查询的field没有找到时，控制返回数据的排序方式。（没有field的排在有的之前/没有field的排在有的之后 ， 而不管请求时的排序方式）true/false ， 默认为false。</li>
-<li>multiValued – 如果设为true，说明一个单独的文档可能包含这个field type 的多个值。true/false ， 默认为false。</li>
-<li>omitNorms – 如果设为true，则省略了与这个field相关的规范。默认情况下，对于不执行analysis的字段类型设为true。只有全文字段或者需要index-time boost 的字段才需要规范。true/false。</li>
-<li>omitTermFreqAndPositions – 如果设为true，则不用存储term的频率和position等信息。对于不需要这些信息的字段是一个性能的提升，减少磁盘空间。依赖于位置的字段查询将查找不到信息。这个属性对于所有非text的field默认为true。</li>
-<li>omitPositions – 和omitTermFreqAndPositions 相似，但是保留词汇的频率信息。true or false</li>
-<li>termVectors/termPositions/termOffsets/termPayloads – 这些选项指导Solr为每个文档维护全局向量，包括 position，offset ， 和负载信息。这些能用于加速高亮和其它辅助的功能，但是增加了词汇的index长度。他们对于一般使用Solr所必要的。true or false，默认false。</li>
-<li>required – 阻止添加不包含该字段的任何文档。true or false ，默认为false。</li>
-<li>useDocValuesAsStored – 如果docValues可用，并且本字段设为true，那么当匹配成功时，会将字段当做store field进行返回（即使它的store = false）。</li>
-</ul>
-<h3 id="field-type"><a href="#field-type" class="headerlink" title="field type"></a>field type</h3><ul>
-<li>BinaryField – 二进制数据。</li>
-<li>BoolField – bool ， 1，t，T都被认为true，其它都为false。</li>
-<li>CollationField – 支持Unicode类型的查询排序集合。</li>
-<li>CurrencyField – 支持货币和汇率。</li>
-<li>DateRangeField – 支持日期范围检索。</li>
-<li>ExternalFileField – 拉取磁盘上文件中的值。</li>
-<li>EnumField – 枚举类型。</li>
-<li>ICUCollationField – 支持Unicode类型的集合来进行排序和范围查询。</li>
-<li>LatLonType – 经纬度坐标对。维度在前。</li>
-<li>PointType – 一个N维空间的点。用于查询蓝图或者CAD上的资源。</li>
-<li>PreAnalyzedField – 提供了一种发送给Solr的序列化令牌流，可选的独立存储的field的值，并不通过任何额外的文本处理将信息存储和索引。</li>
-<li>RandomSortField – 不包含一个值。查询后将返回一个随机顺序的结果。使用动态field时使用这个功能。</li>
-<li>SpatialRecursivePrefixTreeFieldType – 接受 纬度,精度 这样的字符串或者其他WKT格式的类型。</li>
-<li>StrField – 字符串（UTF8或者Unicode编码），用于小的field并且这些字段不会被标记或者分析。他们有一个硬限制，就是小于32K。</li>
-<li>TextField – Text类型，一般用于多单词或者多标记。</li>
-<li>TrieDateField – 日期类型。代表一个毫秒精度的时间点。precisionStep=”0” 实现高效的日期排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
-<li>TrieDoubleField – Double类型。precisionStep=”0” 实现高效的数字排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
-<li>TrieField – 如果使用了这个类型，那么 type 属性必须被指定，有效的值为:integer, long, float, double, date 。使用这个field 和使用其它 Trie field 一样：实现高效的数字排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
-<li>TrieFloatField/TrieIntField/TrieLongField – float/int/long。precisionStep=”0” 实现高效的数字排序，并减小了索引的大小。precisionStep=”8” (默认的)实现了高效的范围查询。</li>
-<li>UUIDField – 一般唯一标识符。传一个值为“NEW”的值然后Solr将会创建一个新的UUID。注意，在SolrCloud模式下使用UUID不是一个好的做法，因为每一个备份节点的每一个文档都会有一个唯一的UUID。当添加文档时使用UUIDUpdateProcessorFactory 来生成UUID是一个好的做法。</li>
-</ul>
-<h3 id="定义Field"><a href="#定义Field" class="headerlink" title="定义Field"></a>定义Field</h3><p>Field一般定义在schema.xml中。<br><code>&lt;field name=&quot;price&quot; type=&quot;float&quot; default=&quot;0.0&quot; indexed=&quot;true&quot; stored=&quot;true&quot;/&gt;</code></p>
-<h3 id="拷贝Field"><a href="#拷贝Field" class="headerlink" title="拷贝Field"></a>拷贝Field</h3><p><code>&lt;copyField source=&quot;cat&quot; dest=&quot;text&quot; maxChars=&quot;30000&quot; /&gt;</code><br>source 是被拷贝的数据，des是拷贝到的field。定义在schema.xml中。<br>在上面的例子中，会将cat拷贝到text。field的拷贝实在analysis之前的，意味着你能够对相同的内容返回两个field（两个field使用不同的analysis链并存在不同的索引下）。<br>使用时需要设置field的 multivalued=”true”。</p>
-<p>也可以使用通配符：<br><code>&lt;copyField source=&quot;*_t&quot; dest=&quot;text&quot; maxChars=&quot;25000&quot; /&gt;</code></p>
-<h3 id="动态Field"><a href="#动态Field" class="headerlink" title="动态Field"></a>动态Field</h3><p><code>&lt;dynamicField name=&quot;*_i&quot; type=&quot;int&quot; indexed=&quot;true&quot;  stored=&quot;true&quot;/&gt;</code></p>
-<p>动态field可以更灵活的使用Solr。</p>
-<h3 id="其它Schema元素"><a href="#其它Schema元素" class="headerlink" title="其它Schema元素"></a>其它Schema元素</h3><ul>
-<li><p>uniqueKey – 用于表示一个唯一的文档，不是必须的。<br><code>&lt;uniqueKey&gt;id&lt;/uniqueKey&gt;</code></p>
-</li>
-<li><p>Similarity<br>Similarity 是一个Lucene类，用于在搜索时对文档的评分。<br>TODO…</p>
-</li>
-</ul>
-<h3 id="Schema-API"><a href="#Schema-API" class="headerlink" title="Schema API"></a>Schema API</h3><h4 id="API的入口点"><a href="#API的入口点" class="headerlink" title="API的入口点"></a>API的入口点</h4><ul>
-<li>/schema – 检索信息，或者增加、删除，替换field，动态field，复制field或者field type。</li>
-<li>/schema/fields – 检索指定field的信息或指定名称的field。</li>
-<li>/schema/dynamicfields – 检索所有符合规则的动态field信息。</li>
-<li>/schema/fieldtypes – 检索所有指定field type 的信息。</li>
-<li>/schema/copyfields – 检索所有copy field的信息。</li>
-<li>/schema/name – 检索schema名称。</li>
-<li>/schema/version – 检索schema版本。</li>
-<li>/schema/uniquekey – 检索定义的uniqueKey。</li>
-<li>/schema/similarity – 检索全局similarity 定义。</li>
-<li>/schema/solrqueryparser/defaultoperator – 检索默认操作。</li>
-</ul>
-<p><code>http://localhost:8983/solr/gettingstarted/schema</code></p>
-<h4 id="修改Schema"><a href="#修改Schema" class="headerlink" title="修改Schema"></a>修改Schema</h4><p><code>POST /collection/schema</code><br>为了添加、删除，修改field、动态field规则、copy field规则、新field type，你可以发送POST请求到/collection/schema/。</p>
-<ul>
-<li>add-field – 添加一个带参数的field。</li>
-<li>delete-field – 删除一个field。</li>
-<li>replace-field – 用一个不同配置的field替换现有的。</li>
-<li>add-dynamic-field – 添加一个带参数的动态规则。</li>
-<li>delete-dynamic-field – 删除一个动态field规则。</li>
-<li>replace-dynamic-field – 替换一个动态field规则。</li>
-<li>add-field-type – 添加一个field type。</li>
-<li>delete-field-type – 删除一个field type。</li>
-<li>replace-field-type – 替换一个field type。</li>
-<li>add-copy-field – 添加一个copy field规则。</li>
-<li>delete-copy-field – 删除一个copy field规则。</li>
-</ul>
-<p>这些命令可以在单独的POST请求或在同一个POST请求。命令按指定的顺序执行。<br>每个请求都会返回状态和处理请求所用的时间，但是不会包含整个schema。</p>
-<p>当使用API修改schema时，一个core重载会自动发生，以便使更改可立即用于其后索引的文档。之前的被索引的文档不会自动被处理，当使用被改变的schema时，它们必须重新索引。</p>
-<ul>
-<li><p>新增Field<br>add-field 命令向schema中添加一个新的field。如果存在同名的，那么抛出异常。当定义一个了一个手动编辑的schema.xml，所有的属性都可以通过API传递。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field":&#123;</div><div class="line">     "name":"sell-by",</div><div class="line">     "type":"tdate",</div><div class="line">     "stored":true &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除field<br>delete-field 命令将会删除一个field，如果field不存在或者field是被copy的field，那么会抛出异常。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-field" : &#123; "name":"sell-by" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>替换Field<br>replace-field 命令会替换一个field。你需要提供field的完整定义。这个命令不会部分改变field，是整个替换。如果field不存在则抛出异常。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "replace-field":&#123;</div><div class="line">     "name":"sell-by",</div><div class="line">     "type":"date",</div><div class="line">     "stored":false &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>添加动态Field规则</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-dynamic-field":&#123;</div><div class="line">     "name":"*_s",</div><div class="line">     "type":"string",</div><div class="line">     "stored":true &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除动态field规则<br>delete-dynamic-field 命令删除一个动态field规则。如果动态field规则不存在或者schema包含一个copy field作为源或者目标只和这个动态field匹配，那么会抛出一个异常。</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-dynamic-field":&#123; "name":"*_s" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-<ul>
-<li><p>替换动态field规则</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "replace-dynamic-field":&#123;</div><div class="line">     "name":"*_s",</div><div class="line">     "type":"text_general",</div><div class="line">     "stored":false &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>添加一个新的field type</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field-type" : &#123;</div><div class="line">     "name":"myNewTxtField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "positionIncrementGap":"100",</div><div class="line">     "analyzer" : &#123;</div><div class="line">        "charFilters":[&#123;</div><div class="line">           "class":"solr.PatternReplaceCharFilterFactory",</div><div class="line">           "replacement":"$1$1",</div><div class="line">           "pattern":"([a-zA-Z])\\\\1+" &#125;],</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.WhitespaceTokenizerFactory" &#125;,</div><div class="line">        "filters":[&#123;</div><div class="line">           "class":"solr.WordDelimiterFilterFactory",</div><div class="line">           "preserveOriginal":"0" &#125;]&#125;&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>上面的例子中，我么那只能定义一个单独的analyzer。如果我们想定义单独的分析器，我们需要用分开的 indexAnalyzer 和 queryAnalyzer 代替上面的analyzer。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field-type":&#123;</div><div class="line">     "name":"myNewTextField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "indexAnalyzer":&#123;</div><div class="line">        "tokenizer":&#123;</div><div class="line">           "class":"solr.PathHierarchyTokenizerFactory", </div><div class="line">           "delimiter":"/" &#125;&#125;,</div><div class="line">     "queryAnalyzer":&#123;</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.KeywordTokenizerFactory" &#125;&#125;&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-<ul>
-<li><p>删除一个Field type<br>使用delete-field-type 删除一个field type。如果这个field type 不存在或者它已经被引用，那么会抛出异常。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-field-type":&#123; "name":"myNewTxtField" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>替换field type </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "replace-field-type":&#123;</div><div class="line">     "name":"myNewTxtField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "positionIncrementGap":"100",</div><div class="line">     "analyzer":&#123;</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.StandardTokenizerFactory" &#125;&#125;&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>新增一个新的copy field 规则<br>参数：<br><strong>source</strong> – 源field。<br><strong>dest</strong> – 将一个field或一组field拷贝到的目的field。<br><strong>maxChars</strong> – 拷贝的字符数量的上限。</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-copy-field":&#123;</div><div class="line">     "source":"shelf",</div><div class="line">     "dest":[ "location", "catchall" ]&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-<ul>
-<li><p>删除一个copy field 规则</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "delete-copy-field":&#123; "source":"shelf", "dest":"location" &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-<li><p>单个POST中加入多命令<br>支持在单个的post中加入多命令，API支持事务。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field-type":&#123;</div><div class="line">     "name":"myNewTxtField",</div><div class="line">     "class":"solr.TextField",</div><div class="line">     "positionIncrementGap":"100",</div><div class="line">     "analyzer":&#123;</div><div class="line">        "charFilters":[&#123;</div><div class="line">           "class":"solr.PatternReplaceCharFilterFactory",</div><div class="line">           "replacement":"$1$1",</div><div class="line">           "pattern":"([a-zA-Z])\\\\1+" &#125;],</div><div class="line">        "tokenizer":&#123; </div><div class="line">           "class":"solr.WhitespaceTokenizerFactory" &#125;,</div><div class="line">        "filters":[&#123;</div><div class="line">           "class":"solr.WordDelimiterFilterFactory",</div><div class="line">           "preserveOriginal":"0" &#125;]&#125;&#125;,</div><div class="line">   "add-field" : &#123;</div><div class="line">      "name":"sell-by",</div><div class="line">      "type":"myNewTxtField",</div><div class="line">      "stored":true &#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>重复的命令，可以修改成下面这样：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field":&#123;</div><div class="line">     "name":"shelf",</div><div class="line">     "type":"myNewTxtField",</div><div class="line">     "stored":true &#125;,</div><div class="line">  "add-field":&#123;</div><div class="line">     "name":"location",</div><div class="line">     "type":"myNewTxtField",</div><div class="line">     "stored":true &#125;,</div><div class="line">  "add-copy-field":&#123;</div><div class="line">     "source":"shelf",</div><div class="line">      "dest":[ "location", "catchall" ]&#125;</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure></p>
-<p>可以修改成：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">curl -X POST -H 'Content-type:application/json' --data-binary '&#123;</div><div class="line">  "add-field":[</div><div class="line">     &#123; "name":"shelf",</div><div class="line">       "type":"myNewTxtField",</div><div class="line">       "stored":true &#125;,</div><div class="line">     &#123; "name":"location",</div><div class="line">       "type":"myNewTxtField",</div><div class="line">       "stored":true &#125;]</div><div class="line">&#125;' http://localhost:8983/solr/gettingstarted/schema</div></pre></td></tr></table></figure></p>
-<ul>
-<li>修改所有副本的schema<br>在SolrCloud模式下，对schema的修改将会传播到集合中的所有节点。你可以通过在request中传递updateTimeoutSecs参数来设置所有节点确认的超时时间。这可以在规定的时间内确认所有节点都更新完毕，使你的系统更加健壮。如果确认信息没在指定时间到达，那么请求会失败并且报出异常，异常包括失败节点的错误信息。大部分情况下，唯一的做法是等待一段时间后重新请求，如果问题仍然存在，那么可以根据服务日志来查找解决问题。如果你不使用updateTimeoutSecs参数，接收节点的默认是在更新ZooKeeper后立即返回，这样，你就不能确保所有的节点都更新成功。</li>
-</ul>
-<h4 id="检索Schema信息"><a href="#检索Schema信息" class="headerlink" title="检索Schema信息"></a>检索Schema信息</h4><ul>
-<li>检索全部Schema<br><code>GET /collection/schema</code><br>输入：<br>路径参数：<br>collection – 集合或core名称。<br>查询参数：<br>wt : 默认是json格式，可选的有 json、xml、schema.xml。</li>
-</ul>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema?wt=json</code><br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">5</span>&#125;,</div><div class="line">  <span class="attr">"schema"</span>:&#123;</div><div class="line">    <span class="attr">"name"</span>:<span class="string">"example"</span>,</div><div class="line">    <span class="attr">"version"</span>:<span class="number">1.5</span>,</div><div class="line">    <span class="attr">"uniqueKey"</span>:<span class="string">"id"</span>,</div><div class="line">    <span class="attr">"fieldTypes"</span>:[&#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"alphaOnlySort"</span>,</div><div class="line">        <span class="attr">"class"</span>:<span class="string">"solr.TextField"</span>,</div><div class="line">        <span class="attr">"sortMissingLast"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"omitNorms"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"analyzer"</span>:&#123;</div><div class="line">          <span class="attr">"tokenizer"</span>:&#123;</div><div class="line">            <span class="attr">"class"</span>:<span class="string">"solr.KeywordTokenizerFactory"</span>&#125;,</div><div class="line">          <span class="attr">"filters"</span>:[&#123;</div><div class="line">              <span class="attr">"class"</span>:<span class="string">"solr.LowerCaseFilterFactory"</span>&#125;,</div><div class="line">            &#123;</div><div class="line">              <span class="attr">"class"</span>:<span class="string">"solr.TrimFilterFactory"</span>&#125;,</div><div class="line">            &#123;</div><div class="line">              <span class="attr">"class"</span>:<span class="string">"solr.PatternReplaceFilterFactory"</span>,</div><div class="line">              <span class="attr">"replace"</span>:<span class="string">"all"</span>,</div><div class="line">              <span class="attr">"replacement"</span>:<span class="string">""</span>,</div><div class="line">              <span class="attr">"pattern"</span>:<span class="string">"([^a-z])"</span>&#125;]&#125;&#125;,</div><div class="line">...</div><div class="line">    <span class="string">"fields"</span>:[&#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"_version_"</span>,</div><div class="line">        <span class="attr">"type"</span>:<span class="string">"long"</span>,</div><div class="line">        <span class="attr">"indexed"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"stored"</span>:<span class="literal">true</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"author"</span>,</div><div class="line">        <span class="attr">"type"</span>:<span class="string">"text_general"</span>,</div><div class="line">        <span class="attr">"indexed"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"stored"</span>:<span class="literal">true</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"name"</span>:<span class="string">"cat"</span>,</div><div class="line">        <span class="attr">"type"</span>:<span class="string">"string"</span>,</div><div class="line">        <span class="attr">"multiValued"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"indexed"</span>:<span class="literal">true</span>,</div><div class="line">        <span class="attr">"stored"</span>:<span class="literal">true</span>&#125;,</div><div class="line">...</div><div class="line">    <span class="string">"copyFields"</span>:[&#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"author"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"text"</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"cat"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"text"</span>&#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"content"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"text"</span>&#125;,</div><div class="line">...</div><div class="line">      &#123;</div><div class="line">        <span class="attr">"source"</span>:<span class="string">"author"</span>,</div><div class="line">        <span class="attr">"dest"</span>:<span class="string">"author_s"</span>&#125;]&#125;&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li>列出field<br><code>GET /collection/schema/fields</code></li>
-</ul>
-<p><code>GET /collection/schema/fields/fieldname</code></p>
-<p>路径参数：<br>collection – 集合或core名称。<br>fieldname – 指定的field名称。</p>
-<p>查询参数：<br><strong>fl</strong> – 逗号、空格分隔的要求返回的field。如果不指定，所有field都会被返回。<br><strong>includeDynamic</strong> – 默认是false。如果设为true，并且fl参数被指定或者fieldname路径参数被使用，匹配的动态field将被包含在response中并且被dynamicBase属性标识。如果不指定fl和fieldname，那么includeDynamic将被忽略。如果设为false，符合的动态field将不会被返回。<br><strong>showDefaults</strong> – 默认是false。如果设为true，那么所有缺省字段的属性将会被返回。如果设为false，那么只有明确设定的字段属性会被返回。</p>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/fields?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"fields"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"_version_"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"long"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"author"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"text_general"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"cat"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"string"</span></div><div class="line">        &#125;,</div><div class="line">...</div><div class="line">    ],</div><div class="line">    <span class="attr">"responseHeader"</span>: &#123;</div><div class="line">        <span class="attr">"QTime"</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">"status"</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>查询动态field<br><code>GET /collection/schema/dynamicfields</code><br><code>GET /collection/schema/dynamicfields/name</code></li>
-</ul>
-<p>查询参数</p>
-<p><strong>showDefaults</strong> – 默认为false，如果设为true，那么所有缺省属性都会被返回，如果false，那么只会返回显式赋值的属性。</p>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/dynamicfields?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"dynamicFields"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"*_coordinate"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"tdouble"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"ignored_*"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"ignored"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"random_*"</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"random"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"attr_*"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"text_general"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"indexed"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"multiValued"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"name"</span>: <span class="string">"*_txt"</span>,</div><div class="line">            <span class="attr">"stored"</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">"type"</span>: <span class="string">"text_general"</span></div><div class="line">        &#125;</div><div class="line">...</div><div class="line">    ],</div><div class="line">    <span class="attr">"responseHeader"</span>: &#123;</div><div class="line">        <span class="attr">"QTime"</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">"status"</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>列出Copy field<br><code>GET /collection/schema/copyfields</code></li>
-</ul>
-<p>参数：<br>source.fl – 用逗号或空格来隔离出要返回的源字段，不设的话，会返回全部字段。<br>dest.fl – 用逗号或空格来隔离出要返回的目标字段，不设的话，会返回全部字段。</p>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/copyfields?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"copyFields"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"author"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"cat"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"content"</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="attr">"dest"</span>: <span class="string">"text"</span>,</div><div class="line">            <span class="attr">"source"</span>: <span class="string">"content_type"</span></div><div class="line">        &#125;,</div><div class="line">...</div><div class="line">    ],</div><div class="line">    <span class="attr">"responseHeader"</span>: &#123;</div><div class="line">        <span class="attr">"QTime"</span>: <span class="number">3</span>,</div><div class="line">        <span class="attr">"status"</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>显示Schema名字<br><code>GET /collection/schema/name</code></li>
-</ul>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/name?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">1</span>&#125;,</div><div class="line">  <span class="attr">"name"</span>:<span class="string">"example"</span>&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>显示schema版本<br><code>GET /collection/schema/version</code></li>
-</ul>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/version?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">2</span>&#125;,</div><div class="line">  <span class="attr">"version"</span>:<span class="number">1.5</span>&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>列出UniqueKey<br><code>GET /collection/schema/uniquekey</code></li>
-</ul>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/uniquekey?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">2</span>&#125;,</div><div class="line">  <span class="attr">"uniqueKey"</span>:<span class="string">"id"</span>&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>显示全局Similarity<br><code>GET /collection/schema/similarity</code></li>
-</ul>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/similarity?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">1</span>&#125;,</div><div class="line">  <span class="attr">"similarity"</span>:&#123;</div><div class="line">    <span class="attr">"class"</span>:<span class="string">"org.apache.solr.search.similarities.DefaultSimilarityFactory"</span>&#125;&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>查询默认查询操作器<br><code>GET /collection/schema/solrqueryparser/defaultoperator</code></li>
-</ul>
-<p><code>curl http://localhost:8983/solr/gettingstarted/schema/solrqueryparser/defaultoperator?wt=json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"responseHeader"</span>:&#123;</div><div class="line">    <span class="attr">"status"</span>:<span class="number">0</span>,</div><div class="line">    <span class="attr">"QTime"</span>:<span class="number">2</span>&#125;,</div><div class="line">  <span class="attr">"defaultOperator"</span>:<span class="string">"OR"</span>&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1887,7 +1727,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

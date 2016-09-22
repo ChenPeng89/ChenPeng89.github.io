@@ -1,0 +1,604 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Index APIindex API 用来向指定的index添加或更新JSON文档，并使它可被搜索。下面的例子是在名为 twitter 的index中添加一个文档，type为tweet，id=1 ：12345$ curl -XPUT &amp;apos;http://localhost:9200/twitter/tweet/1&amp;apos; -d &amp;apos;&amp;#123;    &amp;quot;user&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch学习笔记：三、Document APIs">
+<meta property="og:url" content="http://chenpeng89.github.io/2016/09/22/Elasticsearch学习笔记：三、Document-APIs/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta property="og:description" content="Index APIindex API 用来向指定的index添加或更新JSON文档，并使它可被搜索。下面的例子是在名为 twitter 的index中添加一个文档，type为tweet，id=1 ：12345$ curl -XPUT &amp;apos;http://localhost:9200/twitter/tweet/1&amp;apos; -d &amp;apos;&amp;#123;    &amp;quot;user&amp;quo">
+<meta property="og:updated_time" content="2016-09-22T08:16:05.693Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch学习笔记：三、Document APIs">
+<meta name="twitter:description" content="Index APIindex API 用来向指定的index添加或更新JSON文档，并使它可被搜索。下面的例子是在名为 twitter 的index中添加一个文档，type为tweet，id=1 ：12345$ curl -XPUT &amp;apos;http://localhost:9200/twitter/tweet/1&amp;apos; -d &amp;apos;&amp;#123;    &amp;quot;user&amp;quo">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> Elasticsearch学习笔记：三、Document APIs | ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elasticsearch学习笔记：三、Document APIs
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-22T14:02:30+08:00" content="2016-09-22">
+              2016-09-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Index-API"><a href="#Index-API" class="headerlink" title="Index API"></a>Index API</h2><p>index API 用来向指定的index添加或更新JSON文档，并使它可被搜索。下面的例子是在名为 twitter 的index中添加一个文档，type为tweet，id=1 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>返回结果为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;_index&quot;: &quot;twitter&quot;,</div><div class="line">  &quot;_type&quot;: &quot;tweet&quot;,</div><div class="line">  &quot;_id&quot;: &quot;1&quot;,</div><div class="line">  &quot;_version&quot;: 3,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;created&quot;: false</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中，_shards段中提供了以下信息：</p>
+<ul>
+<li>total - 多少个分片及其备份要被操作。</li>
+<li>successful - 说明分片及其备份成功了几个。</li>
+<li>failures - 一个包含了失败分片及失败原因的数组。</li>
+</ul>
+<h3 id="自动创建Index"><a href="#自动创建Index" class="headerlink" title="自动创建Index"></a>自动创建Index</h3><p>如果实现没创建index，那么在上面的操作中会自动创建相应的index，如果没创建type，也会为指定的type自动创建一个动态type映射。</p>
+<p>这个映射非常灵活，并且模式自由。新的字段和对象会自动的被添加到指定类型的映射定义中去。</p>
+<p>自动创建index可以被关闭，在节点配置文件中将 action.auto_create_index 设为 false 就可以了。自动创建type映射也可以关闭，将 index.mapper.dynamic 设为 false就可以了。</p>
+<p>自动创建index也可以设置黑白名单，例如，设置 action.auto_create_index 为 +aaa*,-bbb*,+ccc*,-* ， 名字为 aaa*的是可以创建的，为 bbb*的是被禁止的，以此类推。</p>
+<h3 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h3><p>每个被index的文档都会有一个版本号。version 字段会在查询时返回给客户端。如果指定了版本号，可使用它做一个乐观锁。可以使用版本号进行一个read-then-update的事务处理。在读的时候指定文档的版本号可以确保期间文档不会发生变化。如果是读而不是更新操作，可以设置为preference 来替代 _primary。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl -XPUT &apos;localhost:9200/twitter/tweet/1?version=2&apos; -d &apos;&#123;</div><div class="line">    &quot;message&quot; : &quot;elasticsearch now has versioning support, double cool!&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>注意：版本操作是实时的，而且不被搜索操作的接近实时所影响。如果没设置版本号，接下来的操作将不会检查版本号。</p>
+<p>默认情况下，内部的版本号会从1开始，然后随着每次更新增加。版本号也可以由外部提供。如果要开启外部版本号，需要将version_type设置为external。当设置为版本号为外部版本号时，系统不会检查版本号是否相等，而是当传入的版本号是否大于当前版本号，如果大于，则更新，如果等于或小于，则更新失败。</p>
+<h4 id="版本号类型"><a href="#版本号类型" class="headerlink" title="版本号类型"></a>版本号类型</h4><p>除了上面所说的内部和外部版本号类型，es还提供了一些特殊的版本号类型：</p>
+<ul>
+<li>internal<br>只有在传入的版本号和系统中当前版本号相等时才更新索引。</li>
+<li>external 或 external_gt<br>只有在传入的版本号大于系统当前版本号 或者 要更新的文档不存在的时候，才会更新索引。传入的版本号将作为新的版本号，并且会存储新的文档。版本号必须为一个非负的long型。</li>
+<li>external_gte<br>和上面唯一不同的是，如果传入的版本号等于当前版本号也可以更新索引。</li>
+<li>force<br>无视版本号或者文档是否存在，都直接更新。且传入的版本号作为新的版本号，并会存储新的文档。一般用于改正错误数据。</li>
+</ul>
+<h3 id="操作类型"><a href="#操作类型" class="headerlink" title="操作类型"></a>操作类型</h3><p>index操作也允许传入 on_type 参数来强制进行 create 操作。当设置为create，如果文档已经存在，index操作将会失败：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1?op_type=create&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>如果失败，会返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;error&quot;: &#123;</div><div class="line">    &quot;root_cause&quot;: [</div><div class="line">      &#123;</div><div class="line">        &quot;type&quot;: &quot;document_already_exists_exception&quot;,</div><div class="line">        &quot;reason&quot;: &quot;[tweet][1]: document already exists&quot;,</div><div class="line">        &quot;index&quot;: &quot;twitter&quot;,</div><div class="line">        &quot;shard&quot;: &quot;0&quot;</div><div class="line">      &#125;</div><div class="line">    ],</div><div class="line">    &quot;type&quot;: &quot;document_already_exists_exception&quot;,</div><div class="line">    &quot;reason&quot;: &quot;[tweet][1]: document already exists&quot;,</div><div class="line">    &quot;index&quot;: &quot;twitter&quot;,</div><div class="line">    &quot;shard&quot;: &quot;0&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;status&quot;: 409</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>另一种指定 create 的方式是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1/_create&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="自动生成ID"><a href="#自动生成ID" class="headerlink" title="自动生成ID"></a>自动生成ID</h3><p>index的操作可以不指定id。id可以自动生成。op_type会自动设置为create。注意，此处用的是POST而不是PUT：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPOST &apos;http://localhost:9200/twitter/tweet/&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;_index&quot;: &quot;twitter&quot;,</div><div class="line">  &quot;_type&quot;: &quot;tweet&quot;,</div><div class="line">  &quot;_id&quot;: &quot;AVdQyYB5e-yIFmSuoS-f&quot;,</div><div class="line">  &quot;_version&quot;: 1,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;created&quot;: true</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Routing"><a href="#Routing" class="headerlink" title="Routing"></a>Routing</h3><p>一般情况下，shard的位置是由id的hash来控制的。为了更精确地控制，可以直接在每次操作上指定用于计算hash的值。使用 routing参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPOST &apos;http://localhost:9200/twitter/tweet?routing=kimchy&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>例如上面，就是使用kimchy来计算分片hash，来决定这个文档存放在哪个shard中。</p>
+<p>当显示设置了_routing字段，并设置为required，如果index操作中没传递这个参数，将会操作失败。</p>
+<h3 id="Parent-amp-Children"><a href="#Parent-amp-Children" class="headerlink" title="Parent &amp; Children"></a>Parent &amp; Children</h3><p>可以在index操作时指定parent：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT localhost:9200/blogs/blog_tag/1122?parent=1111 -d &apos;&#123;</div><div class="line">    &quot;tag&quot; : &quot;something&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>当index一个child文档，routing的值会自动设置为何它parent的一致，除非显式指定child的routing。</p>
+<h3 id="写一致性"><a href="#写一致性" class="headerlink" title="写一致性"></a>写一致性</h3><p>默认情况下，对index的操作只有在超过半数的分片可用的情况下（quorum）才能成功返回。这个默认值可以通过 action.write_consistency参数来设置。如果想在每次操作时指定，可以使用请求参数 consistency 。参数有效值为one ， quorum和all。 index操作只有在复制组里面所有可用的分片都执行后才返回。</p>
+<h3 id="刷新"><a href="#刷新" class="headerlink" title="刷新"></a>刷新</h3><p>想要在index操作后立即就能够查询到结果，需要设置refresh参数为true。将此选项设置为true应该在经过仔细思考和验证后,从索引和搜索的角度来看，它不会影响性能。注意，使用getAPI是实时的，不需要刷新。</p>
+<h3 id="Noop-Updates"><a href="#Noop-Updates" class="headerlink" title="Noop Updates"></a>Noop Updates</h3><p>等待更新？。。。这个词不知道怎么翻译比较易懂。。。<br>当使用新的版本号进行index更新时，不管文档内容有没有变，都会创建一个新的文档。如果不能接受这样的操作，可以在使用_update api时将detect_noop设为true。这个选项不能用于index api因为index api不会获取旧的文档，因此，也就不会拿旧的和新的作比较。</p>
+<h3 id="Timeout"><a href="#Timeout" class="headerlink" title="Timeout"></a>Timeout</h3><p>当进行index操作时，被安排用于index操作的shard可能暂时不可用。一些因素导致这个情形，比如正在搬迁或者网络异常。默认的，index操作将会等待shard一分钟，如果还不可用就会返回失败。timeout 参数可以用来显式设置等待多久：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ curl -XPUT &apos;http://localhost:9200/twitter/tweet/1?timeout=5m&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;post_date&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure></p>
+<p>上例中，设置等待5分钟。</p>
+<h2 id="Get-API"><a href="#Get-API" class="headerlink" title="Get API"></a>Get API</h2><p>//TODO</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag">#Elasticsearch</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/22/Elasticsearch学习笔记：二、基本设置/" rel="next" title="Elasticsearch学习笔记：二、基本设置">
+                <i class="fa fa-chevron-left"></i> Elasticsearch学习笔记：二、基本设置
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Index-API"><span class="nav-number">1.</span> <span class="nav-text">Index API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动创建Index"><span class="nav-number">1.1.</span> <span class="nav-text">自动创建Index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本号"><span class="nav-number">1.2.</span> <span class="nav-text">版本号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#版本号类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">版本号类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作类型"><span class="nav-number">1.3.</span> <span class="nav-text">操作类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动生成ID"><span class="nav-number">1.4.</span> <span class="nav-text">自动生成ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Routing"><span class="nav-number">1.5.</span> <span class="nav-text">Routing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parent-amp-Children"><span class="nav-number">1.6.</span> <span class="nav-text">Parent & Children</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写一致性"><span class="nav-number">1.7.</span> <span class="nav-text">写一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷新"><span class="nav-number">1.8.</span> <span class="nav-text">刷新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Noop-Updates"><span class="nav-number">1.9.</span> <span class="nav-text">Noop Updates</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Timeout"><span class="nav-number">1.10.</span> <span class="nav-text">Timeout</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Get-API"><span class="nav-number">2.</span> <span class="nav-text">Get API</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
