@@ -232,6 +232,106 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/16/【转】解决hexo在github-page上css-js-404问题/" itemprop="url">
+                  【转】解决hexo在github page上css/js 404问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-16T16:51:31+08:00" content="2016-11-16">
+              2016-11-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>最近github page更新了，GitHub Pages 过滤掉了 source/vendors 目录的访问，所以next主题下的source下的vendors目录不能够被访问到，所以就出现了本地hexo s能够正常访问，但是deploy到github就是一片空白，按f12，可以看到大量来自source/vendors的css和js提示404。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>方法一（来自github next主题issue）:</p>
+<p>找到解决方案了。。 @BBBOND @monsterLin @SpadeRoy 根据作者的提示 @iissnan ，首先修改source/vendors为source/lib，然后修改_config.yml， 将 _internal: vendors修改为_internal:lib 然后修改next底下所有引用source/vendors路径为source/lib。这些地方可以通过文件查找找出来。主要集中在这几个文件中。1. Hexo\themes\next.bowerrc 2. Hexo\themes\next.gitignore 3. Hexo\themes\next.javascript_ignore 4. Hexo\themes\next\bower.json 。修改完毕后，刷新重新g一遍就ok啦。</p>
+<p>方法二:更新next主题，不过听过最新的next主题对第三方例如多说删除了，具体不清楚，不敢亲易尝试，毕竟更新一次主题引来的问题太多，很多配置可能都要改，代价太高，所以推荐第一种方法<br>参考</p>
+<pre><code>https://github.com/hexojs/hexo/issues/2238
+https://github.com/iissnan/hexo-theme-next/issues/1214
+</code></pre><p>转自： <a href="http://blog.csdn.net/zhouzixin053/article/details/53038679" target="_blank" rel="external">Hexo+Github博客css js404导致博客页面空白</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/22/Elasticsearch学习笔记：三、Document-APIs/" itemprop="url">
                   Elasticsearch学习笔记：三、Document APIs
                 </a>
@@ -1669,112 +1769,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/07/Redis持久化策略/" itemprop="url">
-                  Redis持久化策略
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-07T10:24:32+08:00" content="2016-07-07">
-              2016-07-07
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Redis提供了两种持久化策略，一种是快照方式（point-in-time snapshot），另一种是只追加文件（append-only file）方式。</p>
-<h2 id="快照方式"><a href="#快照方式" class="headerlink" title="快照方式"></a>快照方式</h2><p>快照方式会在某个时刻将所有数据都写入到硬盘中。用户可以根据Redis的配置命令<code>config get dir</code>和<code>config get dbfilename</code>来知道快照文件写入的路径和文件名。</p>
-<p>创建快照的方式有以下几种：</p>
-<ul>
-<li>客户端发送  <code>bgsave</code> 命令（windows不支持此命令），Redis会调用fork创建一个进程来进行备份操作，父进程继续接收执行命令。</li>
-<li>客户端发送  <code>save</code> 命令，Redis会进行备份操作，在备份完成之前，不相应其它命令请求。一般不使用此命令，只有在没有足够内存去执行<code>bgsave</code>情况下才使用此命令。</li>
-<li>在配置中设置了 <code>save</code> 选项，比如设置为 <code>save 60 10000</code> ， 当60s内有10000次写入则触发bgsave。</li>
-<li>当使用 <code>shutdown</code> 关闭Redis时，会先执行<code>save</code>命令，并阻塞所有客户端。</li>
-<li>当Redis连接另一Redis，并向对方发送<code>sync</code>开始一次复制命令，如果redis没有正在执行<code>bgsave</code> 或 没有刚刚执行完 <code>bgsave</code>，那么会执行一次<code>bgsave</code>。</li>
-</ul>
-<p>缺点：<br>如果在进行下一次备份的时候服务器crash了，那么将丢失上次备份到现在的所有记录。</p>
-<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><p>aof会将被执行的写命令写到aof文件的末尾，每次恢复的时候直接执行aof文件中的写命令就可以了。用户可以在<code>appendonly</code>配置中打开aof。<code>appendfsync</code>可以控制aof的频率。<code>always</code>是每次写命令都要同步到硬盘，这样会严重降低redis的速度。<code>everysec</code>每秒进行一次同步，显式将多个写命令同步到硬盘，一般使用这个选项。<code>no</code>由OS来确定何时同步。</p>
-<p>由于aof文件会越来越大，一是会占用过大的硬盘空间，二是数据恢复会需要很长时间。为了解决这个问题，redis提供了一个<code>bgrewriteaof</code>命令创建一个子进程来移除aof的冗余命令并重写aof文件。redis还提供了<code>auto-aof-rewrite-percentage</code>和<code>auto-aof-rewrite-min-size</code>来自动执行<code>bgrewriteaof</code>。当设置了 <code>auto-aof-rewrite-percentage 100</code>和<code>auto-aof-rewrite-min-size 64mb</code>时，并启动了aof，当aof文件大于64mb 并且aof文件比上一次重写大了至少1倍时，redis将会执行<code>bgrewriteaof</code>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1820,7 +1814,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1830,7 +1824,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
