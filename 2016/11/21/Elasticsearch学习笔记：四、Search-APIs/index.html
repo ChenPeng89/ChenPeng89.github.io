@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ChenPeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="简介Routing当执行搜索时，将会对所有索引分片进行广播（轮询所有备份）。这个可以通过设置 routing 参数来指定搜索的分片。例如，在创建索引时可以指定routing：123456$ curl -XPOST &amp;apos;http://localhost:9200/twitter/tweet?routing=kimchy&amp;apos; -d &amp;apos;&amp;#123;    &amp;quot;user&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch学习笔记：四、Search-APIs.md">
+<meta property="og:url" content="http://chenpeng89.github.io/2016/11/21/Elasticsearch学习笔记：四、Search-APIs/index.html">
+<meta property="og:site_name" content="ChenPeng's Blog">
+<meta property="og:description" content="简介Routing当执行搜索时，将会对所有索引分片进行广播（轮询所有备份）。这个可以通过设置 routing 参数来指定搜索的分片。例如，在创建索引时可以指定routing：123456$ curl -XPOST &amp;apos;http://localhost:9200/twitter/tweet?routing=kimchy&amp;apos; -d &amp;apos;&amp;#123;    &amp;quot;user&amp;">
+<meta property="og:updated_time" content="2016-11-30T10:40:14.008Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch学习笔记：四、Search-APIs.md">
+<meta name="twitter:description" content="简介Routing当执行搜索时，将会对所有索引分片进行广播（轮询所有备份）。这个可以通过设置 routing 参数来指定搜索的分片。例如，在创建索引时可以指定routing：123456$ curl -XPOST &amp;apos;http://localhost:9200/twitter/tweet?routing=kimchy&amp;apos; -d &amp;apos;&amp;#123;    &amp;quot;user&amp;">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6332319628039030000,
+      author: '����'
+    }
+  };
+</script>
+
+  <title> Elasticsearch学习笔记：四、Search-APIs.md | ChenPeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ChenPeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elasticsearch学习笔记：四、Search-APIs.md
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-21T10:30:17+08:00" content="2016-11-21">
+              2016-11-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="Routing"><a href="#Routing" class="headerlink" title="Routing"></a>Routing</h3><p>当执行搜索时，将会对所有索引分片进行广播（轮询所有备份）。这个可以通过设置 routing 参数来指定搜索的分片。<br>例如，在创建索引时可以指定routing：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ curl -XPOST &apos;http://localhost:9200/twitter/tweet?routing=kimchy&apos; -d &apos;&#123;</div><div class="line">    &quot;user&quot; : &quot;kimchy&quot;,</div><div class="line">    &quot;postDate&quot; : &quot;2009-11-15T14:12:12&quot;,</div><div class="line">    &quot;message&quot; : &quot;trying out Elasticsearch&quot;</div><div class="line">&#125;</div><div class="line">&apos;</div></pre></td></tr></table></figure></p>
+<p>然后我们在后面查询时指定相应routing：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">$ curl -XGET &apos;http://localhost:9200/twitter/tweet/_search?routing=kimchy&apos; -d &apos;&#123;</div><div class="line">    &quot;query&quot;: &#123;</div><div class="line">        &quot;bool&quot; : &#123;</div><div class="line">            &quot;must&quot; : &#123;</div><div class="line">                &quot;query_string&quot; : &#123;</div><div class="line">                    &quot;query&quot; : &quot;some query string here&quot;</div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            &quot;filter&quot; : &#123;</div><div class="line">                &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&apos;</div></pre></td></tr></table></figure></p>
+<p>routing参数可以设置为多个，用 , 隔开。</p>
+<h3 id="Stats-Group"><a href="#Stats-Group" class="headerlink" title="Stats Group"></a>Stats Group</h3><p>还可以关联数据组，数据组可以通过后面index API中的indices stats API 来设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;match_all&quot; : &#123;&#125;</div><div class="line">    &#125;,</div><div class="line">    &quot;stats&quot; : [&quot;group1&quot;, &quot;group2&quot;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Global-Search-Timeout"><a href="#Global-Search-Timeout" class="headerlink" title="Global Search Timeout"></a>Global Search Timeout</h3><p>es可以设置一个集群级的超时时间，在<code>search.default_search_timeout</code> 中，设为-1 的话表示没有超时时间。</p>
+<h2 id="Search"><a href="#Search" class="headerlink" title="Search"></a>Search</h2><h3 id="Multi-Index，Multi-Type"><a href="#Multi-Index，Multi-Type" class="headerlink" title="Multi-Index，Multi-Type"></a>Multi-Index，Multi-Type</h3><p>所有search APIs 都可以跨 index和type来进行查询。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /twitter/_search?q=user:kimchy</div></pre></td></tr></table></figure></p>
+<p>也可以指定多个type:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /twitter/tweet,user/_search?q=user:kimchy</div></pre></td></tr></table></figure></p>
+<p>还可以通过一个tag来搜索相关的几个index:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /kimchy,elasticsearch/tweet/_search?q=tag:wow</div></pre></td></tr></table></figure></p>
+<p>或者搜索所有index，使用_all：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /_all/tweet/_search?q=tag:wow</div></pre></td></tr></table></figure></p>
+<p>甚至所有index和type：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /_search?q=tag:wow</div></pre></td></tr></table></figure></p>
+<p>默认情况下，es会拒绝搜索超过1000个分片的查询。因为这会严重影响es的性能。通常的做法是，将分片设置的更大，数量更少，可以通过<code>action.search.shard_count.limit</code>来设置。</p>
+<h2 id="URI-Search"><a href="#URI-Search" class="headerlink" title="URI Search"></a>URI Search</h2><p>一个搜索请求可以通过URI中带有参数来实现，当然，并不是所有搜索都能使用这个模式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET twitter/tweet/_search?q=user:kimchy</div></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;took&quot;: 38,</div><div class="line">  &quot;timed_out&quot;: false,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;max_score&quot;: 1.4054651,</div><div class="line">    &quot;hits&quot;: [</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot;: &quot;twitter&quot;,</div><div class="line">        &quot;_type&quot;: &quot;tweet&quot;,</div><div class="line">        &quot;_id&quot;: &quot;AViEvWlRDD544hrngUp_&quot;,</div><div class="line">        &quot;_score&quot;: 1.4054651,</div><div class="line">        &quot;_routing&quot;: &quot;kimchy&quot;,</div><div class="line">        &quot;_source&quot;: &#123;</div><div class="line">          &quot;user&quot;: &quot;kimchy&quot;,</div><div class="line">          &quot;postDate&quot;: &quot;2009-11-15T14:12:12&quot;,</div><div class="line">          &quot;message&quot;: &quot;trying out Elasticsearch&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>q: 查询字符串。</li>
+<li>df: 在查询中没定义字段时默认使用的字段。</li>
+<li>analyzer ： 指定使用的查询分析器。</li>
+<li>lowercase_expanded_terms ： 瓷套是否自动变成小写。默认是true。</li>
+<li>analyze_wildcard ： 通配符和前缀查询是否要被分析器分析。默认是false。</li>
+<li>default_operator ： 默认的操作符，AND /OR ，默认是OR。</li>
+<li>lenient : 如果设置为true，则会忽略类型错误，比如向数字字段传文本数据。</li>
+<li>explain : 对于所有命中的数据，计算命中分数。</li>
+<li>_source： 返回的结果中是否包含source。还可以设置source中的字段。</li>
+<li>stored_fields ： 选择命中后返回的字段，使用 ， 分隔。</li>
+<li>sort ： 排序。</li>
+<li>track_scores : 当设置sort时，将它设为true，将会返回track score。</li>
+<li>timeout： 超时时间。默认是没有超时时间。</li>
+<li>terminate_after :  一个Shard可以在获取到多少条数据后，停止查询。</li>
+<li>from/size : 分页参数。</li>
+<li>search_type : search的类型：dfs_query_then_fetch和query_then_fetch。默认是后者。</li>
+</ul>
+<h2 id="Request-Body-Search"><a href="#Request-Body-Search" class="headerlink" title="Request Body Search"></a>Request Body Search</h2><p>search请求可以通过search DSL ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">GET /twitter/tweet/_search</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;took&quot;: 856,</div><div class="line">  &quot;timed_out&quot;: false,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;successful&quot;: 1,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot;: &#123;</div><div class="line">    &quot;total&quot;: 1,</div><div class="line">    &quot;max_score&quot;: 1.4054651,</div><div class="line">    &quot;hits&quot;: [</div><div class="line">      &#123;</div><div class="line">        &quot;_index&quot;: &quot;twitter&quot;,</div><div class="line">        &quot;_type&quot;: &quot;tweet&quot;,</div><div class="line">        &quot;_id&quot;: &quot;AViEvWlRDD544hrngUp_&quot;,</div><div class="line">        &quot;_score&quot;: 1.4054651,</div><div class="line">        &quot;_routing&quot;: &quot;kimchy&quot;,</div><div class="line">        &quot;_source&quot;: &#123;</div><div class="line">          &quot;user&quot;: &quot;kimchy&quot;,</div><div class="line">          &quot;postDate&quot;: &quot;2009-11-15T14:12:12&quot;,</div><div class="line">          &quot;message&quot;: &quot;trying out Elasticsearch&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="快速确定是否有匹配的文档"><a href="#快速确定是否有匹配的文档" class="headerlink" title="快速确定是否有匹配的文档"></a>快速确定是否有匹配的文档</h3><p>如果我们只是想查看是否有匹配的文档，而不在乎返回的数据，可以将size设为0。还可以将termnate_after设为1。在查找到第一条后不再进行搜索。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /_search?q=message:elasticsearch&amp;size=0&amp;terminate_after=1</div></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;took&quot;: 846,</div><div class="line">  &quot;timed_out&quot;: false,</div><div class="line">  &quot;terminated_early&quot;: true,</div><div class="line">  &quot;_shards&quot;: &#123;</div><div class="line">    &quot;total&quot;: 36,</div><div class="line">    &quot;successful&quot;: 36,</div><div class="line">    &quot;failed&quot;: 0</div><div class="line">  &#125;,</div><div class="line">  &quot;hits&quot;: &#123;</div><div class="line">    &quot;total&quot;: 2,</div><div class="line">    &quot;max_score&quot;: 0,</div><div class="line">    &quot;hits&quot;: []</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h3><p>在request body中可以使用query DSL定义查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="From-Size"><a href="#From-Size" class="headerlink" title="From/Size"></a>From/Size</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;from&quot; : 0, &quot;size&quot; : 10,</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Sort"><a href="#Sort" class="headerlink" title="Sort"></a>Sort</h3><p>可以将一个或者多个字段进行排序。每个排序都可以正序倒序。排序定义在字段级别，可以通过指定字段名进行评分_score，并根据评分进行排序。或者_doc来根据索引顺序排序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">PUT  localhost:9200/my_index</div><div class="line">&#123;</div><div class="line">    &quot;mappings&quot;: &#123;</div><div class="line">        &quot;my_type&quot;: &#123;</div><div class="line">            &quot;properties&quot;: &#123;</div><div class="line">                &quot;post_date&quot;: &#123; &quot;type&quot;: &quot;date&quot; &#125;,</div><div class="line">                &quot;user&quot;: &#123;</div><div class="line">                    &quot;type&quot;: &quot;string&quot;</div><div class="line">                &#125;,</div><div class="line">                &quot;name&quot;: &#123;</div><div class="line">                    &quot;type&quot;: &quot;string&quot;</div><div class="line">                &#125;,</div><div class="line">                &quot;age&quot;: &#123; &quot;type&quot;: &quot;integer&quot; &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>查询时，可以设置每个字段的排序方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST localhost:9200/my_index/my_type/_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123; &quot;post_date&quot; : &#123;&quot;order&quot; : &quot;asc&quot;&#125;&#125;,</div><div class="line">        &quot;user&quot;,</div><div class="line">        &#123; &quot;name&quot; : &quot;desc&quot; &#125;,</div><div class="line">        &#123; &quot;age&quot; : &quot;desc&quot; &#125;,</div><div class="line">        &quot;_score&quot;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>一般来说，_doc没有实际的用处。但是，如果你不需要进行排序的话，按_doc排序是会增加处理效率的，因此，如果你不关心文档的返回顺序，你可以指定按_doc来排序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">POST localhost:9200/my_index/my_type/_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        </div><div class="line">        &quot;_doc&quot;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="排序参数"><a href="#排序参数" class="headerlink" title="排序参数"></a>排序参数</h4><p>es支持按照数组排序或者多个值进行排序。mode 选项控制了选择类型为数组的字段中的哪个值来进行排序。有以下值：</p>
+<ul>
+<li>min 最小值</li>
+<li>max 最大值</li>
+<li>sum 总和</li>
+<li>avg 平均值</li>
+<li>median 中间值</li>
+</ul>
+<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">PUT /my_index/my_type/1?refresh</div><div class="line">&#123;</div><div class="line">   &quot;product&quot;: &quot;chocolate&quot;,</div><div class="line">    &quot;price&quot;: [20, 4]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>排序操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">POST /_search</div><div class="line">&#123;</div><div class="line">   &quot;query&quot; : &#123;</div><div class="line">      &quot;term&quot; : &#123; &quot;product&quot; : &quot;chocolate&quot; &#125;</div><div class="line">   &#125;,</div><div class="line">   &quot;sort&quot; : [</div><div class="line">      &#123;&quot;price&quot; : &#123;&quot;order&quot; : &quot;asc&quot;, &quot;mode&quot; : &quot;avg&quot;&#125;&#125;</div><div class="line">   ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="对内嵌对象进行排序"><a href="#对内嵌对象进行排序" class="headerlink" title="对内嵌对象进行排序"></a>对内嵌对象进行排序</h4><p>es也支持对内嵌对象的字段进行排序。</p>
+<ul>
+<li>nested_path 定义进行排序的内嵌对象的路径。进行排序的字段必须在这个对象中。</li>
+<li>nested_filter 针对内嵌对象的一个过滤器。</li>
+</ul>
+<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">POST /_search</div><div class="line">&#123;</div><div class="line">   &quot;query&quot; : &#123;</div><div class="line">      &quot;term&quot; : &#123; &quot;product&quot; : &quot;chocolate&quot; &#125;</div><div class="line">   &#125;,</div><div class="line">   &quot;sort&quot; : [</div><div class="line">       &#123;</div><div class="line">          &quot;offer.price&quot; : &#123;</div><div class="line">             &quot;mode&quot; :  &quot;avg&quot;,</div><div class="line">             &quot;order&quot; : &quot;asc&quot;,</div><div class="line">             &quot;nested_path&quot; : &quot;offer&quot;,</div><div class="line">             &quot;nested_filter&quot; : &#123;</div><div class="line">                &quot;term&quot; : &#123; &quot;offer.color&quot; : &quot;blue&quot; &#125;</div><div class="line">             &#125;</div><div class="line">          &#125;</div><div class="line">       &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面针对offer里面的price的平均值进行升序排序，并限定了offer的color字段为blue。</p>
+<h4 id="针对字段为空的文档的处理"><a href="#针对字段为空的文档的处理" class="headerlink" title="针对字段为空的文档的处理"></a>针对字段为空的文档的处理</h4><p>missing参数可以设置当某个字段为空时，在排序时怎么控制文档的位置。它有以下参数：_last和_first或者自定义的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123; &quot;price&quot; : &#123;&quot;missing&quot; : &quot;_last&quot;&#125; &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;product&quot; : &quot;chocolate&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面将没有price字段的文档放到最后。</p>
+<font color="red"><strong>注意：如果内嵌对象不满足nested_filter时，也将使用missing 参数的值。</strong></font>
+
+<h4 id="忽略UnMapped-字段"><a href="#忽略UnMapped-字段" class="headerlink" title="忽略UnMapped 字段"></a>忽略UnMapped 字段</h4><p>默认情况下，如果相关的字段没有进行mapping，那么search请求将会失败。unmapped-type参数用来决定使用什么值来进行排序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123; &quot;price&quot; : &#123;&quot;unmapped_type&quot; : &quot;long&quot;&#125; &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;product&quot; : &quot;chocolate&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的例子的意思是，如果当price没有进行mapping操作，那么，将会把它视为 long 来进行处理。</p>
+<h4 id="经纬度距离排序"><a href="#经纬度距离排序" class="headerlink" title="经纬度距离排序"></a>经纬度距离排序</h4><p>可以根据经纬度位置上的距离来排序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123;</div><div class="line">            &quot;_geo_distance&quot; : &#123;</div><div class="line">                &quot;pin.location&quot; : [-70, 40],</div><div class="line">                &quot;order&quot; : &quot;asc&quot;,</div><div class="line">                &quot;unit&quot; : &quot;km&quot;,</div><div class="line">                &quot;mode&quot; : &quot;min&quot;,</div><div class="line">                &quot;distance_type&quot; : &quot;sloppy_arc&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>参数：</p>
+<ul>
+<li>distance_type：如何计算距离，包括sloppy（默认的），arc（更精准但是更慢）和plane（很快，但是对于长距离和接近两极的计算不准确）。</li>
+<li>mode：当一个字段有多个经纬度的时候怎么办。默认的话，升序排序的时候考虑最近的，降序排序的时候考虑最远的。有min，max，median和avg等。</li>
+<li>unit：用来计算的单位。默认是m（米）。</li>
+</ul>
+<h4 id="经纬度作为参数"><a href="#经纬度作为参数" class="headerlink" title="经纬度作为参数"></a>经纬度作为参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123;</div><div class="line">            &quot;_geo_distance&quot; : &#123;</div><div class="line">                &quot;pin.location&quot; : &#123;</div><div class="line">                    &quot;lat&quot; : 40,</div><div class="line">                    &quot;lon&quot; : -70</div><div class="line">                &#125;,</div><div class="line">                &quot;order&quot; : &quot;asc&quot;,</div><div class="line">                &quot;unit&quot; : &quot;km&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="经纬度是string"><a href="#经纬度是string" class="headerlink" title="经纬度是string"></a>经纬度是string</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123;</div><div class="line">            &quot;_geo_distance&quot; : &#123;</div><div class="line">                &quot;pin.location&quot; : &quot;40,-70&quot;,</div><div class="line">                &quot;order&quot; : &quot;asc&quot;,</div><div class="line">                &quot;unit&quot; : &quot;km&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="地理位置是hash值"><a href="#地理位置是hash值" class="headerlink" title="地理位置是hash值"></a>地理位置是hash值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123;</div><div class="line">            &quot;_geo_distance&quot; : &#123;</div><div class="line">                &quot;pin.location&quot; : &quot;drm3btev3e86&quot;,</div><div class="line">                &quot;order&quot; : &quot;asc&quot;,</div><div class="line">                &quot;unit&quot; : &quot;km&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="经纬度是数组"><a href="#经纬度是数组" class="headerlink" title="经纬度是数组"></a>经纬度是数组</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123;</div><div class="line">            &quot;_geo_distance&quot; : &#123;</div><div class="line">                &quot;pin.location&quot; : [-70, 40],</div><div class="line">                &quot;order&quot; : &quot;asc&quot;,</div><div class="line">                &quot;unit&quot; : &quot;km&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="多个参考点"><a href="#多个参考点" class="headerlink" title="多个参考点"></a>多个参考点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123;</div><div class="line">            &quot;_geo_distance&quot; : &#123;</div><div class="line">                &quot;pin.location&quot; : [[-70, 40], [-71, 42]],</div><div class="line">                &quot;order&quot; : &quot;asc&quot;,</div><div class="line">                &quot;unit&quot; : &quot;km&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最终，这个经纬度的排序会按mode的那几个参数来进行。</p>
+<h4 id="基于脚本的排序"><a href="#基于脚本的排序" class="headerlink" title="基于脚本的排序"></a>基于脚本的排序</h4><p>可以基于脚本进行排序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;,</div><div class="line">    &quot;sort&quot; : &#123;</div><div class="line">        &quot;_script&quot; : &#123;</div><div class="line">            &quot;type&quot; : &quot;number&quot;,</div><div class="line">            &quot;script&quot; : &#123;</div><div class="line">                &quot;lang&quot;: &quot;painless&quot;,</div><div class="line">                &quot;inline&quot;: &quot;doc[&apos;field_name&apos;].value * params.factor&quot;,</div><div class="line">                &quot;params&quot; : &#123;</div><div class="line">                    &quot;factor&quot; : 1.1</div><div class="line">                &#125;</div><div class="line">            &#125;,</div><div class="line">            &quot;order&quot; : &quot;asc&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="计算得分"><a href="#计算得分" class="headerlink" title="计算得分"></a>计算得分</h4><p>当按照字段来排序时，分数是不会被计算的。可以设置 track_scores为true来计算分数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;track_scores&quot;: true,</div><div class="line">    &quot;sort&quot; : [</div><div class="line">        &#123; &quot;post_date&quot; : &#123;&quot;order&quot; : &quot;desc&quot;&#125; &#125;,</div><div class="line">        &#123; &quot;name&quot; : &quot;desc&quot; &#125;,</div><div class="line">        &#123; &quot;age&quot; : &quot;desc&quot; &#125;</div><div class="line">    ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="针对内存方面的考虑"><a href="#针对内存方面的考虑" class="headerlink" title="针对内存方面的考虑"></a>针对内存方面的考虑</h4><p>当执行排序时，排序相关的字段都会被加载到内存中。这就意味着，每个分片都应该有足够的内存来容纳它们。对于string类型，字段排序不应该进行 analyzed/tokenized 操作。对于数字类型，如果可能，尽量将它们设置为具体的类型（short、integer和float等）。</p>
+<h3 id="Source-filtering"><a href="#Source-filtering" class="headerlink" title="Source filtering"></a>Source filtering</h3><p>允许控制_source的命中返回。<br>一般操作都将返回_source，除非你使用stored_fields 或者将_source设为false。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;_source&quot;: false,</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以设置哪些字段返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;_source&quot;: &quot;obj.*&quot;,</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>或者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;_source&quot;: [ &quot;obj1.*&quot;, &quot;obj2.*&quot; ],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最终，为了完全控制，还可以通过 includes 和excludes来设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;_source&quot;: &#123;</div><div class="line">        &quot;includes&quot;: [ &quot;obj1.*&quot;, &quot;obj2.*&quot; ],</div><div class="line">        &quot;excludes&quot;: [ &quot;*.description&quot; ]</div><div class="line">    &#125;,</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Fields"><a href="#Fields" class="headerlink" title="Fields"></a>Fields</h3><p>stored_fields参数是针对已经明确mapping过的，一般不体检使用。可以使用 source filtering来代替。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;stored_fields&quot; : [&quot;user&quot;, &quot;postDate&quot;],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果想加载所有的字段，可以用 * 。<br>如果设置为空数组，那么如果命中，将只返回_id 和 _type。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;stored_fields&quot; : [],</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果没有需要的字段，它将会被忽略。</p>
+<h4 id="不使用存储的字段"><a href="#不使用存储的字段" class="headerlink" title="不使用存储的字段"></a>不使用存储的字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">GET /_search</div><div class="line">&#123;</div><div class="line">    &quot;stored_fields&quot;: &quot;_none_&quot;,</div><div class="line">    &quot;query&quot; : &#123;</div><div class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">``` </div><div class="line"></div><div class="line">### Script Fields</div></pre></td></tr></table></figure>
+<p>{<br>    “query” : {<br>        “match_all”: {}<br>    },<br>    “script_fields” : {<br>        “test1” : {<br>            “script” : {</p>
+<pre><code>            &quot;inline&quot;: &quot;doc[&apos;my_field_name&apos;].value * 2&quot;
+        }
+    },
+    &quot;test2&quot; : {
+        &quot;script&quot; : {
+
+            &quot;inline&quot;: &quot;doc[&apos;my_field_name&apos;].value * factor&quot;,
+            &quot;params&quot; : {
+                &quot;factor&quot;  : 2.0
+            }
+        }
+    }
+}
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">script_fields 能够操作没存储的字段，并且允许人为定义其返回值。</div><div class="line">script_fields 还可以访问年实际存在的 _source 文档，并且指定返回的元素：</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>    {<br>        “query” : {<br>            “match_all”: {}<br>        },<br>        “script_fields” : {<br>            “test1” : {<br>                “script” : “_source.obj1.obj2”<br>            }<br>        }<br>    }<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">理解doc[&apos;my_field&apos;].value 和 _source.my_field 的区别是很重要的。首先，使用doc，将会导致字段加载进内存，需要更多的内存消耗，但是会获得更快的响应速度。另外，doc[...]符号只允许简单的值的字段，不允许json object类型。</div><div class="line">_source只返回json相关的部分。</div><div class="line"></div><div class="line">### Doc value Fields</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match_all”: {}<br>    },<br>    “docvalue_fields” : [“test1”, “test2”]<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">docvalue_fields 能够用于没有存储的字段上。</div><div class="line">值得注意的是，如果字段的参数制定了没有docvalues的字段，将会从字段数据的缓存中加载值并导致字段中的所有词条加载到内存中，造成更多的内存消耗。</div><div class="line"></div><div class="line">### Post filter</div><div class="line">post_filter 用来搜索每个hits，在聚合运算之后。下面是一个解释的例子：</div><div class="line"></div><div class="line">加入你卖衬衫：</div></pre></td></tr></table></figure></p>
+<p>PUT /shirts<br>{<br>    “mappings”: {<br>        “item”: {<br>            “properties”: {<br>                “brand”: { “type”: “string”},<br>                “color”: { “type”: “string”},<br>                “model”: { “type”: “string”}<br>            }<br>        }<br>    }<br>}</p>
+<p>PUT /shirts/item/1?refresh<br>{<br>    “brand”: “gucci”,<br>    “color”: “red”,<br>    “model”: “slim”<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">想象一下，一个用户制定了两个搜索条件：</div><div class="line">color:red 和 brand:gucci 。通常，你可以使用：</div></pre></td></tr></table></figure></p>
+<p>GET /shirts/_search<br>{<br>  “query”: {<br>    “bool”: {<br>      “filter”: [<br>        { “term”: { “color”: “red”   }},<br>        { “term”: { “brand”: “gucci” }}<br>      ]<br>    }<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">返回结果时这样的：</div></pre></td></tr></table></figure></p>
+<p>{<br>  “took”: 120,<br>  “timed_out”: false,<br>  “_shards”: {<br>    “total”: 5,<br>    “successful”: 5,<br>    “failed”: 0<br>  },<br>  “hits”: {<br>    “total”: 1,<br>    “max_score”: 0,<br>    “hits”: [<br>      {<br>        “_index”: “shirts”,<br>        “_type”: “item”,<br>        “_id”: “1”,<br>        “_score”: 0,<br>        “_source”: {<br>          “brand”: “gucci”,<br>          “color”: “red”,<br>          “model”: “slim”<br>        }<br>      }<br>    ]<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">然而，你还想要展示一系列的选项来让用户点击查询。例如，你有一个model 字段来希望用户进一步查询是 red gucci 的t-shirts 还是dress-shirts，这可以使用terms aggregation来实现：</div></pre></td></tr></table></figure></p>
+<p>GET /shirts/_search<br>{<br>  “query”: {<br>    “bool”: {<br>      “filter”: [<br>        { “term”: { “color”: “red”   }},<br>        { “term”: { “brand”: “gucci” }}<br>      ]<br>    }<br>  },<br>  “aggs”: {<br>    “models”: {<br>      “terms”: { “field”: “model” }<br>    }<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">返回这样的：</div></pre></td></tr></table></figure></p>
+<p>{<br>  “took”: 73,<br>  “timed_out”: false,<br>  “_shards”: {<br>    “total”: 5,<br>    “successful”: 5,<br>    “failed”: 0<br>  },<br>  “hits”: {<br>    “total”: 1,<br>    “max_score”: 0,<br>    “hits”: [<br>      {<br>        “_index”: “shirts”,<br>        “_type”: “item”,<br>        “_id”: “1”,<br>        “_score”: 0,<br>        “_source”: {<br>          “brand”: “gucci”,<br>          “color”: “red”,<br>          “model”: “slim”<br>        }<br>      }<br>    ]<br>  },<br>  “aggregations”: {<br>    “models”: {<br>      “doc_count_error_upper_bound”: 0,<br>      “sum_other_doc_count”: 0,<br>      “buckets”: [<br>        {<br>          “key”: “slim”,<br>          “doc_count”: 1<br>        }<br>      ]<br>    }<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">但是，有可能你邮箱告诉user还有多少其他颜色的gucci shirts。如果你仅仅添加一个terms 的aggregation在color字段，你只能得到color为red的，因为你的查询只返回了red gucci shirts。</div><div class="line"></div><div class="line">解决方法是，你想要查询所有color的shirts，先通过聚合，然后使用color的filter来对查询结果进一步过滤，这就是post_filter的用处：</div></pre></td></tr></table></figure></p>
+<p>GET /shirts/_search<br>{<br>  “query”: {<br>    “bool”: {<br>      “filter”: {<br>        “term”: { “brand”: “gucci” }<br>      }<br>    }<br>  },<br>  “aggs”: {<br>    “colors”: {<br>      “terms”: { “field”: “color” }<br>    },<br>    “color_red”: {<br>      “filter”: {<br>        “term”: { “color”: “red” }<br>      },<br>      “aggs”: {<br>        “models”: {<br>          “terms”: { “field”: “model” }<br>        }<br>      }<br>    }<br>  },<br>  “post_filter”: {<br>    “term”: { “color”: “red” }<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">返回结果：</div></pre></td></tr></table></figure></p>
+<p>{<br>  “took”: 20,<br>  “timed_out”: false,<br>  “_shards”: {<br>    “total”: 5,<br>    “successful”: 5,<br>    “failed”: 0<br>  },<br>  “hits”: {<br>    “total”: 1,<br>    “max_score”: 0,<br>    “hits”: [<br>      {<br>        “_index”: “shirts”,<br>        “_type”: “item”,<br>        “_id”: “1”,<br>        “_score”: 0,<br>        “_source”: {<br>          “brand”: “gucci”,<br>          “color”: “red”,<br>          “model”: “slim”<br>        }<br>      }<br>    ]<br>  },<br>  “aggregations”: {<br>    “color_red”: {<br>      “doc_count”: 1,<br>      “models”: {<br>        “doc_count_error_upper_bound”: 0,<br>        “sum_other_doc_count”: 0,<br>        “buckets”: [<br>          {<br>            “key”: “slim”,<br>            “doc_count”: 1<br>          }<br>        ]<br>      }<br>    },<br>    “colors”: {<br>      “doc_count_error_upper_bound”: 0,<br>      “sum_other_doc_count”: 0,<br>      “buckets”: [<br>        {<br>          “key”: “red”,<br>          “doc_count”: 1<br>        }<br>      ]<br>    }<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">### Highlighting</div><div class="line">可以对搜索结果的一个或多个字段进行高亮处理。具体是使用Lucene的plain highlighter ， fast vector highting 和 posting highlighter实现的。</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match”: { “user”: “kimchy” }<br>    },<br>    “highlight” : {<br>        “fields” : {<br>            “content” : {}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">在上面的例子中，content字段就是对于每个命中的结果进行高亮的字段。</div><div class="line"></div><div class="line">#### Plain highlighter</div><div class="line">默认的高亮方式是通过plain，也就是使用的Lucene的highlighter。它力图反映查询匹配的逻辑中单词理解的重要性和短语查询中单词的定位标准。</div><div class="line"></div><div class="line">如果你想要通过复杂的查询来高亮很多文档中的很多字段，那么它不会很快。因为在执行时，它会创建一个小的内存空间并使用Lucene的查询重新搜索一遍将要被高亮的字段。</div><div class="line"></div><div class="line">#### Postings highlighter</div><div class="line">如果在mapping中将 index_options 设置为 offsets，那么将会使用postings highlighter 来代替 plain highlighter。postings highlighter有以下特点：</div><div class="line"></div><div class="line">- 响应比较快，因为他不需要重新分析将被高亮的文本，越大的文件响应速度越快。</div><div class="line">- 比term_vectors 需要更少的硬盘空间，需要fast vector highlighter。</div><div class="line">- 可以将文本分成句子并高亮他们。对于自然语言发挥得很好,但是不包含例如html标记的字段。</div><div class="line">- 将文档视为整个文章，使用BM25算法score每个单独的句子。</div><div class="line"></div><div class="line">Elasticsearch中需要在建立索引的时候映射字段类型，才可以实现postings-highlighter高亮显示，例如对content字段采用postings高亮类型：</div></pre></td></tr></table></figure></p>
+<p>{<br>    “type_name” : {<br>        “content” : {“type”:”string”,”index_options” : “offsets”}<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">值得注意的是，postings highlighter 意味着针对简单查询的词条高亮，而不管它们的位置。这意味着，当与短语查询结合使用时，它将高亮构成查询的所有词条，而不管它们是否实际上是查询匹配的一部分，从而有效地忽略了它们的位置。</div><div class="line"></div><div class="line">postings highlighter 不支持高亮一些复杂的查询，比如将type设置match_phrase_prefix的match查询。这种情况下没有被高亮的段落返回。</div><div class="line"></div><div class="line">#### Fast vector highlighter</div><div class="line">当mapping中设置term_vector为with_positions_offsets，将会用fast vector highlighter 代替 plain highlighter。</div><div class="line">特点：</div><div class="line">- 快，尤其对于大于1M的字段。</div><div class="line">- 可定制的boundary_chars，boundary_max_scan，和fragment_offset。</div><div class="line">- 需要设置term_vector的值为with_positions_offsets，这会增加索引的大小。</div><div class="line">- 可以将多个字段的匹配组合成一个结果。</div><div class="line">- 可以为不同位置的短语分配不同的权重。</div></pre></td></tr></table></figure></p>
+<p>{<br>    “type_name” : {<br>        “content” : {“term_vector” : “with_positions_offsets”}<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### Force highlighter type</div><div class="line">可以对指定的字段类型进行高亮。这对于要使用term_vectors对字段进行高亮非常有用。可以允许的类型为：plain，postings和fvh。</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match”: { “brand”: “gucci” }<br>    },<br>    “highlight” : {<br>        “fields” : {<br>            “brand” : {“type” : “plain”}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">响应：</div></pre></td></tr></table></figure></p>
+<p>{<br>  “took”: 18,<br>  “timed_out”: false,<br>  “_shards”: {<br>    “total”: 5,<br>    “successful”: 5,<br>    “failed”: 0<br>  },<br>  “hits”: {<br>    “total”: 1,<br>    “max_score”: 0.30685282,<br>    “hits”: [<br>      {<br>        “_index”: “shirts”,<br>        “_type”: “item”,<br>        “_id”: “1”,<br>        “_score”: 0.30685282,<br>        “_source”: {<br>          “brand”: “gucci”,<br>          “color”: “red”,<br>          “model”: “slim”<br>        },<br>        “highlight”: {<br>          “brand”: [<br>            “<em>gucci</em>“<br>          ]<br>        }<br>      }<br>    ]<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#### Force highlighter on source</div><div class="line">强制高亮source中的字段，即使字段被分开存储。默认是false。</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match”: { “brand”: “gucci” }<br>    },<br>    “highlight” : {<br>        “fields” : {<br>            “brand” : {“force_source” : true}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这样返回的内容是：</div></pre></td></tr></table></figure></p>
+<p>{<br>  “took”: 130,<br>  “timed_out”: false,<br>  “_shards”: {<br>    “total”: 5,<br>    “successful”: 5,<br>    “failed”: 0<br>  },<br>  “hits”: {<br>    “total”: 1,<br>    “max_score”: 0.30685282,<br>    “hits”: [<br>      {<br>        “_index”: “shirts”,<br>        “_type”: “item”,<br>        “_id”: “1”,<br>        “_score”: 0.30685282,<br>        “_source”: {<br>          “brand”: “gucci”,<br>          “color”: “red”,<br>          “model”: “slim”<br>        },<br>        “highlight”: {<br>          “brand”: [<br>            “<em>gucci</em>“<br>          ]<br>        }<br>      }<br>    ]<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#### Highlighting tags</div><div class="line">默认情况下，被高亮的文本的包围标签是&lt;em&gt;&lt;/em&gt;，这个可以自定义设置：</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match”: { “brand”: “gucci” }<br>    },<br>    “highlight” : {<br>        “pre_tags” : [“<tag1>“],<br>        “post_tags” : [“</tag1>“],<br>        “fields” : {<br>            “brand” : {“force_source” : true}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">响应：</div></pre></td></tr></table></figure></p>
+<p>{<br>  “took”: 3,<br>  “timed_out”: false,<br>  “_shards”: {<br>    “total”: 5,<br>    “successful”: 5,<br>    “failed”: 0<br>  },<br>  “hits”: {<br>    “total”: 1,<br>    “max_score”: 0.30685282,<br>    “hits”: [<br>      {<br>        “_index”: “shirts”,<br>        “_type”: “item”,<br>        “_id”: “1”,<br>        “_score”: 0.30685282,<br>        “_source”: {<br>          “brand”: “gucci”,<br>          “color”: “red”,<br>          “model”: “slim”<br>        },<br>        “highlight”: {<br>          “brand”: [<br>            “<tag1>gucci</tag1>“<br>          ]<br>        }<br>      }<br>    ]<br>  }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">使用fast vector highlighter 能够使用更多的tag。</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match”: { “user”: “kimchy” }<br>    },<br>    “highlight” : {<br>        “pre_tags” : [“<tag1>“, “<tag2>“],<br>        “post_tags” : [“</tag2></tag1>“, ““],<br>        “fields” : {<br>            “_all” : {}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">也可以使用样式，例如想实现这样的样式：</div></pre></td></tr></table></figure></p>
+<p><em class="hlt1">, <em class="hlt2">, <em class="hlt3">,<br><em class="hlt4">, <em class="hlt5">, <em class="hlt6">,<br><em class="hlt7">, <em class="hlt8">, <em class="hlt9">,<br><em class="hlt10"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">可以这样：</div></pre></td></tr></table></figure></em></em></em></em></em></em></em></em></em></em></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match”: { “user”: “kimchy” }<br>    },<br>    “highlight” : {<br>        “tags_schema” : “styled”,<br>        “fields” : {<br>            “content” : {}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#### Encoder</div><div class="line">encoder参数用于定义highlighter的文本是怎样的编码。可以是default或者html。</div><div class="line"></div><div class="line">#### Highlighted Fragments</div><div class="line">可以控制高亮字段的字符数大小，默认是100，还有最大片段数，默认是5:</div></pre></td></tr></table></figure></p>
+<p>{<br>    “query” : {<br>        “match”: { “color”: “red” }<br>    },<br>    “highlight” : {<br>        “fields” : {<br>            “color” : {“fragment_size” : 1, “number_of_fragments” : 1}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">当使用postings highlighter时，fragment_size会被忽略。</div><div class="line">可以针对评分进行排序：</div></pre></td></tr></table></figure></p>
+<p>{<br>    “query” : {<br>        “match”: { “color”: “red” }<br>    },<br>    “highlight” : {<br>        “fields” : {<br>            “order” : “score”,<br>            “color” : {“force_source” : true ,”fragment_size” : 1, “number_of_fragments” : 1}<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### Highlight query</div><div class="line">使用 highlight_query 可以针对搜索结果进行高亮内的二次搜索。这对于如果你想对没有考虑高亮的查询进行重新评分查询是非常有用的。</div></pre></td></tr></table></figure></p>
+<p>{<br>    “stored_fields”: [ “_id” ],<br>    “query” : {<br>        “match”: {<br>            “content”: {<br>                “query”: “foo bar”<br>            }<br>        }<br>    },<br>    “rescore”: {<br>        “window_size”: 50,<br>        “query”: {<br>            “rescore_query” : {<br>                “match_phrase”: {<br>                    “content”: {<br>                        “query”: “foo bar”,<br>                        “slop”: 1<br>                    }<br>                }<br>            },<br>            “rescore_query_weight” : 10<br>        }<br>    },<br>    “highlight” : {<br>        “order” : “score”,<br>        “fields” : {<br>            “content” : {<br>                “fragment_size” : 150,<br>                “number_of_fragments” : 3,<br>                “highlight_query”: {<br>                    “bool”: {<br>                        “must”: {<br>                            “match”: {<br>                                “content”: {<br>                                    “query”: “foo bar”<br>                                }<br>                            }<br>                        },<br>                        “should”: {<br>                            “match_phrase”: {<br>                                “content”: {<br>                                    “query”: “foo bar”,<br>                                    “slop”: 1,<br>                                    “boost”: 10.0<br>                                }<br>                            }<br>                        },<br>                        “minimum_should_match”: 0<br>                    }<br>                }<br>            }<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### Global Settings</div></pre></td></tr></table></figure></p>
+<p>{<br>    “query” : {<br>        “match”: { “user”: “kimchy” }<br>    },<br>    “highlight” : {<br>        “number_of_fragments” : 3,<br>        “fragment_size” : 150,<br>        “fields” : {<br>            “_all” : { “pre_tags” : [“<em>“], “post_tags” : [“</em>“] },<br>            “bio.title” : { “number_of_fragments” : 0 },<br>            “bio.author” : { “number_of_fragments” : 0 },<br>            “bio.content” : { “number_of_fragments” : 5, “order” : “score” }<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### Require Field Match</div><div class="line">将require_field_match设为false可以导致不管查询是否匹配，都会高亮显示。默认是true，意味着只有匹配的才高亮显示。</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query” : {<br>        “match”: { “user”: “kimchy” }<br>    },<br>    “highlight” : {<br>        “require_field_match”: false,<br>        “fields”: {<br>                “_all” : { “pre_tags” : [“<em>“], “post_tags” : [“</em>“] }<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### Boundary Characters</div><div class="line">当使用fast vector highlighter 高亮一个字段时，boundary_chars 能够设置边界字符。默认是 .,!? \t\n 。</div><div class="line">boundary_max_scan允许控制查找边界字符的距离，默认值为20。</div><div class="line"></div><div class="line">#### Matched Fields</div><div class="line">Fast Vector Highlighter 能够组合多个字段上的匹配并使用 matched_fields 突出单个字段。这对于使用不同分析器来处理同一字符串来说是最直观的。所有matched_fields 必须将 term_vector 设置为 with_positions_offsets ，但只会加载匹配的组合字段，因此只有该字段可以在store设置为yes时受益。</div><div class="line"></div><div class="line">下面的例子中，content 使用 english 分析器 ， content.plain使用 standard分析器。</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query”: {<br>        “query_string”: {<br>            “query”: “content.plain:running scissors”,<br>            “fields”: [“content”]<br>        }<br>    },<br>    “highlight”: {<br>        “order”: “score”,<br>        “fields”: {<br>            “content”: {<br>                “matched_fields”: [“content”, “content.plain”],<br>                “type” : “fvh”<br>            }<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">上面的查询中会匹配所有 &quot;run with scissors&quot; 和 &quot;running with scissors&quot;，而不是&quot;run&quot;。如果所有的词组都在一个大的文档中出现，那么&quot;running with scissors&quot; 会排在 &quot;run with scissors&quot;上面，因为在段落中它会更匹配。</div></pre></td></tr></table></figure></p>
+<p>GET /_search<br>{<br>    “query”: {<br>        “query_string”: {<br>            “query”: “running scissors”,<br>            “fields”: [“content”, “content.plain^10”]<br>        }<br>    },<br>    “highlight”: {<br>        “order”: “score”,<br>        “fields”: {<br>            “content”: {<br>                “matched_fields”: [“content”, “content.plain”],<br>                “type” : “fvh”<br>            }<br>        }<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#### Phrase Limit</div><div class="line">fast vector highlighter 可以通过phrase_limit 参数来防止分析过多的词组或消耗太多内存。默认是256，也就意味着只有文档前面的256个匹配的词组可以使用。你可以根据自己的需求适量提高这个限制，并且要考虑各方面平衡。</div><div class="line">如果使用matched_fields，每个匹配字段的phrase_limit短语被考虑。</div><div class="line"></div><div class="line">#### Field Highlight Order</div><div class="line">Elasticsearch按照它们发送的顺序来高亮字段。每个json对象是无序的，但如果你需要明确的字段高亮的顺序，你可以使用数组，如：</div></pre></td></tr></table></figure></p>
+<p>“highlight”: {<br>        “fields”: [<br>            {“title”:{ /<em>params</em>/ }},<br>            {“text”:{ /<em>params</em>/ }}<br>        ]<br>    }<br>```</p>
+<h3 id="Rescoring"><a href="#Rescoring" class="headerlink" title="Rescoring"></a>Rescoring</h3>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag">#Elasticsearch</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/16/【转】解决hexo在github-page上css-js-404问题/" rel="next" title="【转】解决hexo在github page上css/js 404问题">
+                <i class="fa fa-chevron-left"></i> 【转】解决hexo在github page上css/js 404问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ChenPeng" />
+          <p class="site-author-name" itemprop="name">ChenPeng</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chenpeng89" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Routing"><span class="nav-number">1.1.</span> <span class="nav-text">Routing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stats-Group"><span class="nav-number">1.2.</span> <span class="nav-text">Stats Group</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Global-Search-Timeout"><span class="nav-number">1.3.</span> <span class="nav-text">Global Search Timeout</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Search"><span class="nav-number">2.</span> <span class="nav-text">Search</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-Index，Multi-Type"><span class="nav-number">2.1.</span> <span class="nav-text">Multi-Index，Multi-Type</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URI-Search"><span class="nav-number">3.</span> <span class="nav-text">URI Search</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数"><span class="nav-number">3.1.</span> <span class="nav-text">参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Request-Body-Search"><span class="nav-number">4.</span> <span class="nav-text">Request Body Search</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速确定是否有匹配的文档"><span class="nav-number">4.1.</span> <span class="nav-text">快速确定是否有匹配的文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Query"><span class="nav-number">4.2.</span> <span class="nav-text">Query</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#From-Size"><span class="nav-number">4.3.</span> <span class="nav-text">From/Size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sort"><span class="nav-number">4.4.</span> <span class="nav-text">Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#排序参数"><span class="nav-number">4.4.1.</span> <span class="nav-text">排序参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对内嵌对象进行排序"><span class="nav-number">4.4.2.</span> <span class="nav-text">对内嵌对象进行排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#针对字段为空的文档的处理"><span class="nav-number">4.4.3.</span> <span class="nav-text">针对字段为空的文档的处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略UnMapped-字段"><span class="nav-number">4.4.4.</span> <span class="nav-text">忽略UnMapped 字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#经纬度距离排序"><span class="nav-number">4.4.5.</span> <span class="nav-text">经纬度距离排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#经纬度作为参数"><span class="nav-number">4.4.6.</span> <span class="nav-text">经纬度作为参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#经纬度是string"><span class="nav-number">4.4.7.</span> <span class="nav-text">经纬度是string</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#地理位置是hash值"><span class="nav-number">4.4.8.</span> <span class="nav-text">地理位置是hash值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#经纬度是数组"><span class="nav-number">4.4.9.</span> <span class="nav-text">经纬度是数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多个参考点"><span class="nav-number">4.4.10.</span> <span class="nav-text">多个参考点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于脚本的排序"><span class="nav-number">4.4.11.</span> <span class="nav-text">基于脚本的排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算得分"><span class="nav-number">4.4.12.</span> <span class="nav-text">计算得分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#针对内存方面的考虑"><span class="nav-number">4.4.13.</span> <span class="nav-text">针对内存方面的考虑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Source-filtering"><span class="nav-number">4.5.</span> <span class="nav-text">Source filtering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fields"><span class="nav-number">4.6.</span> <span class="nav-text">Fields</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#不使用存储的字段"><span class="nav-number">4.6.1.</span> <span class="nav-text">不使用存储的字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rescoring"><span class="nav-number">4.7.</span> <span class="nav-text">Rescoring</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenPeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
