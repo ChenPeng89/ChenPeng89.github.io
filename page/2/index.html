@@ -232,6 +232,115 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/11/Nginx学习笔记：二、进程和运行时/" itemprop="url">
+                  Nginx学习笔记：二、进程和运行时
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T11:10:31+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>nginx包含一个master进程和一个或多个worker进程。<br>master进程的主要职责是读取和使用配置文件，同时管理worker进程。<br>worker进程用来处理用户请求。Nginx依赖OS的机制来有效的分发请求给worker进程。worker进程的数量定义位于nginx.conf配置文件上，它可以是固定的数目也可以自适应cpu的核心数。<br>定义worker进程的数母，主要参考几个方面，cpu的核心数、存储数据的硬盘数以及负载模式。当不清楚使用哪种策略时，设定为自适应cpu核心数(“auto”)是一个好的方法。</p>
+<h2 id="操作Nginx"><a href="#操作Nginx" class="headerlink" title="操作Nginx"></a>操作Nginx</h2><h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>重载配置，你可以停止并重启nginx或者发送一个信号给master进程。使用-s发送信号给运行中的nginx。<br><code>nginx -s signal</code><br>signal的值可以为<br>quit<br>reload<br>reopen<br>stop</p>
+<p>可以直接用kill命令来直接放松信号到master进程。master进程的ID默认情况下存在 /usr/local/nginx/logs 或者 /var/run 的nginx.pid 文件中。可以在nginx.conf中设置。<br>有两种方式来通过这些信号去控制 Nginx，第一是通过 kill – XXX <pid> 来控制 Nginx，其中 XXX 就是上表中列出的信号名。如果系统中只有一个 Nginx 进程，那也可以通过 killall 命令来完成，例如运行 killall – s HUP nginxPID 来让 Nginx 重新加载配置。<br>master进程有如下信号：<br>TERM, INT     快速关闭程序，中止当前正在处理的请求<br>QUIT     处理完当前请求后，关闭程序<br>HUP     重新加载配置，并开启新的工作进程，关闭就的进程，此操作不会中断请求<br>USR1     重新打开日志文件，用于切换日志，例如每天生成一个新的日志文件<br>USR2     平滑升级可执行程序<br>WINCH     从容关闭工作进程 </pid></p>
+<p>单独的worker进程也可以通过信号量来控制，虽然并不是必须的。<br>TERM, INT    快速关闭进程<br>QUIT    处理完当前请求后，关闭进程<br>USR1    重新打开日志文件，用于切换日志，例如每天生成一个新的日志文件<br>WINCH    调试异常终止（需要启用debug_points ）</p>
+<h3 id="更改配置"><a href="#更改配置" class="headerlink" title="更改配置"></a>更改配置</h3><p>为了nginx能够重读配置文件，HUP信号将发送给master进程，master进程首先检查信号的有效性，然后使用新的配置，打开日志文件和心得监听socket。如果这步失败了，那么将回滚并使用旧的配置。如果成功了，会开启新的worker进程，并发送信息给旧的worker进程让它们优雅停机。旧的进程关闭监听socket并继续服务旧的客户端，当所有客户端请求被服务后，旧的worker进程会停机。</p>
+<h3 id="分割日志文件"><a href="#分割日志文件" class="headerlink" title="分割日志文件"></a>分割日志文件</h3><p>为了分割日志文件，首先，它们需要被重命名。在那之后，需要向master进程发送USR1信号。master进程会重新打开所有当前打开的日志文件，并将它们分配给当前worker进程正在运行的无权限的用户作为所有者。在成功重新打开日志文件后，master进程会关闭所有打开的文件并发送消息给worker进程来重新打开文件。worker进程也需要立刻打开新文件并关闭旧文件。其结果是，旧文件可以立即适用于后处理，例如压缩。</p>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>为了升级服务，需要使用新的可执行文件替换旧的。在USR2信号发送到master进程后，master进程首先会将pid文件名加上一个.oldbin后缀。/usr/local/nginx/logs/nginx.pid.oldbin。然后启动一个新的可执行文件来启动新的worker进程。</p>
+<p>之后，所有的worker进程（新的和旧的）都继续接收请求，如果WINCH信号发送到了，master进程，那么将会通知worker进程去优雅停机。</p>
+<p>经历一段时间后，只有新的worker进程可以处理请求。</p>
+<p>需要注意的是，旧的master进程不会关闭监听socket，并且如果需要，它还可以重新启动。如果由于一些原因，新的可执行文件不能使用了，那么会出现以下两种情况中的一种：</p>
+<ul>
+<li>发送HUP信号到旧的master进程，旧的master进程不重新读配置文件，但会启动一个新的worker进程。在那之后，发送QUIT到新的master进程，所有新的进程将优雅停止。</li>
+<li>发送 TERM 信号到新的master进程。然后新的master进程会发送信息到它的worker进程，告诉他们立即停止（如果有新的进程因为某些原因未停止，那么会发送KILL信号来强制停止）。当新的master进程停止后，旧的master进程自动会启动新的worker进程。</li>
+</ul>
+<p>如果新的master进程退出了，那么旧的，master进程会抛弃带有.oldbin的文件。</p>
+<p>如果更新成功，那么旧的master进程会被发送QUIT信号，然后只有新的进程存活。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/11/Nginx学习笔记：一、入门/" itemprop="url">
                   Nginx学习笔记: 一、入门
                 </a>
@@ -1608,119 +1717,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/03/Mybatis学习笔记：四、动态SQL/" itemprop="url">
-                  Mybatis学习笔记：四、动态SQL
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-03T13:46:20+08:00" content="2016-06-03">
-              2016-06-03
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Mybatis另一个重要的特性就是动态SQL，利用这一特性，可以简化Java代码。<br>Mybatis的动态SQL主要包含以下几种语句：</p>
-<ul>
-<li>if</li>
-<li>choose (when, otherwise)</li>
-<li>trim (where, set)</li>
-<li>foreach</li>
-</ul>
-<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;findActiveBlogLike&quot;</div><div class="line">     resultType=&quot;Blog&quot;&gt;</div><div class="line">  SELECT * FROM BLOG WHERE state = ‘ACTIVE’ </div><div class="line">  &lt;if test=&quot;title != null&quot;&gt;</div><div class="line">    AND title like #&#123;title&#125;</div><div class="line">  &lt;/if&gt;</div><div class="line">  &lt;if test=&quot;author != null and author.name != null&quot;&gt;</div><div class="line">    AND author_name like #&#123;author.name&#125;</div><div class="line">  &lt;/if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
-<h2 id="choose-when-otherwise"><a href="#choose-when-otherwise" class="headerlink" title="choose,when,otherwise"></a>choose,when,otherwise</h2><p>choose有些类似于switch。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;findActiveBlogLike&quot;</div><div class="line">     resultType=&quot;Blog&quot;&gt;</div><div class="line">  SELECT * FROM BLOG WHERE state = ‘ACTIVE’</div><div class="line">  &lt;choose&gt;</div><div class="line">    &lt;when test=&quot;title != null&quot;&gt;</div><div class="line">      AND title like #&#123;title&#125;</div><div class="line">    &lt;/when&gt;</div><div class="line">    &lt;when test=&quot;author != null and author.name != null&quot;&gt;</div><div class="line">      AND author_name like #&#123;author.name&#125;</div><div class="line">    &lt;/when&gt;</div><div class="line">    &lt;otherwise&gt;</div><div class="line">      AND featured = 1</div><div class="line">    &lt;/otherwise&gt;</div><div class="line">  &lt;/choose&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<h2 id="trim-where-set"><a href="#trim-where-set" class="headerlink" title="trim, where, set"></a>trim, where, set</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;findActiveBlogLike&quot;</div><div class="line">     resultType=&quot;Blog&quot;&gt;</div><div class="line">  SELECT * FROM BLOG </div><div class="line">  WHERE </div><div class="line">  &lt;if test=&quot;state != null&quot;&gt;</div><div class="line">    state = #&#123;state&#125;</div><div class="line">  &lt;/if&gt; </div><div class="line">  &lt;if test=&quot;title != null&quot;&gt;</div><div class="line">    AND title like #&#123;title&#125;</div><div class="line">  &lt;/if&gt;</div><div class="line">  &lt;if test=&quot;author != null and author.name != null&quot;&gt;</div><div class="line">    AND author_name like #&#123;author.name&#125;</div><div class="line">  &lt;/if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
-<p>考虑一个问题，当上面if代码段中，如果两个结果都为false，那么sql就变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM BLOG </div><div class="line">  WHERE</div></pre></td></tr></table></figure></p>
-<p>或者第一个为false，第二个为true，则是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM BLOG</div><div class="line">WHERE </div><div class="line">AND title like ‘someTitle’</div></pre></td></tr></table></figure></p>
-<p>这样显然是有问题的，Mybatis简单的为我们解决了这一问题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;findActiveBlogLike&quot;</div><div class="line">     resultType=&quot;Blog&quot;&gt;</div><div class="line">  SELECT * FROM BLOG </div><div class="line">  &lt;where&gt; </div><div class="line">    &lt;if test=&quot;state != null&quot;&gt;</div><div class="line">         state = #&#123;state&#125;</div><div class="line">    &lt;/if&gt; </div><div class="line">    &lt;if test=&quot;title != null&quot;&gt;</div><div class="line">        AND title like #&#123;title&#125;</div><div class="line">    &lt;/if&gt;</div><div class="line">    &lt;if test=&quot;author != null and author.name != null&quot;&gt;</div><div class="line">        AND author_name like #&#123;author.name&#125;</div><div class="line">    &lt;/if&gt;</div><div class="line">  &lt;/where&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<p><code>where</code>元素会在至少有一个<code>if</code>条件为true的情况下才会插入<code>WHERE</code>，也会知道如何去除<code>OR</code>|<code>AND</code>。</p>
-<p>我们也能通过<code>trim</code>来解决这一问题，可以通过自定义<code>trim</code>来定制我们想要的功能。比如，上面的<code>where</code>元素等价于：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;queryUser&quot; parameterType=&quot;java.lang.Integer&quot; resultMap=&quot;BaseResultMap&quot;&gt;</div><div class="line">   SELECT * FROM users</div><div class="line">   &lt;trim prefix=&quot;WHERE&quot; prefixOverrides=&quot;AND |OR &quot;&gt;</div><div class="line">      AND id = #&#123;id&#125;</div><div class="line">   &lt;/trim&gt;</div><div class="line"> &lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<p><code>prefixOverrides</code>会自动忽略里面的<code>AND</code>，并且插入<code>prefix</code>中指定的内容<code>WHERE</code>，这样，执行时的SQL会变成：<br><code>SELECT * FROM users WHERE id = #{id}</code><br>用于动态更新的标签为<code>SET</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;update id=&quot;updateAuthorIfNecessary&quot;&gt;</div><div class="line">  update Author</div><div class="line">    &lt;set&gt;</div><div class="line">      &lt;if test=&quot;username != null&quot;&gt;username=#&#123;username&#125;,&lt;/if&gt;</div><div class="line">      &lt;if test=&quot;password != null&quot;&gt;password=#&#123;password&#125;,&lt;/if&gt;</div><div class="line">      &lt;if test=&quot;email != null&quot;&gt;email=#&#123;email&#125;,&lt;/if&gt;</div><div class="line">      &lt;if test=&quot;bio != null&quot;&gt;bio=#&#123;bio&#125;&lt;/if&gt;</div><div class="line">    &lt;/set&gt;</div><div class="line">  where id=#&#123;id&#125;</div><div class="line">&lt;/update&gt;</div></pre></td></tr></table></figure></p>
-<p>这里，<code>set</code>会动态前置<code>set</code>，并忽略无关的逗号。</p>
-<h2 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h2><p>主要用于对集合的遍历:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;selectPostIn&quot; resultType=&quot;domain.blog.Post&quot;&gt;</div><div class="line">  SELECT *</div><div class="line">  FROM POST P</div><div class="line">  WHERE ID in</div><div class="line">  &lt;foreach item=&quot;item&quot; index=&quot;index&quot; collection=&quot;mylist&quot;</div><div class="line">      open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;</div><div class="line">        #&#123;item&#125;</div><div class="line">  &lt;/foreach&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<p>其中item为每次迭代取到的值，index为迭代次数。<br>当collection是map时，index是键。</p>
-<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p><code>bind</code>元素可以从 OGNL 表达式中创建一个变量并将其绑定到上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;selectBlogsLike&quot; resultType=&quot;Blog&quot;&gt;</div><div class="line">  &lt;bind name=&quot;pattern&quot; value=&quot;&apos;%&apos; + _parameter.getTitle() + &apos;%&apos;&quot; /&gt;</div><div class="line">  SELECT * FROM BLOG</div><div class="line">  WHERE title LIKE #&#123;pattern&#125;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<h2 id="多数据库支持"><a href="#多数据库支持" class="headerlink" title="多数据库支持"></a>多数据库支持</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insert&quot;&gt;</div><div class="line">  &lt;selectKey keyProperty=&quot;id&quot; resultType=&quot;int&quot; order=&quot;BEFORE&quot;&gt;</div><div class="line">    &lt;if test=&quot;_databaseId == &apos;oracle&apos;&quot;&gt;</div><div class="line">      select seq_users.nextval from dual</div><div class="line">    &lt;/if&gt;</div><div class="line">    &lt;if test=&quot;_databaseId == &apos;db2&apos;&quot;&gt;</div><div class="line">      select nextval for seq_users from sysibm.sysdummy1&quot;</div><div class="line">    &lt;/if&gt;</div><div class="line">  &lt;/selectKey&gt;</div><div class="line">  insert into users values (#&#123;id&#125;, #&#123;name&#125;)</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1766,7 +1762,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
