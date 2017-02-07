@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hexo," />
+  <meta name="keywords" content="Elasticsearch," />
 
 
 
@@ -86,19 +86,13 @@
 
 
 
-<meta name="description" content="问题最近github page更新了，GitHub Pages 过滤掉了 source/vendors 目录的访问，所以next主题下的source下的vendors目录不能够被访问到，所以就出现了本地hexo s能够正常访问，但是deploy到github就是一片空白，按f12，可以看到大量来自source/vendors的css和js提示404。
-解决方法方法一（来自github next主题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【转】解决hexo在github page上css/js 404问题">
-<meta property="og:url" content="http://chenpeng89.github.io/2016/11/16/【转】解决hexo在github-page上css-js-404问题/index.html">
+<meta property="og:title" content="Elasticsearch学习笔记：五、Indices APIs">
+<meta property="og:url" content="http://chenpeng89.github.io/2017/02/07/Elasticsearch学习笔记：五、Indices-APIs/index.html">
 <meta property="og:site_name" content="ChenPeng's Blog">
-<meta property="og:description" content="问题最近github page更新了，GitHub Pages 过滤掉了 source/vendors 目录的访问，所以next主题下的source下的vendors目录不能够被访问到，所以就出现了本地hexo s能够正常访问，但是deploy到github就是一片空白，按f12，可以看到大量来自source/vendors的css和js提示404。
-解决方法方法一（来自github next主题">
-<meta property="og:updated_time" content="2016-11-16T08:54:40.712Z">
+<meta property="og:updated_time" content="2017-02-07T02:40:18.986Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【转】解决hexo在github page上css/js 404问题">
-<meta name="twitter:description" content="问题最近github page更新了，GitHub Pages 过滤掉了 source/vendors 目录的访问，所以next主题下的source下的vendors目录不能够被访问到，所以就出现了本地hexo s能够正常访问，但是deploy到github就是一片空白，按f12，可以看到大量来自source/vendors的css和js提示404。
-解决方法方法一（来自github next主题">
+<meta name="twitter:title" content="Elasticsearch学习笔记：五、Indices APIs">
 
 
 
@@ -116,7 +110,7 @@
   };
 </script>
 
-  <title> 【转】解决hexo在github page上css/js 404问题 | ChenPeng's Blog </title>
+  <title> Elasticsearch学习笔记：五、Indices APIs | ChenPeng's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -236,7 +230,7 @@
             
             
               
-                【转】解决hexo在github page上css/js 404问题
+                Elasticsearch学习笔记：五、Indices APIs
               
             
           </h1>
@@ -248,8 +242,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-16T16:51:31+08:00" content="2016-11-16">
-              2016-11-16
+            <time itemprop="dateCreated" datetime="2017-02-07T10:03:53+08:00" content="2017-02-07">
+              2017-02-07
             </time>
           </span>
 
@@ -276,14 +270,7 @@
       
 
       
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>最近github page更新了，GitHub Pages 过滤掉了 source/vendors 目录的访问，所以next主题下的source下的vendors目录不能够被访问到，所以就出现了本地hexo s能够正常访问，但是deploy到github就是一片空白，按f12，可以看到大量来自source/vendors的css和js提示404。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>方法一（来自github next主题issue）:</p>
-<p>找到解决方案了。。 @BBBOND @monsterLin @SpadeRoy 根据作者的提示 @iissnan ，首先修改source/vendors为source/lib，然后修改_config.yml， 将 _internal: vendors修改为_internal:lib 然后修改next底下所有引用source/vendors路径为source/lib。这些地方可以通过文件查找找出来。主要集中在这几个文件中。1. Hexo\themes\next.bowerrc 2. Hexo\themes\next.gitignore 3. Hexo\themes\next.javascript_ignore 4. Hexo\themes\next\bower.json 。修改完毕后，刷新重新g一遍就ok啦。</p>
-<p>方法二:更新next主题，不过听过最新的next主题对第三方例如多说删除了，具体不清楚，不敢亲易尝试，毕竟更新一次主题引来的问题太多，很多配置可能都要改，代价太高，所以推荐第一种方法<br>参考</p>
-<pre><code>https://github.com/hexojs/hexo/issues/2238
-https://github.com/iissnan/hexo-theme-next/issues/1214
-</code></pre><p>转自： <a href="http://blog.csdn.net/zhouzixin053/article/details/53038679" target="_blank" rel="external">Hexo+Github博客css js404导致博客页面空白</a></p>
-
+        
       
     </div>
 
@@ -304,7 +291,7 @@ https://github.com/iissnan/hexo-theme-next/issues/1214
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag">#hexo</a>
+            <a href="/tags/Elasticsearch/" rel="tag">#Elasticsearch</a>
           
         </div>
       
@@ -313,17 +300,13 @@ https://github.com/iissnan/hexo-theme-next/issues/1214
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/22/Elasticsearch学习笔记：三、Document-APIs/" rel="next" title="Elasticsearch学习笔记：三、Document APIs">
-                <i class="fa fa-chevron-left"></i> Elasticsearch学习笔记：三、Document APIs
+              <a href="/2016/11/16/【转】解决hexo在github-page上css-js-404问题/" rel="next" title="【转】解决hexo在github page上css/js 404问题">
+                <i class="fa fa-chevron-left"></i> 【转】解决hexo在github page上css/js 404问题
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/07/Elasticsearch学习笔记：五、Indices-APIs/" rel="prev" title="Elasticsearch学习笔记：五、Indices APIs">
-                Elasticsearch学习笔记：五、Indices APIs <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -448,7 +431,7 @@ https://github.com/iissnan/hexo-theme-next/issues/1214
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方法"><span class="nav-number">2.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
